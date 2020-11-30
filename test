@@ -1,1 +1,15 @@
 initial test
+
+Maven uses a project object model (POM)which is an XML file that has all the info regarding
+to a project and it's configuration details. 
+
+When we try to execute a task, Maven searches for the POM in the current directory.
+
+Maven is a build tool that helps with project management and building out and documenting a project.
+
+Maven is written in Java and C# and is based on POM, used mainly to manage Java-based projects.
+
+
+Maven is chiefly used for Java based projects because it downloads dependencies like libraries or JAR files
+
+Maven gets the right JAR files for each project. To find dependencies I can go to: mvnrepository.com
