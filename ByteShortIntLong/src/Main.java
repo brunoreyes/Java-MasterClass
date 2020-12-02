@@ -3,6 +3,44 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+//		8 primitive data types:
+		// byte
+		// short
+		// int
+		// long
+		// float
+		// double
+		// char
+		// boolean
+		String myString = "This is a string";
+		System.out.println("myString is equal to " + myString);
+		myString = myString + ", and this is more."; // adding more to myString, updating the value of the variable
+		System.out.println("myString is equal to " + myString);
+		myString = myString + " \u00A9 2019"; //strings can add on unicode
+		System.out.println("myString is equal to " + myString); //myString is equal to This is a string, and this is more. © 2019
+		String numberString = "250.55";
+		numberString = numberString + "49.95"; // you cannot add two strings of numbers like this to get a sum.
+		System.out.println(numberString); //250.5549.95
+		String lastString = "10";
+		int myInt = 50;
+		lastString = lastString + myInt; // Java converts the value of myInt: 50 into a string and appends it to the string '10'
+		// like so: 1050
+		System.out.println("LastString is equal to "+ lastString);
+		double doubleNumber = 120.47d;
+		lastString = lastString + doubleNumber;
+		System.out.println("LastString is equal to "+ lastString); // LastString is equal to 1050120.47  decimal numbers can also be append to a string
+		// strings in Java are immutable, can't be changed. If we delete chars from a string, a new string is created automatically in Java with new values
+		// while the previous string will be automatically deleted from memory.
+
+		// StringBuffers discussed later, are mutable strings (can be changed)
+
+
+		// data types can be combined and are called classes 
+		//string is not a data type, it's a class, but is a favorite in Java, making it easier to use class
+		// a string is a sequence of characters or char (which only contains one regular or unicode character. 
+		
+		// a string is limited by the amount of memory the computer uses 
+		
 		int myValue = 1000; // int is a whole number, with a range.
 
 //		finding the range of int
@@ -134,6 +172,8 @@ public class Main {
 		boolean isCustomerOverTwentyOne = false; // with booleans, we phrase a variable to be a question starting with 'is'
 		System.out.println("isCustomerOverTwentyOne = " + isCustomerOverTwentyOne); // false
 
+		
+		
 	}
 	
 
