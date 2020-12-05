@@ -70,7 +70,7 @@ public class Main {
     //  - Calls to an overloaded method will run a specific implementation of that method.
     //  - The overloaded method that's chosen is the one with which inputs match the # & type of parameters.
 
-    //  println performs method overloading, bieng able to take in multiple # and types of parameters.
+    //  println performs method overloading, being able to take in multiple # and types of parameters.
 
     // Never name a method name like this: sumTwoNumber(), sumThreeNumber(), and sumFourNumber()
     // Instead write like this, to be able to overload and use the method again: sum()
