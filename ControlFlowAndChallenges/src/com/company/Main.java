@@ -78,27 +78,122 @@ public class Main {
         System.out.println(getDaysInMonth(2,-2020));
 
 //           for statement is called the for loop: repeatedly loops something until a particular condition is satisfied
-            //for(init; termination; increment){ // like python and js for loop, start, end, increment by
-//            for(int i=2; i<9; i++) // start at 2, go to 8, by 1
+        //for(init; termination; increment){ // like python and js for loop, start, end, increment by
+//            for(int i=2; i<9; i+=2) // start at 2, go to 8, by 2
 //            for(int i=8; i=>2; i--) start at 8, and work back to two
-            for(int i=0; i<5; i++){ // using a for loop we can calculate the interest rate from 1-5% in one line
-                System.out.println("120 at interest rate of " + i
-                        + "% = " + String.format("%.2f", calculateInterest( 120, i)) );
-                //string.format("%.2f,number) converts number to only having two decimals
-            }
 
-            for(int i=1; i<10;i++){
-                int count = 0;
-                if(isPrime(i)){
-                    System.out.println(i);
-                    count ++;
-                }
-                System.out.println( count );
+        // using a for loop we can calculate the interest rate from 1-5% in one line
+        for(int i=0; i<5; i++){ // int, condition, increment
+            System.out.println("120 at interest rate of " + i
+                    + "% = " + String.format("%.2f", calculateInterest( 120, i)) );
+            //string.format("%.2f,number) converts number to only having two decimals
+        }
+
+        // if I find three prime numbers in a range of numbers, the loop is exited
+        int count = 0;
+        for(int i=1; i<10; i++){ // everytime the loop goes through is called an iteration
+            if(isPrime(i)){
+                count++;
+                System.out.println("Number " + i + " is a prime number");
                 if (count == 3){
-                    System.out.println( count +"We've found 3 prime numbers");
+                    System.out.println("3 prime numbers have been found now exiting loop");
+                    break;
                 }
             }
+        }
+
+        // function that finds numbers that are both divisible by 3 & 5 out of a range of numbers and
+//        breaks out of the loop when 5 divisible numbers are found and sums them together.
+        int countNumDivByThreeAndFive = 0;
+        int sum = 0;
+        for(int i=1; i<=1000; i++){
+
+            if((i % 3 == 0) && (i % 5 == 0)){
+                countNumDivByThreeAndFive++;
+                sum += i;
+                System.out.println(i + " is divisible by both 3 & 5");
+            }
+            if(countNumDivByThreeAndFive == 5){
+                break;
+            }
+        }
+        System.out.println(sum + " is the sum of all number divisible by both 3 & 5");
+
+        System.out.println(isOdd(1));
+        System.out.println(isOdd(2));
+        System.out.println(isOdd(-1));
+        System.out.println(sumOdd(2,5));
+        System.out.println(sumOdd(-2,5));
+
+        // while loop going from 1 to 5
+        int countValue = 1;
+        while(countValue != 6){
+            System.out.println("Count value is "+ countValue);
+            countValue++; // remember to increment the count or you'll get an infinite loop
+        }
+
+        // FOR LOOP isn't identical to the top
+        for(countValue = 1; countValue !=6; countValue++){
+            System.out.println("Count value is "+ countValue);
+        }
+
+//        or this version of the while loop
+        countValue = 1; // int
+        while (true){ // condition
+            if(countValue == 6){
+                // when if statement comes before the count increment and print it'll only go up to 5
+                break;
+            }
+            System.out.println("Count value is "+ countValue);
+            countValue++;// increment
+        }
+
+//        while do statements
+        countValue = 1; // resetting countValue to = 1
+        do { // do while will always execute at least once
+            System.out.println("Count value is "+ countValue);
+            countValue++;
+
+//            if(count>100){
+//                break;
+//            }
+
+        } while(countValue !=6); // for do while loop, ";" is required after the do {statement} while(condition)
+
+        int number = 4;
+        int finishNumber = 20;
+        int countEven = 0;
+        // while (condition) { statement }: while loop will run as long as the condition is satisfied
+        while (number <= finishNumber){
+            number++;
+
+            if(!isEven(number)){
+                continue; // if false by pass the print statement for even numbers
+            }
+            countEven++;
+            System.out.println("Even number "+ number);
+            if(countEven == 5){
+                System.out.println(countEven + " Even numbers were found" );
+                break;
+            }
+        }
+
+        System.out.println(sumDigits(211));
     }
+
+    //sumDigits of a number
+    public static int sumDigits(int number){
+        if(number >= 10 && number <100){
+            int remainder = number % 10;
+            int quotient = number / 10;
+            int sum = remainder + quotient;
+            return sum;
+        if(number >= 100 && number < 1000)
+            int first = number % 100;
+        } else return -1; // take into account single digit and negative numbers
+    }
+
+
     public static double calculateInterest(double amount, double interestRate ) {
         return (amount *(interestRate/100));
     }
@@ -108,12 +203,38 @@ public class Main {
         if(n==1){
             return false;
         }
-        for(int i=2; i<=n/2; i++){
-            if (n % 1 == 0){
+        for(int i=2; i <= (long) Math.sqrt(n); i++){
+            if (n % i == 0){
                 return false;
             }
         }
         return true;
+    }
+
+    public static boolean isOdd(int number){
+        if (number > 0){
+            return number % 2 !=0;
+        } else return false;
+    }
+
+    // find all odd numbers in a range and find their sum
+    public static int sumOdd(int start, int end){
+        if (start > 0 && end >= start && end > 0){
+            int sum = 0;
+            for(int i = start; i <= end; i++){
+                if(isOdd(i)){
+                    sum += i;
+                }
+            }
+            return sum;
+        } else return -1;
+    }
+
+
+    public static boolean isEven(int number){
+        if (number > 0){
+            return number % 2 == 0; // returns true or false
+        } else return false;
     }
 
     public static void printDayOfTheWeek(int day) {
