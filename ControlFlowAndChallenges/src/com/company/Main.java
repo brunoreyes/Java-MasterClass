@@ -178,26 +178,132 @@ public class Main {
             }
         }
 
-        System.out.println(sumDigits(211));
+        System.out.println(sumDigits(2199918));
+        System.out.println(sumDigits(1));
+
+        System.out.println(isPalindrome(2199918));
+        System.out.println(isPalindrome(121));
+        System.out.println(isPalindrome(-121));
+
+        System.out.println(sumFirstAndLastDigit(121));
+        System.out.println(sumFirstAndLastDigit(-121)); // returns -1 for invalid
+        System.out.println(sumFirstAndLastDigit(0));
+        System.out.println(sumFirstAndLastDigit(5)); // returns 10 (5+5 since first and last digit are the same)
+        System.out.println(sumFirstAndLastDigit(999));
+
+
+        System.out.println(getAndSumEvenDigits(888));
+        System.out.println(getAndSumEvenDigits(120));
+        System.out.println(getAndSumEvenDigits(-120));
+
+
+        System.out.println(hasSharedDigit(45,50));
+        System.out.println(hasSharedDigit(40,50));
+        System.out.println(hasSharedDigit(10,99));
+        System.out.println(hasSharedDigit(9,99));
+
+        System.out.println(hasSameLastDigit(9,99,999));
+        System.out.println(hasSameLastDigit(89,98,98));
+        System.out.println(hasSameLastDigit(19,29,79));
+        System.out.println(hasSameLastDigit(1,29,-79));
+
     }
 
     //sumDigits of a number
-    public static int sumDigits(int number){
-        if(number >= 10 && number <100){
-            int remainder = number % 10;
-            int quotient = number / 10;
-            int sum = remainder + quotient;
-            return sum;
-        if(number >= 100 && number < 1000)
-            int first = number % 100;
+    public static int sumDigits(int number){ // quotient is two numbers divided
+        if(number >= 10){
+            int sum = 0; // initializing variable sum outside and before the while loop
+            while (number != 0){ // while number isn't 0 keep the loop going,
+                // number = 0 when number is less than 10, for ex: with 9, number = number/10 or 9 = 9 / 10 = 0,
+                sum += number % 10; // getting the last integer from a number using remainder. For ex: 219 is 9
+                number /= 10; // decreasing the number by a tenth. For ex: 289 becomes 28
+            } return sum;
         } else return -1; // take into account single digit and negative numbers
     }
+
+    // palindrome is 12321 or 14541, a number that's the same in reverse
+    public static boolean isPalindrome(int number){
+        int regularNumber = number; // unchanged value of number that we compare reverse to after the while loop finishes
+        int reverse = 0;
+            while (number != 0 || number < 0) {
+            // '-' a negative int doesn't change the outcome b/c the negative is carried within the remainder numbers within the reverse function
+                int lastDigit = number % 10; // gathering last digit of number
+                reverse = (reverse * 10) + lastDigit; // increasing the place value of reverse & adding the last digit to reverse
+                number /= 10; // removing the last digit of number by dividing it by 10. for ex: 111/10 == 11 w/ no remainder
+            } return regularNumber == reverse;
+    }
+
+    public static int sumFirstAndLastDigit(int number){ // palindrome is 12321 or 14541, a number that's the same in reverse
+
+        if (number < 0) {
+            return -1;
+        }
+        int first = number;
+        int last = number % 10; // if 435, 435 % 10 = remainder of 5 ( last number of int)
+            while(first >=10){ // 1st loop: 435/10 = 43, 2nd loop: 43/10 = 4, since 4 is < 10, loop stops & first = 4 (first number of int)
+                first /= 10; // dividing the variable by 10, decreasing by 1 tenth everytime
+            } return first + last; // sum of first and last digit
+    }
+
+    public static int getAndSumEvenDigits(int number){
+        if (number < 0){
+            return -1;
+        }
+        int sum = 0;
+        while ( number > 0){ // condition: goes until number reaches 0
+            // 121 lp1: numToChk=1 > not added to sum > number = 12, lp2: numToChk=2 > sum +=2 > num = 1
+            int numToCheck = number % 10;
+            if (numToCheck % 2 == 0){
+                sum += numToCheck;
+            } number /= 10; // incrementing down by a tenth
+        } return sum;
+    }
+
+
+        public static boolean hasSharedDigit(int firstNumber, int lastNumber) {
+            int firstNumberRemainder = 0;
+            int lastNumberRemainder = 0;
+            int lastNumberReset = lastNumber;
+            if ((firstNumber < 10 || firstNumber > 99)
+                    || (lastNumber < 10 || lastNumber > 99)) { //all if conditionals false, so skips down to else line 9
+                return false;
+            } else {
+                while (firstNumber > 0) {  //outer while loop, first time through 34 > 0, true continues
+                    firstNumberRemainder = firstNumber % 10;  //34 % 10 = 4
+                    lastNumber = lastNumberReset;  //23 = 23 resets when inner loop has finished executing, so in second iteration firstNumber digit 3 will be compared to each digit in last number when goes through the inner while loop again
+                    while (lastNumber > 0) {  //inner while loop 23 > 0, true, inner loop will run twice, second time 2 > 0, true
+                        lastNumberRemainder = lastNumber % 10; //first iteration 23 % 10 = 3, second time 2 % 10 = 2
+                        if (lastNumberRemainder == firstNumberRemainder) {  // first iteration 4 != 3, second time 4 != 2, skips down to line 18
+                            return true;
+                        } lastNumber = lastNumber / 10;  //after first iteration 23 becomes 2, second iteration 2 becomes 0; inner while loop completes, skips to line 20
+                    } firstNumber = firstNumber / 10;  //34 becomes 3, outer while loop runs second iteration
+                }
+            }
+            return lastNumberRemainder == firstNumberRemainder;  //the second time through the outer while loop 3 == 3 in the first time through the inner while loop and return true
+        }
+
+        public static boolean hasSameLastDigit(int numOne, int numTwo, int numThree){
+        if ((numOne < 10 && numOne > 1000) && (numTwo < 10 && numTwo > 1000) && (numThree < 10 && numThree > 1000)){
+            return false;
+        } else {
+            int lastNumOne = numOne % 10;
+            int lastNumTwo = numTwo % 10;
+            int lastNumThree = numThree % 10;
+            return lastNumOne == lastNumTwo && lastNumTwo == lastNumThree;
+            }
+        }
+
+        public static int getGreatestCommonDenominator(int first, int second){
+            if (first < 10 && second < 10){
+                return -1;
+            } 
+        }
+
 
 
     public static double calculateInterest(double amount, double interestRate ) {
         return (amount *(interestRate/100));
     }
-
     // a prime number is a natural number greater than 1 but isn't the product of two smaller numbers
     public static boolean isPrime(int n){
         if(n==1){
