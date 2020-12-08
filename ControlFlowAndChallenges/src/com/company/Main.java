@@ -3,7 +3,8 @@ package com.company;
 import java.util.Locale;
 
 public class Main {
-
+    private static final String INVALID_VALUE_MESSAGE = "Invalid Value";
+    private static final Integer INVALID_VALUE = -1;
     public static void main(String[] args) {
 	// Control flow statements: switch, for, while and do-while
         // if, else if, and else
@@ -62,15 +63,26 @@ public class Main {
                 System.out.println("No months beginning with J found");
                 break; // not needed but is kept
         }
+
+        System.out.println("---------------------------------");
+        System.out.println("printDayOfTheWeek Test");
         printDayOfTheWeek(7);
         printDayOfTheWeek(10);
+
+        System.out.println("---------------------------------");
+        System.out.println("printNumberInWord Test");
         printNumberInWord(1);
         printNumberInWord(10);
+
+        System.out.println("---------------------------------");
+        System.out.println("isLeapYear Test");
         System.out.println(isLeapYear(-1600));
         System.out.println(isLeapYear(1600));
         System.out.println(isLeapYear(2017));
         System.out.println(isLeapYear(2000));
 
+        System.out.println("---------------------------------");
+        System.out.println("getDaysInMonth Test");
         System.out.println(getDaysInMonth(1,2020));
         System.out.println(getDaysInMonth(2,2020)); //accounts for leap year w/ Feb = 29
         System.out.println(getDaysInMonth(2,2018));
@@ -119,9 +131,14 @@ public class Main {
         }
         System.out.println(sum + " is the sum of all number divisible by both 3 & 5");
 
+        System.out.println("---------------------------------");
+        System.out.println("isOdd Test");
         System.out.println(isOdd(1));
         System.out.println(isOdd(2));
         System.out.println(isOdd(-1));
+
+        System.out.println("---------------------------------");
+        System.out.println("sumOdd Test");
         System.out.println(sumOdd(2,5));
         System.out.println(sumOdd(-2,5));
 
@@ -153,11 +170,6 @@ public class Main {
         do { // do while will always execute at least once
             System.out.println("Count value is "+ countValue);
             countValue++;
-
-//            if(count>100){
-//                break;
-//            }
-
         } while(countValue !=6); // for do while loop, ";" is required after the do {statement} while(condition)
 
         int number = 4;
@@ -178,35 +190,162 @@ public class Main {
             }
         }
 
+        System.out.println("---------------------------------");
+        System.out.println("sumDigits Test");
         System.out.println(sumDigits(2199918));
         System.out.println(sumDigits(1));
 
+        System.out.println("---------------------------------");
+        System.out.println("isPalindrome Test");
         System.out.println(isPalindrome(2199918));
         System.out.println(isPalindrome(121));
         System.out.println(isPalindrome(-121));
 
+        System.out.println("---------------------------------");
+        System.out.println("sumFirstAndLastDigit Test");
         System.out.println(sumFirstAndLastDigit(121));
         System.out.println(sumFirstAndLastDigit(-121)); // returns -1 for invalid
-        System.out.println(sumFirstAndLastDigit(0));
         System.out.println(sumFirstAndLastDigit(5)); // returns 10 (5+5 since first and last digit are the same)
         System.out.println(sumFirstAndLastDigit(999));
 
-
+        System.out.println("---------------------------------");
+        System.out.println("getAndSumEvenDigits Test");
         System.out.println(getAndSumEvenDigits(888));
         System.out.println(getAndSumEvenDigits(120));
         System.out.println(getAndSumEvenDigits(-120));
 
-
+        System.out.println("---------------------------------");
+        System.out.println("hasSharedDigit Test");
         System.out.println(hasSharedDigit(45,50));
         System.out.println(hasSharedDigit(40,50));
         System.out.println(hasSharedDigit(10,99));
         System.out.println(hasSharedDigit(9,99));
 
+        System.out.println("---------------------------------");
+        System.out.println("hasSameLastDigit Test");
         System.out.println(hasSameLastDigit(9,99,999));
         System.out.println(hasSameLastDigit(89,98,98));
         System.out.println(hasSameLastDigit(19,29,79));
         System.out.println(hasSameLastDigit(1,29,-79));
 
+        System.out.println("---------------------------------");
+        System.out.println("getGreatestCommonDenominator Test");
+        System.out.println(getGreatestCommonDenominator(36,18));
+        System.out.println(getGreatestCommonDenominator(17,19));
+        System.out.println(getGreatestCommonDenominator(7,19));
+        System.out.println(getGreatestCommonDenominator(17,9));
+
+        System.out.println("---------------------------------");
+        System.out.println("printFactors Test");
+        printFactors(2);
+        printFactors(4);
+        printFactors(7);
+        printFactors(-1);
+
+        System.out.println("---------------------------------");
+        System.out.println("isPerfectNumber Test");
+        System.out.println(isPerfectNumber(6));
+        System.out.println(isPerfectNumber(8));
+        System.out.println(isPerfectNumber(28));
+        System.out.println(isPerfectNumber(-1));
+
+        System.out.println("---------------------------------");
+        System.out.println("getDigitCount Test");
+        System.out.println(getDigitCount(23));
+        System.out.println(getDigitCount(2334));
+        System.out.println(getDigitCount(233));
+        System.out.println(getDigitCount(2));
+        System.out.println(getDigitCount(-23));
+
+        System.out.println("---------------------------------");
+        System.out.println("reverse Test");
+        System.out.println(reverse(42));
+        System.out.println(reverse(4202));
+        System.out.println(reverse(-4202));
+        System.out.println(reverse(23));
+
+        numberToWords(302);
+        numberToWords(100);
+        numberToWords(-100);
+
+        System.out.println(canPack(2,1,11));
+        System.out.println(canPack(2,-1,11));
+        System.out.println(canPack(-2,1,11));
+        System.out.println(canPack(2,1,-1));
+        System.out.println(canPack(1,2,7));
+        System.out.println(canPack(1,3,7));
+        System.out.println(canPack(10,60,50));
+
+        System.out.println(getLargestPrime(21));
+        System.out.println(getLargestPrime(217));
+        System.out.println(getLargestPrime(0));
+        System.out.println(getLargestPrime(45));
+        System.out.println(getLargestPrime(-1));
+        System.out.println(getLargestPrime(17));
+
+
+        printSquareStar(10);
+        printSquareStar(4);
+
+        System.out.println(getBucketCount(200,200,10));
+        System.out.println(getBucketCount(200,10));
+        System.out.println(getBucketCount(200,200,10,30));
+
+    }
+
+    public static boolean canPack(int bigCount, int smallCount,int goal){
+        if ( bigCount < 0 || smallCount < 0 || goal < 0 ) { // big count = 5, small count = 1, big + small == goal
+            return false;
+            // it's okay if additional smallCount bags exceed the goal but not bigCount
+        } bigCount *= 5; // making bigPack 5 x more than smallCount
+        return (bigCount + smallCount) >= goal && smallCount >= goal % 5;
+    }
+
+    // a prime number is a natural number greater than 1 but isn't the product of two smaller numbers
+    // so a prime number isn't the product of two numbers not accounting for 1 being one of the numbers
+    public static int getLargestPrime(int number){
+        if(number < 2) return -1; // a prime number can't be 1 or a negative number
+        int unChangedNumberValue = number;
+        for(int i=number/2; i>1; i--){ //we start off from half the number, work down by 1 until !i>1
+            if(number % i == 0) number = i;
+        } return number == unChangedNumberValue? -1 : number; // if largest prime number = number return -1
+    }
+
+    public static void printSquareStar(int num){
+        if (num < 5) System.out.println(INVALID_VALUE_MESSAGE);
+        else {
+            for(int row = 0; row < num; row++){
+                for(int col = 0; col <num; col++ ) { // nested for loop
+                    if(row == 0 || row == num - 1 || col == 0 || col == num - 1 || row == col || row + col == num -1 ){
+                        System.out.print("*"); // print() prints a space and does not move to another line
+                    } else {
+                        System.out.print(" ");}
+                }
+                System.out.println();  // moving to another line can be done with an empty println() call
+            }
+        }
+    } //output:
+    //**********
+    //**      **
+    //* *    * *
+    //*  *  *  *
+    //*   **   *
+    //*   **   *
+    //*  *  *  *
+    //* *    * *
+    //**      **
+    //**********
+
+    // overload function
+    public static int getBucketCount(double width,double height,double areaPerBucket,int extraBuckets){
+        if(width<=0||height<=0||areaPerBucket<=0||extraBuckets<0) return -1;
+        return (int)Math.ceil((height*width)/areaPerBucket)-extraBuckets;
+    }
+    public static int getBucketCount(double width,double height,double areaPerBucket){
+        return getBucketCount(width, height, areaPerBucket,0);
+    }
+    public static int getBucketCount(double area,double areaPerBucket){
+        return getBucketCount(area,1,areaPerBucket);//area=width*height
     }
 
     //sumDigits of a number
@@ -234,7 +373,6 @@ public class Main {
     }
 
     public static int sumFirstAndLastDigit(int number){ // palindrome is 12321 or 14541, a number that's the same in reverse
-
         if (number < 0) {
             return -1;
         }
@@ -260,29 +398,29 @@ public class Main {
     }
 
 
-        public static boolean hasSharedDigit(int firstNumber, int lastNumber) {
-            int firstNumberRemainder = 0;
-            int lastNumberRemainder = 0;
-            int lastNumberReset = lastNumber;
-            if ((firstNumber < 10 || firstNumber > 99)
-                    || (lastNumber < 10 || lastNumber > 99)) { //all if conditionals false, so skips down to else line 9
-                return false;
-            } else {
-                while (firstNumber > 0) {  //outer while loop, first time through 34 > 0, true continues
-                    firstNumberRemainder = firstNumber % 10;  //34 % 10 = 4
-                    lastNumber = lastNumberReset;  //23 = 23 resets when inner loop has finished executing, so in second iteration firstNumber digit 3 will be compared to each digit in last number when goes through the inner while loop again
-                    while (lastNumber > 0) {  //inner while loop 23 > 0, true, inner loop will run twice, second time 2 > 0, true
-                        lastNumberRemainder = lastNumber % 10; //first iteration 23 % 10 = 3, second time 2 % 10 = 2
-                        if (lastNumberRemainder == firstNumberRemainder) {  // first iteration 4 != 3, second time 4 != 2, skips down to line 18
-                            return true;
-                        } lastNumber = lastNumber / 10;  //after first iteration 23 becomes 2, second iteration 2 becomes 0; inner while loop completes, skips to line 20
-                    } firstNumber = firstNumber / 10;  //34 becomes 3, outer while loop runs second iteration
-                }
+    public static boolean hasSharedDigit(int firstNumber, int lastNumber) {
+        int firstNumberRemainder = 0;
+        int lastNumberRemainder = 0;
+        int lastNumberReset = lastNumber;
+        if ((firstNumber < 10 || firstNumber > 99)
+                || (lastNumber < 10 || lastNumber > 99)) { //all if conditionals false, so skips down to else line 9
+            return false;
+        } else {
+            while (firstNumber > 0) {  //outer while loop, first time through 34 > 0, true continues
+                firstNumberRemainder = firstNumber % 10;  //34 % 10 = 4
+                lastNumber = lastNumberReset;  //23 = 23 resets when inner loop has finished executing, so in second iteration firstNumber digit 3 will be compared to each digit in last number when goes through the inner while loop again
+                while (lastNumber > 0) {  //inner while loop 23 > 0, true, inner loop will run twice, second time 2 > 0, true
+                    lastNumberRemainder = lastNumber % 10; //first iteration 23 % 10 = 3, second time 2 % 10 = 2
+                    if (lastNumberRemainder == firstNumberRemainder) {  // first iteration 4 != 3, second time 4 != 2, skips down to line 18
+                        return true;
+                    } lastNumber = lastNumber / 10;  //after first iteration 23 becomes 2, second iteration 2 becomes 0; inner while loop completes, skips to line 20
+                } firstNumber = firstNumber / 10;  //34 becomes 3, outer while loop runs second iteration
             }
-            return lastNumberRemainder == firstNumberRemainder;  //the second time through the outer while loop 3 == 3 in the first time through the inner while loop and return true
         }
+        return lastNumberRemainder == firstNumberRemainder;  //the second time through the outer while loop 3 == 3 in the first time through the inner while loop and return true
+    }
 
-        public static boolean hasSameLastDigit(int numOne, int numTwo, int numThree){
+    public static boolean hasSameLastDigit(int numOne, int numTwo, int numThree){
         if ((numOne < 10 && numOne > 1000) && (numTwo < 10 && numTwo > 1000) && (numThree < 10 && numThree > 1000)){
             return false;
         } else {
@@ -293,17 +431,122 @@ public class Main {
             }
         }
 
-        public static int getGreatestCommonDenominator(int first, int second){
-            if (first < 10 && second < 10){
-                return -1;
-            } 
+    public static int getGreatestCommonDenominator(int one, int two){
+        // neither one or two can be less than 10 or else return -1 for invalid
+        if (one < 10 || two < 10){
+            return -1;
+            // finding the smallest of one & two & iterating down by 1, find the GCD (greatest common denominator/factor/divisor) first
+            // (rather than finding the LCD), only returning i if divisible by both one and two with no remainder.
+        } for(int i = Math.min(one,two); i >= 1; i--){ // in some cases like one:19 & two:17, 1 will be the GCD
+            if (one % i == 0 && two % i == 0)
+                return i;
+        } return -1;
+    }
+
+    // factors are numbers which divide wholly without leaving a remainder: factor of 4 is: 4,2,1
+    public static void printFactors(int number){
+        if (number < 1){
+            System.out.println(INVALID_VALUE_MESSAGE);
+        } for (int i = number; i >=1; i--){
+            if (number % i == 0){
+                System.out.println(i);
+            }
         }
+    }
+
+    // a Perfect number is a number which is equal to the sum of it's proper positive divisors: for ex 6: 6 % 3,2,1 = 0, & 3+2+1 = 6
+    public static boolean isPerfectNumber(int number){
+        if(number < 1){
+            return false;
+        }
+        int sum = 0;
+        for (int i = 1; i < number; i++){ // starting from 1 and incrementing up to but not including number: for ex 6: 1,2,3 but not 6
+            if(number % i == 0){
+                sum += i;
+            }
+        } //        System.out.println(sum);
+        return sum == number;
+    }
+
+    public static int getDigitCount(int number){
+        if (number < 0){
+            return -1;
+        } int count = 0;
+        while( number > 0){
+            count++;
+            number /= 10;
+        } return count;
+    }
+
+    public static int reverse(int number) {
+        if (number < 0) {
+            return -1;
+        }
+        int reverse = 0;
+        while (number != 0) {
+            int lastDigit = number % 10; // gathering last digit of number
+            reverse = (reverse * 10) + lastDigit; // increasing the place value of reverse & adding the last digit to reverse
+            number /= 10; // removing the last digit of number by dividing it by 10. for ex: 111/10 == 11 w/ no remainder
+        } return reverse;
+    }
+
+    public static void numberToWords(int number){
+        if (number < 0){
+            System.out.println(INVALID_VALUE_MESSAGE);
+        } else {
+            int numberLength = getDigitCount(number); // digit count ensures that we get all digits for a number like 100, 3 digits total
+            int numberReversed = reverse(number); // numberLength protects against numberReversed = 1 coming from number: 100
+            // we reverse the number once, and reverse them again when we grab lastDigit
+            //System.out.println(reverse(number));
+            while (numberLength > 0){ // condition
+                // until the numberLength turns into 0 which is no longer greater than zero.
+                    int lastDigit = numberReversed % 10;
+                    numberLength --; //increment
+                    switch (lastDigit){
+                        case 1:
+                            System.out.println("one");
+                            break;
+                        case 2:
+                            System.out.println("two");
+                            break;
+                        case 3:
+                            System.out.println("three");
+                            break;
+                        case 4:
+                            System.out.println("four");
+                            break;
+                        case 5:
+                            System.out.println("five");
+                            break;
+                        case 6:
+                            System.out.println("six");
+                            break;
+                        case 7:
+                            System.out.println("seven");
+                            break;
+                        case 8:
+                            System.out.println("eight");
+                            break;
+                        case 9:
+                            System.out.println("nine");
+                            break;
+                        default:
+                            System.out.println("zero");
+                            break;
+                    }
+                numberReversed /= 10; // moving numberReversed decimal place left by one.
+            }
+        }
+    }
+
+
 
 
 
     public static double calculateInterest(double amount, double interestRate ) {
         return (amount *(interestRate/100));
     }
+
     // a prime number is a natural number greater than 1 but isn't the product of two smaller numbers
     public static boolean isPrime(int n){
         if(n==1){
