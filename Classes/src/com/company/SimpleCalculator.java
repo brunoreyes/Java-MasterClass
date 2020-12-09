@@ -14,12 +14,10 @@ public class SimpleCalculator {
         // btw, classes are capitalized & camelcase but methods are camel case.
 
     public void setFirstNumber(double firstNumber){
-//        double validNumber = firstNumber;
         this.firstNumber = firstNumber;
     }
 
     public void setSecondNumber(double secondNumber){
-//        double validNumber = secondNumber;
         this.secondNumber = secondNumber;
     }
 

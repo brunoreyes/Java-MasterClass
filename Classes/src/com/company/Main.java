@@ -30,17 +30,17 @@ public class Main {
         System.out.println("Model is "+ porsche.getModel());
 
         SimpleCalculator calculator = new SimpleCalculator();
-        firstNumber.setFirstNumber("9");
-        System.out.println("firstNumber = "+ firstNumber.getFirstNumber());
 
-        SimpleCalculator secondNumber = new SimpleCalculator();
-        secondNumber.setSecondNumber(10);
-        System.out.println("secondNumber = "+ secondNumber.getFirstNumber());
+        calculator.setFirstNumber(9);
+        System.out.println("firstNumber = "+ calculator.getFirstNumber());
 
-        System.out.println("firstNumber: "+ firstNumber.getSecondNumber() +" * secondNumber: "+ secondNumber.getSecondNumber()+" = "+ secondNumber.getMultiplicationResult());
-        System.out.println("firstNumber: "+ firstNumber.getSecondNumber() +" / secondNumber: "+ secondNumber.getSecondNumber()+" = "+ secondNumber.getDivisionResult());
-        System.out.println("firstNumber: "+ firstNumber.getSecondNumber() +" + secondNumber: "+ secondNumber.getSecondNumber()+" = "+ secondNumber.getAdditionResult());
-        System.out.println("firstNumber: "+ firstNumber.getSecondNumber() +" - secondNumber: "+ secondNumber.getSecondNumber()+" = "+ secondNumber.getSubtractionResult());
+        calculator.setSecondNumber(10);
+        System.out.println("secondNumber = "+ calculator.getSecondNumber());
+
+        System.out.println(calculator.getFirstNumber() +" * "+ calculator.getSecondNumber()+" = "+ calculator.getMultiplicationResult());
+        System.out.println(calculator.getFirstNumber() +" / "+ calculator.getSecondNumber()+" = "+ calculator.getDivisionResult());
+        System.out.println(calculator.getFirstNumber() +" + "+ calculator.getSecondNumber()+" = "+ calculator.getAdditionResult());
+        System.out.println(calculator.getFirstNumber() +" - "+ calculator.getSecondNumber()+" = "+ calculator.getSubtractionResult());
 
 
 
