@@ -111,5 +111,82 @@ public class Main {
                 ", Phone: " + account3.getPhoneNumber() +
                 ", Email: " + account3.getEmail() +
                 ", Balance: $" + account3.getBalance());
+
+        VipCustomer defaultCustomer = new VipCustomer();
+
+        System.out.println("Account Created for " + defaultCustomer.getName() +
+                ", Credit Limit: " + defaultCustomer.getCreditLimit() +
+                ", Email: " + defaultCustomer.getEmail());
+
+        VipCustomer customer1 = new VipCustomer("Sal", "Sal@pal.com");
+        // here we are calling the overloaded VipCustomer method that accepts
+        // two parameters and gives out a default value for credit limit from class VipCustomer
+
+        System.out.println("Account Created for " + customer1.getName() +
+                ", Credit Limit: " + customer1.getCreditLimit() +
+                ", Email: " + customer1.getEmail());
+
+        VipCustomer customer2 = new VipCustomer("Sal", 85000, "Sal@pal.com");
+        // here we are calling the overloaded VipCustomer method that accepts
+        // two parameters and gives out a default value for credit limit from class VipCustomer
+
+        System.out.println("Account Created for " + customer2.getName() +
+                ", Credit Limit: " + customer2.getCreditLimit() +
+                ", Email: " + customer2.getEmail());
+
+        Wall defaultWall = new Wall();
+        System.out.println("Default Wall Dimensions - Width:" + defaultWall.getWidth() +
+                ", Height:" + defaultWall.getHeight() +
+                ", Area:" + defaultWall.getArea());
+
+        Wall wall1 = new Wall(-100,200);
+
+        System.out.println("Wall 1 Dimensions - Width: " + wall1.getWidth() +
+                ", Height: " + wall1.getHeight() +
+                " & Area: " + wall1.getArea());
+
+        Wall wall2 = new Wall(200,-200);
+
+        System.out.println("Wall 2 Dimensions - Width: " + wall2.getWidth() +
+                ", Height: " + wall2.getHeight() +
+                " & Area: " + wall2.getArea());
+
+        Wall wall3 = new Wall(100,100);
+
+        System.out.println("Wall 3 Dimensions - Width: " + wall3.getWidth() +
+                ", Height: " + wall3.getHeight() +
+                " & Area: " + wall3.getArea());
+
+
+//        Find the distance between two points
+        Point first = new Point(6,5);
+        Point second = new Point(3,1);
+
+        System.out.println("distance(0,0) = "+ first.distance());
+        System.out.println("distance(second) = "+ first.distance(second));
+        System.out.println("distance(2,2) = "+ first.distance(2,2));
+        Point point = new Point();
+        System.out.println("distance()= "+ point.distance());
+
+
+        // find the total cost of a carpet
+        Carpet carpet = new Carpet(3.5);
+        Floor floor = new Floor(2.75, 4);
+        Calculator floorCarpetCalculator = new Calculator(floor,carpet);
+        System.out.println("total= "+ floorCarpetCalculator.getTotalCost());
+        carpet = new Carpet(1.5);
+        floor = new Floor(5.4, 4.5);
+        floorCarpetCalculator = new Calculator(floor, carpet);
+        System.out.println("total= "+ floorCarpetCalculator.getTotalCost());
+
+        // complex, real and imaginary numbers
+        ComplexNumber one = new ComplexNumber(1,1);
+        ComplexNumber two = new ComplexNumber(2.5, -1.5);
+        one.add(1,1);// one: (1 + 1i) + (1 + 1i) = one: 2 + 2i
+        System.out.println("one.real ="+ one.getRealNumber()+" & one.imaginary ="+ one.getImaginaryNumber()+"i");
+        one.subtract(two); // one:(2 + 2i) - two:(2.5 -1.5i) = one: -.5 + 3.5i
+        System.out.println("one.real ="+ one.getRealNumber()+" & one.imaginary ="+ one.getImaginaryNumber()+"i");
+        two.subtract(one); // two: (2.5 -1.5i) - one-new: (-.5 + 3.5i) = two: 3 - 5i
+        System.out.println("two.real="+ two.getRealNumber() + " & two.imaginary ="+ two.getImaginaryNumber()+"i");
     }
 }

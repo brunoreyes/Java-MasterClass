@@ -47,6 +47,8 @@ public class BankAccount {
     }
     public BankAccount(String customerName, String email, double balance, long phoneNumber, int accountNumber){
         System.out.println("Account constructor with parameters called");
+
+        // setting field values directly like this can guarantee the field values will be initialized
         this.balance = balance;
         this.accountNumber = accountNumber;
         this.customerName = customerName;
