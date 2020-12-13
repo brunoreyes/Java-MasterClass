@@ -25,7 +25,7 @@ public class Bedroom {
     public Lamp getLamp(){
         return this.lamp;
     }
-    public voidMakeBed(){
+    public void MakeBed(){
         System.out.println("Bedroom -> Making Bed");
         bed.make();
     }
