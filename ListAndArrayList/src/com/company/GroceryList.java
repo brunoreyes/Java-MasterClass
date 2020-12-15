@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class GroceryList {
 
-    private int[] myNumbers = new int[50]; // an int type array is just a class
+    // private int[] myNumbers = new int[50]; // an int type array is just a class
     private ArrayList<String> groceryList = new ArrayList<String>(); // the array list is a class
                                                                     //() is a parameter
     // An ArrayList doesn't define the type regularly like an array above, instead

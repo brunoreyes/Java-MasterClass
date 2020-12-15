@@ -13,12 +13,13 @@ package com.company;
 // e.g. no ints, no .get(i) etc
 // MobilePhone should do everything with Contact objects only.
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
-    private Scanner scanner = new Scanner(System.in);
-    private static ContactsList contactsList = new ContactsList();
+    private static Scanner scanner = new Scanner(System.in);
+    private static Contacts contacts = new Contacts();
 
     public static void main(String[] args) {
 
@@ -35,7 +36,7 @@ public class Main {
                     printInstructions();
                     break;
                 case 1:
-                    contactsList.printContactsList();
+                    contacts.printContacts();
                     break;
                 case 2:
                     addContact();
@@ -50,6 +51,9 @@ public class Main {
                     findContact();
                     break;
                 case 6:
+                    processArrayList();
+                    break;
+                case 7:
                     quit = true;
                     break;
             }
@@ -59,11 +63,46 @@ public class Main {
     public static void printInstructions() {
         System.out.println("\nPress ");
         System.out.println("\t 0 - To print choice options.");
-        System.out.println("\t 1 - To print the list of contacts.");
-        System.out.println("\t 2 - To add a contact to the list.");
-        System.out.println("\t 3 - To modify an existing contact.");
-        System.out.println("\t 4 - To remove a contact.");
+        System.out.println("\t 1 - To print Contacts.");
+        System.out.println("\t 2 - To add a contact.");
+        System.out.println("\t 3 - To update an existing contact.");
+        System.out.println("\t 4 - To delete a contact.");
         System.out.println("\t 5 - To search for a contact.");
         System.out.println("\t 6 - To exit out of contacts.");
+    }
+
+    public static void addContact(){
+        System.out.println("Please Enter the contact you want to add: ");
+        contacts.addContact(scanner.nextLine());
+    }
+    public static void updateContact(){
+        System.out.println("Enter current contact you want to update: ");
+        String contactNo = scanner.nextLine();
+        System.out.println("Enter new contact: ");
+        String newItem = scanner.nextLine();
+        contacts.updateContact(contactNo, newItem); // deducting 1 from the # entered by the user
+    }
+    public static void deleteContact(){
+        System.out.println("Enter contact's name: ");
+        String contactNo = scanner.nextLine();
+        contacts.deleteContact(contactNo);
+    }
+
+    public static void findContact(){
+        System.out.println("Enter contact you want to search for: ");
+        String searchedContact = scanner.nextLine();
+        if(contacts.onFile(searchedContact)){
+            System.out.println("Found " + searchedContact + " in Contacts");
+        } else {
+            System.out.println(searchedContact + " is not in Contacts");
+        }
+    }
+
+    public static void processArrayList(){
+        ArrayList<String> newArray = new ArrayList<String>();
+        newArray.addAll(contacts.getContactsList()); // .addAll() copies an entire array
+        ArrayList<String> nextArray = new ArrayList<String>(contacts.getContactsList());
+        String[] myArray = new String[contacts.getContactsList().size()];
+        myArray = contacts.getContactsList().toArray(myArray);
     }
 }
