@@ -136,7 +136,7 @@ public class Main {
         System.out.println("\t 1 - To print contact list.");
         System.out.println("\t 2 - To add a new contact.");
         System.out.println("\t 3 - To update an existing contact.");
-        System.out.println("\t 4 - To delete a contact.");
+        System.out.println("\t 4 - To remove an existing contact.");
         System.out.println("\t 5 - To search for a contact.");
         System.out.println("\t 6 - To exit out of contacts.");
     }
