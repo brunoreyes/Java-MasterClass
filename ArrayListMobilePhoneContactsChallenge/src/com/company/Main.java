@@ -1,18 +1,5 @@
 package com.company;
 
-// Create a program that implements a simple mobile phone with the following capabilities.
-// Able to store, modify, remove and query contact names.
-// You will want to create a separate class for Contacts (name and phone number).
-// Create a master class (MobilePhone) that holds the ArrayList of Contacts
-// The MobilePhone class has the functionality listed above.
-// Add a menu of options that are available.
-// Options:  Quit, print list of contacts, add new contact, update existing contact, remove contact
-// and search/find contact.
-// When adding or updating be sure to check if the contact already exists (use name)
-// Be sure not to expose the inner workings of the Arraylist to MobilePhone
-// e.g. no ints, no .get(i) etc
-// MobilePhone should do everything with Contact objects only.
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -64,8 +51,8 @@ public class Main {
         System.out.println("\nPress ");
         System.out.println("\t 0 - To print choice options.");
         System.out.println("\t 1 - To print Contacts.");
-        System.out.println("\t 2 - To add a contact.");
-        System.out.println("\t 3 - To update an existing contact.");
+        System.out.println("\t 2 - Add a contact.");
+        System.out.println("\t 3 - Update an existing contact.");
         System.out.println("\t 4 - To delete a contact.");
         System.out.println("\t 5 - To search for a contact.");
         System.out.println("\t 6 - To exit out of contacts.");
@@ -76,11 +63,11 @@ public class Main {
         contacts.addContact(scanner.nextLine());
     }
     public static void updateContact(){
-        System.out.println("Enter current contact you want to update: ");
+        System.out.println("Enter current name of contact: ");
         String contactNo = scanner.nextLine();
-        System.out.println("Enter new contact: ");
+        System.out.println("Enter new name of contact: ");
         String newItem = scanner.nextLine();
-        contacts.updateContact(contactNo, newItem); // deducting 1 from the # entered by the user
+        contacts.updateContact(contactNo, newItem);
     }
     public static void deleteContact(){
         System.out.println("Enter contact's name: ");

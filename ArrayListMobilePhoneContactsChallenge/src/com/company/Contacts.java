@@ -3,6 +3,7 @@ package com.company;
 import java.util.ArrayList;
 
 public class Contacts {
+
     private ArrayList<String> contacts = new ArrayList<String>();
 
     public void addContact(String contact){ // CREATE
@@ -13,7 +14,7 @@ public class Contacts {
         return contacts;
     }
     public void printContacts(){
-        System.out.println("You have "+ contacts.size() + " contacts");
+        System.out.println("You have "+ contacts.size() + " contacts"); // Ex Output: You have 10 contacts
         for ( int i=0; i<contacts.size(); i++){
             System.out.println((i+1) + ". " + contacts.get(i)); // Ex Output: 1.Monica
         }
@@ -30,14 +31,14 @@ public class Contacts {
         contacts.set(position, newContact); // .set(val, newVal) updates a value
         System.out.println("Contact " + (position + 1) + // + 1 for human's view
                 ". " + (currentContact) + " has been changed to " + (newContact));
-    }
+    } // Ex Output: Contact 1. Monica has been changed to Jessica
 
-    public void deleteContact(String item){
-        int position = findContact(item);
+    public void deleteContact(String contact){
+        int position = findContact(contact);
         if(position >= 0){
             deleteContact(position); // utilizing overloaded method with parameter of int
-            System.out.println(" " + (item) +" has been removed from Contacts");
-        }
+            System.out.println((contact) +" has been removed from Contacts");
+        } // Ex Output: Monica has been removed from Contacts
 
     }
     private void deleteContact(int position){ // REMOVE
