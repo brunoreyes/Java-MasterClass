@@ -1,23 +1,5 @@
 package com.company;
 
-// Overview: Create a program that implements a simple mobile phone with the following capabilities.
-
-
-// Task 1. You will want to create a separate class for Contacts (name and phone number).
-
-// Task 2.  Able to store, modify, remove and query contact names.
-// Create a master class (MobilePhone) that holds the ArrayList of Contacts
-// The MobilePhone class has the functionality listed above.
-// MobilePhone should do everything with Contact objects only.
-// Important Note: When adding or updating be sure to check if the contact already exists (use name) aka boolean
-
-// Task 3. Add a menu of options that are available.
-// Options:  Quit, print list of contacts, add new contact, update existing contact, remove contact
-// and search/find contact.
-
-// Task 4. Be sure not to expose the inner workings of the Arraylist to MobilePhone
-// e.g. no ints, no .get(i) etc
-
 // Most UI is in the main Class, where CRUD resides in MobilePhone, and middleman is Contact
 import java.util.Scanner;
 
