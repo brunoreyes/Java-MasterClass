@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Main {
 
@@ -43,14 +44,32 @@ public class Main {
         minnesotaTwins.matchResult(bostonRedSocks, 2, 1);
         minnesotaTwins.matchResult(newYorkYankees, 1, 1);
 
-        ArrayList<Integer> items = new ArrayList<>(); // <Integer> specifies the type of data saved to the ArrayList
+        System.out.println("Rankings");
+        System.out.println(minnesotaTwins.getName() + ": " + minnesotaTwins.ranking());
+        System.out.println(minnesotaVikings.getName() + ": " + minnesotaVikings.ranking());
+        System.out.println(minnesotaUnited.getName() + ": " + minnesotaUnited.ranking());
+
+        System.out.println(minnesotaTwins.compareTo(newYorkYankees));
+        System.out.println(minnesotaTwins.compareTo(bostonRedSocks));
+        System.out.println(bostonRedSocks.compareTo(minnesotaTwins));
+        System.out.println(bostonRedSocks.compareTo(newYorkYankees));
+
+        ArrayList<Team> teams;
+//        Collections.sort(teams);
+
+
+
+
+
+
+//         ArrayList<Integer> items = new ArrayList<>(); // <Integer> specifies the type of data saved to the ArrayList
                                                         // first declaration of <Integer> is satisfied
-        items.add(1);
-        items.add(2);
-        items.add(3);
-//        items.add("Bruno");
-        items.add(4);
-        items.add(5);
+//        items.add(1);
+//        items.add(2);
+//        items.add(3);
+////        items.add("Bruno");
+//        items.add(4);
+//        items.add(5);
 
 //        printDouble(items);
     }
