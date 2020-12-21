@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="def58312-aec2-4a36-8659-6d7c5314ede7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../GameTest/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GameTest/.idea/artifacts/GameTest_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GameTest/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GameTest/.idea/libraries/PackageDemo.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GameTest/.idea/libraries/PackageDemo_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GameTest/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GameTest/GameTest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GameTest/src/com/company/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackageDemo/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackageDemo/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackageDemo/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackageDemo/PackageDemo.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackageDemo/src/com/example/game/ISavable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackageDemo/src/com/example/game/Monster.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackageDemo/src/com/example/game/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Packages/Packages.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/.idea/artifacts/PackagesSeries_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/.idea/description.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/.idea/project-template.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/PackagesSeries.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PackagesSeries/src/com/company/myproject/Series.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/PackageSeries_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/description.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/PackagesSeries.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/project-template.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SeriesTest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WinDemo/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WinDemo/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WinDemo/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WinDemo/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WinDemo/WinDemo.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WinDemo/src/com/example/awtSample/MyWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NamingConventions/src/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../NamingConventions/src/com/company/Main.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/example/test/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="14" selection-start="14" selection-end="14" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1lxBaNsDR3rBB2ZBd6QpdsbtYNc" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.test.Main" />
+      <module name="SeriesTest" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="def58312-aec2-4a36-8659-6d7c5314ede7" name="Default Changelist" comment="" />
+      <created>1608528926955</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1608528926955</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
