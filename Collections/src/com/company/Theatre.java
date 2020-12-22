@@ -8,9 +8,24 @@ public class Theatre {
 
     private final String theatreName;
     //private Collection<Seat> seats = new ArrayList<>(); // List object Seat of seats // brute force search, bad performance
-    public List<Seat> seats = new ArrayList<>();
+    private List<Seat> seats = new ArrayList<>();
 
+    static final Comparator<Seat> PRICE_ORDER; // needs semicolon to run Comparator
 
+    static {
+        PRICE_ORDER = new Comparator<Seat>() { // anonymous inner class providing implementation of single compare method
+            @Override
+            public int compare(Seat seat1, Seat seat2) {
+                if (seat1.getPrice() < seat2.getPrice()) {
+                    return -1;
+                } else if (seat1.getPrice() > seat2.getPrice()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        };
+    }
 
     public Theatre(String theatreName, int numRows, int seatsPerRow) {
         this.theatreName = theatreName;
@@ -18,7 +33,13 @@ public class Theatre {
         int lastRow = 'A' + (numRows -1);
         for (char row = 'A'; row <= lastRow; row++){
             for(int seatNum = 1; seatNum <= seatsPerRow; seatNum++){
-                Seat seat = new Seat(row + String.format("%02d",seatNum)); // start with single 0 if single num
+                double price = 12.00;
+                if((row < 'D') && (seatNum >= 4 && seatNum <=9)){
+                    price = 14.00; // if not on the edges of the row, you have a premium seat thus charged extra $2
+                } else if ((row > 'F') || (seatNum < 4 || seatNum > 9)){ // on the edge, discout the price by $5 ( $12 - $5 )
+                    price = 7.00;
+                }
+                Seat seat = new Seat(row + String.format("%02d",seatNum),price); // start with single 0 if single num
                 seats.add(seat);
             }
         }
@@ -30,7 +51,7 @@ public class Theatre {
 
     public boolean reserveSeat(String seatNumber){
 //        Seat requestedSeat = null;
-        Seat requestedSeat = new Seat(seatNumber);
+        Seat requestedSeat = new Seat(seatNumber, 0);
         int foundSeat = Collections.binarySearch(seats, requestedSeat, null);
         //Searches the specified list for the specified object using the binary search algorithm.
         // The list must be sorted into ascending order according to the specified comparator
@@ -81,18 +102,21 @@ public class Theatre {
     }
 
     //for testing
-    public void getSeats(){
-        for(Seat seat: seats){
-            System.out.println(seat.getSeatNumber());
-        }
+    public Collection<Seat> getSeats(){
+        return seats;
+//        for(Seat seat: seats){
+//            System.out.println(seat.getSeatNumber());
+//        }
     }
 
     public class Seat implements Comparable<Seat>{ // comparison that fulfills the interface
         private final String seatNumber;        // utilizing the compareTo method built in the seat class
+        private double price;
         private boolean reserved = false;
 
-        public Seat(String seatNumber) {
+        public Seat(String seatNumber, double price) {
             this.seatNumber = seatNumber;
+            this.price = price;
         }
 
         @Override
@@ -119,8 +143,13 @@ public class Theatre {
                 return false;
             }
         }
+
         public String getSeatNumber() {
             return seatNumber;
+        }
+
+        public double getPrice() {
+            return price;
         }
     }
 }
