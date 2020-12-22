@@ -8,7 +8,7 @@ public class Theatre {
 
     private final String theatreName;
     //private Collection<Seat> seats = new ArrayList<>(); // List object Seat of seats // brute force search, bad performance
-    private List<Seat> seats = new ArrayList<>();
+    public List<Seat> seats = new ArrayList<>();
 
 
 
@@ -87,7 +87,7 @@ public class Theatre {
         }
     }
 
-    private class Seat implements Comparable<Seat>{ // comparison that fulfills the interface
+    public class Seat implements Comparable<Seat>{ // comparison that fulfills the interface
         private final String seatNumber;        // utilizing the compareTo method built in the seat class
         private boolean reserved = false;
 
