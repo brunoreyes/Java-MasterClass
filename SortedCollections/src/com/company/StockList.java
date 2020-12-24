@@ -1,7 +1,7 @@
 package com.company;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StockList {
@@ -9,7 +9,7 @@ public class StockList {
     private final Map<String, StockItem> list;
 
     public StockList() {
-        this.list = new HashMap<>();
+        this.list = new LinkedHashMap<>(); // LinkedHashMap to order list alphabetically
     }
 
     public int addStock(StockItem item){
@@ -35,7 +35,7 @@ public class StockList {
         return 0;
     }
 
-    public int SellStock(String item, int quantity){ // decreasing sold Stock
+    public int sellStock(String item, int quantity){ // decreasing sold Stock
         StockItem inStock = list.getOrDefault(item, null);
 
         if ((inStock != null) && (inStock.getQuantityInStock() >= quantity) && (quantity > 0)){
@@ -48,6 +48,10 @@ public class StockList {
     public StockItem get(String key){
         return list.get(key); // will return null if nothing exist
     }
+    public Map<String, StockItem> Items (){
+        return Collections.unmodifiableMap(list); 
+        // allowing users to have read-only access to map,
+    }
 
     @Override
     public String toString() { // not good in practice b/c toString() is mainly used for debugging
@@ -59,15 +63,12 @@ public class StockList {
 
             double itemValue = stockItem.getPrice() * stockItem.getQuantityInStock();
 
-            s += stockItem + ". There are " + stockItem.getQuantityInStock() + " in stock. Value of items: ";
-            s += itemValue + "\n";
+            s = s + stockItem.getName() + ". There are " + stockItem.getQuantityInStock() + " in stock. Value of items: ";
+            s = s + String.format("%.2f" , itemValue) + "\n";
             totalCost += itemValue;
         }
-        return s + " Total stock value" + totalCost;
+        return s + " Total stock value: $" + totalCost;
     }
 
-    public Map<String, StockItem> Items (){
-        return Collections.unmodifiableMap(list); // a map that can't be modified
-        // allowing users to have read-only access to map
-    }
+
 }
