@@ -7,9 +7,9 @@ import java.util.Scanner;
 // To define immutable objects:
 // 1. Don't provide setters X
 // 2. Make all fields private and final X
-// 3. Don't allow subclasses to override methods
+// 3. Don't allow subclasses to override methods X
 // 4. If the instance fields include references to mutable objects, don't allow those objects to be changed X
-// removed addExits method that modified the map, changed getExits constructor that changed the map
+// - removed addExits method that modified the map, changed getExits constructor that changed the map
 
 
 public class Main {
