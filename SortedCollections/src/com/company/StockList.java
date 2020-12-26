@@ -23,14 +23,14 @@ public class StockList {
 
             // If there are already stocks on this item, adjust the quantity
             if (inStock != item){
-                item.adjustStock(inStock.getQuantityInStock()); // if the values aren't the same
+                item.adjustStock(inStock.availableQuantity()); // if the values aren't the same
                 // then pass the values that are already in the map to the item
             }
 
             list.put(item.getName(), item); // .put(primaryKey, itemItself);
             // getting primary key and the item itself
 
-            return item.getQuantityInStock();
+            return item.availableQuantity();
         }
         return 0;
     }
@@ -38,7 +38,7 @@ public class StockList {
     public int sellStock(String item, int quantity){ // decreasing sold Stock
         StockItem inStock = list.getOrDefault(item, null);
 
-        if ((inStock != null) && (inStock.getQuantityInStock() >= quantity) && (quantity > 0)){
+        if ((inStock != null) && (inStock.availableQuantity() >= quantity) && (quantity > 0)){
             inStock.adjustStock(-quantity);
             return quantity; // indicating how many items were sold
         }
@@ -71,9 +71,9 @@ public class StockList {
         for (Map.Entry<String, StockItem> item: list.entrySet()){
             StockItem stockItem = item.getValue();
 
-            double itemValue = stockItem.getPrice() * stockItem.getQuantityInStock();
+            double itemValue = stockItem.getPrice() * stockItem.availableQuantity();
 
-            s = s + stockItem.getName() + ". There are " + stockItem.getQuantityInStock() + " in stock. Value of items: ";
+            s = s + stockItem.getName() + ". There are " + stockItem.availableQuantity() + " in stock. Value of items: ";
             s = s + String.format("%.2f" , itemValue) + "\n";
             totalCost += itemValue;
         }
