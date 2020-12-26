@@ -81,10 +81,28 @@ public class Main {
         if (stockItem == null){
             System.out.println("We don't sell " + item); // if no item, then we don't sell it
         }
-        if (stockList.sellStock(item,quantity) != 0){ // means we have a valid quantity ( >=1 )
-            basket.addToBasket(stockItem,  quantity);
-            return quantity;
+        if (stockList.reserveStock(item,quantity) != 0){ // means we have a valid quantity ( >=1 )
+            return basket.addToBasket(stockItem,quantity);
         }
         return 0; // Could not sell due to insufficient stock aka out of stock
+    }
+
+    public static int removeItem(Basket basket, String item, int quantity){
+        // retrieve the item from the stock list first:
+        StockItem stockItem = stockList.get(item);
+        if (stockItem == null){
+            System.out.println("We don't sell " + item); // if no item, then we don't sell it
+        }
+        if (basket.removeFromBasket(stockItem,quantity) == quantity){
+            return stockList.unReserveStock(item, quantity);
+        }
+        return 0;
+    }
+
+    public static void checkOut(Basket basket){
+        for (Map.Entry<StockItem, Integer> item : basket.Items().entrySet()){
+            stockList.sellStock(item.getKey().getName(), item.getValue()); // item, quantity
+        }
+        basket.clearBasket(); // clearing basket after items from basket have been checked out
     }
 }
