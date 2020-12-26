@@ -48,8 +48,18 @@ public class StockList {
     public StockItem get(String key){
         return list.get(key); // will return null if nothing exist
     }
+
+    public Map<String, Double> PriceList(){
+        Map<String, Double> prices = new LinkedHashMap<>();
+        for (Map.Entry<String, StockItem> item: list.entrySet()){
+            prices.put(item.getKey(), item.getValue().getPrice());
+        }
+        return Collections.unmodifiableMap(prices);
+    } // recall when calling params in Maps or List we call their class
+    // by capitalizing the type. For ex: double >> Double
+
     public Map<String, StockItem> Items (){
-        return Collections.unmodifiableMap(list); 
+        return Collections.unmodifiableMap(list);
         // allowing users to have read-only access to map,
     }
 
