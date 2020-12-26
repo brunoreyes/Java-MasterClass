@@ -102,6 +102,8 @@ public class StockItem implements Comparable<StockItem> {
 
     @Override
     public String toString() {
-        return this.name + " : price " + this.price + ". Reserved: " + this.reserved;
+        String capitalizedName = this.name.substring(0, 1).toUpperCase() +
+                name.substring(1);
+        return capitalizedName + " : price " + this.price + ". Reserved: " + this.reserved;
     }
 }

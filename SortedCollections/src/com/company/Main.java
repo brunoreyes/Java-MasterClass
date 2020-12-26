@@ -44,36 +44,61 @@ public class Main {
 
         Basket brunoBasket = new Basket("Bruno");
         sellItem(brunoBasket, "car", 1);
-        System.out.println(brunoBasket);
+//        System.out.println(brunoBasket);
 
         sellItem(brunoBasket, "car", 1);
-        System.out.println(brunoBasket);
+//        System.out.println(brunoBasket);
         if (sellItem(brunoBasket, "car", 1) != 1){
             System.out.println("Sorry we cannot sell a car because we are out of stock. ");
         }; // don't have 3 cars test
 
-        System.out.println(brunoBasket);
+//        System.out.println(brunoBasket);
         sellItem(brunoBasket, "spanner", 1); // don't have item spanner test
-        System.out.println(brunoBasket);
+//        System.out.println(brunoBasket);
 
         sellItem(brunoBasket, "juice", 4);
         sellItem(brunoBasket, "cup", 12);
+        sellItem(brunoBasket, "door", 2);
+        sellItem(brunoBasket, "phone", 22);
+//        System.out.println(brunoBasket);
 
         System.out.println(stockList);
 
-//        temp = new StockItem("pen",12);
+
+
+//        System.out.println(stockList);
+        Basket basket = new Basket("Customer");
+        sellItem(basket,"cup",100);
+        sellItem(basket,"juice",5);
+        removeItem(basket,"cup",1);
+        System.out.println(basket);
+
+        // remove all items from bruno's basket
+        removeItem(brunoBasket, "car", 1);
+        removeItem(brunoBasket, "cup",9);
+        removeItem(brunoBasket,"door", 2);
+        removeItem(brunoBasket, "bread", 1);
+        System.out.println(brunoBasket);
+//        removeItem(brunoBasket,"car",1); // should not work
+
+        System.out.println("\nDisplay stock list before and after checkout");
+        System.out.println(basket);
+        System.out.println(stockList);
+        checkOut(basket);
+        System.out.println(basket);
+        System.out.println(stockList);
+
+//        for(Map.Entry<String, Double> price: stockList.PriceList().entrySet()){
+//            System.out.println(price.getKey() + ": costs " + price.getValue());
+//        }
+
+        //        temp = new StockItem("pen",12);
 //        stockList.Items().put(temp.getName(), temp); // since we can't modify a read-only
 //        version of a map ( aka an unmodifiable map) this line produced an error
 
         // item's can't be added/removed to a unmodifiable map but they can be updated
         stockList.Items().get("car").adjustStock(2000);
         stockList.get("car").adjustStock(-1000); // can directly access the list variable
-
-        System.out.println(stockList);
-
-        for(Map.Entry<String, Double> price: stockList.PriceList().entrySet()){
-            System.out.println(price.getKey() + ": costs " + price.getValue());
-        }
     }
     public static int sellItem(Basket basket, String item, int quantity){
         // retrieve the item from the stock list first:

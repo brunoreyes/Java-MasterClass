@@ -48,15 +48,18 @@ public class Basket {
         return Collections.unmodifiableMap(list);
     }
 
+
     @Override
     public String toString() {
-        String s = "\nShopping basket " + name + " contains " + list.size() +
+        String capitalizedName = name.substring(0, 1).toUpperCase() +
+                name.substring(1);
+        String s = "\nShopping basket " + capitalizedName + " contains " + list.size() +
                 (list.size() == 1 ? " item":" items") + "\n";
         double totalCost = 0.0;
         for (Map.Entry<StockItem, Integer> item: list.entrySet()){
-            s = s + item.getKey().getPrice() + ". " + item.getValue();
+            s = s + item.getKey() + ", Purchased: " + item.getValue() + " \n";
             totalCost += item.getKey().getPrice() + item.getValue();
         }
-        return s + " Total cost: $" + totalCost;
+        return s + " Total cost: $" + String.format("%.2f" , totalCost);
     }
 }

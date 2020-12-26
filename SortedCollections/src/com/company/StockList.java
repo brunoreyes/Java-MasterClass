@@ -91,11 +91,13 @@ public class StockList {
         String s = "\nStock List \n";
         double totalCost = 0.0;
         for (Map.Entry<String, StockItem> item: list.entrySet()){
+
             StockItem stockItem = item.getValue();
-
             double itemValue = stockItem.getPrice() * stockItem.availableQuantity();
+            String capitalizedStockItem = stockItem.toString().substring(0, 1).toUpperCase() +
+                    stockItem.toString().substring(1); // capitalizing stock item for format
 
-            s = s + stockItem + ". There are " + stockItem.availableQuantity() + " in stock. Value of items: ";
+            s = s + capitalizedStockItem + ". Current Stock: " + stockItem.availableQuantity() + ". Total Cost: ";
             s = s + String.format("%.2f" , itemValue) + "\n";
             totalCost += itemValue;
         }
