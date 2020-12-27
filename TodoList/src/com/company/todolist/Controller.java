@@ -1,6 +1,10 @@
 package com.company.todolist;
 
 import com.company.todolist.datamodel.TodoItem;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextArea;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -8,7 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Controller { // the Controller handles interaction between UI and data model
+
     private List<TodoItem> todoItems;
+
+    @FXML
+    private ListView todoListView;
+
+    @FXML
+    private TextArea itemDetailsTextArea;
+
 
     public void initialize(){
         TodoItem item1 = new TodoItem("Mail birthday card",
@@ -37,5 +49,19 @@ public class Controller { // the Controller handles interaction between UI and d
         todoItems.add(item3);
         todoItems.add(item4);
         todoItems.add(item5);
+
+        todoListView.getItems().setAll(todoItems); // getting all items and setting them on the UI
+        todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE); // selecting one item at a time
+    }
+
+    @FXML
+    public void handleClickListView(){
+        TodoItem item = (TodoItem) todoListView.getSelectionModel().getSelectedItem();
+//        System.out.println("The selected item is "+ item); // shortcut: type: souf to print as string instead of variable
+        StringBuilder sb = new StringBuilder(item.getDetails());
+        sb.append("\n\n\n\n");
+        sb.append("Due: ");
+        sb.append(item.getDeadline().toString());
+        itemDetailsTextArea.setText(sb.toString());
     }
 }
