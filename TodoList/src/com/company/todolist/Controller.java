@@ -11,10 +11,16 @@ import javafx.scene.control.TextArea;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Controller { // the Controller handles interaction between UI and data model
+
+    // singleton will create one instance over the entire run of the application
+    // the singleton class creates one instance of itself, having a private constructor ensuring
+    // no other class can create an instance
+    // usually containing a static method
 
     private List<TodoItem> todoItems;
 
@@ -62,7 +68,11 @@ public class Controller { // the Controller handles interaction between UI and d
             public void changed(ObservableValue <? extends TodoItem> observable, TodoItem oldValue, TodoItem newValue) {
                 if (newValue != null){
                     TodoItem item = todoListView.getSelectionModel().getSelectedItem();
-                    itemDetailsTextArea.setText(item.getDetails());
+                    itemDetailsTextArea.setText(item.getDetails()); // setting details
+
+                    DateTimeFormatter df = DateTimeFormatter.ofPattern("MMMM d, yyyy"); // using dateTime formatter
+                    deadlineLabel.setText(df.format(item.getDeadline()));
+//                    deadlineLabel.setText(item.getDetails().toString()); // setting due dates
                 }
             }
         });
