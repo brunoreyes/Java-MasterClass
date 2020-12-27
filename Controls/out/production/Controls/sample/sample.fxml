@@ -24,6 +24,8 @@
 <?import javafx.scene.control.DatePicker?>
 
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Accordion?>
 <GridPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml"
           alignment="center" hgap="10" vgap="10">
     <Button GridPane.rowIndex="0" GridPane.columnIndex="0" text="Click me">
@@ -98,6 +100,22 @@
 
     <ColorPicker GridPane.rowIndex="3" GridPane.columnIndex="0"/>
     <DatePicker GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+    <Accordion GridPane.rowIndex="3" GridPane.columnIndex="2" GridPane.columnSpan="2" expandedPane="$tp3">
+        <panes>
+            <!--    TitledPane is like a collapsing list-->
+            <TitledPane text="Titled Pane" GridPane.rowIndex="3" GridPane.columnIndex="2">
+                <Label text="Label in titled pane 1"/>
+            </TitledPane>
+            <TitledPane text="Titled Pane 2" GridPane.rowIndex="3" GridPane.columnIndex="2">
+                <Label text="Label in titled pane 2"/>
+            </TitledPane>
+            <TitledPane text="Titled Pane 3" fx:id="tp3" GridPane.rowIndex="3" GridPane.columnIndex="2">
+                <Label text="Label in titled pane 3"/>
+            </TitledPane>
+        </panes>
+    </Accordion>
+
 </GridPane>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
