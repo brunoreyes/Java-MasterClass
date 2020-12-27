@@ -4,19 +4,40 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
-          gridLinesVisible="true"> <!-- Showing the gridLines-->
-<!--    <columnConstraints> -->
-<!--        <ColumnConstraints percentWidth="50.0"/>-->
-<!--        <ColumnConstraints percentWidth="50.0"/>-->
-<!--    </columnConstraints>     Setting max width for each column-->
-    <Button text="Button One" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-    <Button text="Button Two" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-    <Button text="Button Three" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-    <Button text="Really Really Really Really Really long Button Four" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-    <Button text="Button Five" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+<?import javafx.scene.layout.HBox?>
 
-    <!--  Completed:   need to add row & column info right now it's row: 0, column: 0-->
+<HBox fx:controller="sample.Controller"
+      xmlns:fx="http://javafx.com/fxml" alignment="bottom_right"
+      style="-fx-border-color: red; -fx-border-width: 3; -fx-border-style: dashed"
+      spacing="10">
 
-</GridPane>
+    <padding>
+        <Insets bottom="10" right="10" />
+    </padding>
+
+    <Button text="Okay" prefWidth="90"/>
+    <Button text="Cancel" prefWidth="90"/>
+    <Button text="Help" prefWidth="90"/>
+</HBox>
+<!--<GridPane fx:controller="sample.Controller"-->
+<!--          xmlns:fx="http://javafx.com/fxml" alignment="top_center" hgap="10" vgap="10"-->
+<!--          gridLinesVisible="true"> &lt;!&ndash; Showing the gridLines&ndash;&gt;-->
+<!--    <padding>-->
+<!--        <Insets top="10"/> &lt;!&ndash; Padding between buttons&ndash;&gt;-->
+<!--    </padding>-->
+<!--&lt;!&ndash;    <columnConstraints> &ndash;&gt;-->
+<!--&lt;!&ndash;        <ColumnConstraints percentWidth="50.0"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        <ColumnConstraints percentWidth="50.0"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    </columnConstraints>     Setting max width for each column&ndash;&gt;-->
+<!--    <Button text="Button One" GridPane.rowIndex="0" GridPane.columnIndex="0"-->
+<!--        GridPane.halignment="RIGHT"/> &lt;!&ndash; Aligning button to the right of the grid space&ndash;&gt;-->
+
+<!--    <Button text="Button Two" GridPane.rowIndex="0" GridPane.columnIndex="1" />-->
+<!--    <Button text="Button Three" GridPane.rowIndex="1" GridPane.columnIndex="0" />-->
+<!--    <Button text="Really Really Really Really Really long Button Four" GridPane.rowIndex="1" GridPane.columnIndex="1" />-->
+<!--    <Button text="Button Five" GridPane.rowIndex="2" GridPane.columnIndex="0"-->
+<!--        GridPane.columnSpan="2"/>-->
+
+<!--    &lt;!&ndash;  Completed:   need to add row & column info right now it's row: 0, column: 0&ndash;&gt;-->
+
+<!--</GridPane>-->
