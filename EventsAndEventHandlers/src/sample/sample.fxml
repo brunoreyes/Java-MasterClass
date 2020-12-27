@@ -1,0 +1,18 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<GridPane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<!--    Using the onButtonClicked method within the controller using #-->
+    <TextField GridPane.rowIndex="0" GridPane.columnIndex="0" fx:id="nameField" />
+    <Button text="Say Hello" GridPane.rowIndex="1" GridPane.columnIndex="0"
+        onAction="#onButtonClicked"/>
+<!--   Procedural Program (console or w/o UI, running from the entry point of the application
+ to the last line of the code)
+
+ Event-Driven Program (UI-driven, because the user dictates what will run & when)
+-->
+</GridPane>
