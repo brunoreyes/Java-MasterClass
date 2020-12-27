@@ -6,12 +6,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.TilePane?>
 
+
+
 <!--Stack Pane overlays buttons and labels on top of each other-->
-<StackPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml">
-<!--    The Label is on top of the button, whatever comes last is on top-->
-    <Button text="Button One" style="-fx-background-color: blue;" />
-    <Label text="The label text" style="-fx-background-color: green;" />
-</StackPane>
+<!--<StackPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml">-->
+<!--&lt;!&ndash;    The Label is on top of the button, whatever comes last is on top&ndash;&gt;-->
+<!--    <Button text="Button One" style="-fx-background-color: blue;" />-->
+<!--    <Label text="The label text" style="-fx-background-color: green;" />-->
+<!--</StackPane>-->
 
     <!--&lt;!&ndash;  Tile Plane evenly distributes buttons in rows
     and wraps buttons when there isn't space  &ndash;&gt;-->
@@ -84,3 +86,4 @@
 <!--    &lt;!&ndash;  Completed:   need to add row & column info right now it's row: 0, column: 0&ndash;&gt;-->
 
 <!--</GridPane>-->
+
