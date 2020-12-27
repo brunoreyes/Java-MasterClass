@@ -1,29 +1,66 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.GridPane?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.BorderPane?>
-<BorderPane fx:controller="sample.Controller"
-            xmlns:fx="http://javafx.com/fxml">
-    <top>
-        <Label text="This label is in the top position" alignment="bottom_right"
-               BorderPane.alignment="center"
-               style="-fx-border-color: blue; -fx-border-width: 3; -fx-border-style: dashed"/>
-    </top>
-    <bottom>
-            <HBox spacing="10" alignment="BOTTOM_RIGHT">
-                <padding>
-                    <Insets bottom="10" right="10" />
-                </padding>
-                <Button text="Okay" prefWidth="90"/>
-                <Button text="Cancel" prefWidth="90"/>
-                <Button text="Help" prefWidth="90"/>
-            </HBox>
-        </bottom>
-</BorderPane>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.TilePane?>
+
+<!--Stack Pane overlays buttons on top of each other-->
+<StackPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml">
+    <Button text="Button One" />
+    <Label text="The label text" />
+</StackPane>
+
+    <!--&lt;!&ndash;  Tile Plane evenly distributes buttons in rows
+    and wraps buttons when there isn't space  &ndash;&gt;-->
+        <!--<TilePane  fx:controller="sample.Controller"-->
+<!--           xmlns:fx="http://javafx.com/fxml">-->
+
+<!--    <Button text="Button One" />-->
+<!--    <Button text="Button Two" />-->
+<!--    <Button text="Button Three" />-->
+<!--    <Button text="Button Four" />-->
+<!--    <Button text="Button Five" />-->
+<!--    <Button text="Button Six" />-->
+<!--    <Button text="Button Seven" />-->
+<!--    <Button text="Button Eight" />-->
+<!--    <Button text="Button Nine" />-->
+<!--    <Button text="Button Ten" />-->
+<!--</TilePane>-->
+        <?import javafx.scene.layout.ColumnConstraints?>
+        <?import javafx.scene.layout.HBox?>
+        <?import javafx.scene.layout.BorderPane?>
+        <!--<BorderPane fx:controller="sample.Controller"-->
+<!--            xmlns:fx="http://javafx.com/fxml">-->
+<!--    <top>-->
+<!--        <Label text="This label is in the top position" alignment="bottom_right"-->
+<!--               BorderPane.alignment="center"-->
+<!--               style="-fx-border-color: blue; -fx-border-width: 3; -fx-border-style: dashed"/>-->
+<!--    </top>-->
+<!--&lt;!&ndash;    If there isn't enough run for the children to fit into one column, they will wrap themselves-->
+<!--    into the second column&ndash;&gt;-->
+<!--    <left>-->
+<!--        <Label text="This label is in the left position"/>-->
+<!--    </left>-->
+<!--    <center>-->
+<!--        <Label text="This label is in the center position and has very very very very long text"/>-->
+<!--    </center>-->
+<!--    <right>-->
+<!--        <Label text="This label is in the right position "/>-->
+<!--    </right>-->
+<!--    <bottom>-->
+
+<!--            <HBox spacing="10" alignment="BOTTOM_RIGHT">-->
+<!--                <padding>-->
+<!--                    <Insets bottom="10" right="10" />-->
+<!--                </padding>-->
+<!--                <Button text="Okay" prefWidth="90"/>-->
+<!--                <Button text="Cancel" prefWidth="90"/>-->
+<!--                <Button text="Help" prefWidth="90"/>-->
+<!--            </HBox>-->
+<!--        </bottom>-->
+<!--</BorderPane>-->
 <!--<GridPane fx:controller="sample.Controller"-->
 <!--          xmlns:fx="http://javafx.com/fxml" alignment="top_center" hgap="10" vgap="10"-->
 <!--          gridLinesVisible="true"> &lt;!&ndash; Showing the gridLines&ndash;&gt;-->
