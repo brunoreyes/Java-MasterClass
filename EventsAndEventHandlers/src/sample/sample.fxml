@@ -17,6 +17,7 @@
     <CheckBox text="Clear the field after saying hello or goodbye" GridPane.rowIndex="2"
               GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="ourCheckBox"
                 onAction="#handleChange"/>
+    <Label fx:id="ourLabel" text="Nothing has happened" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
 <!--   Procedural Program (console or w/o UI, running from the entry point of the application
  to the last line of the code)
 
