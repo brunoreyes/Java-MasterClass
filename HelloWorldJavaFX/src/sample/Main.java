@@ -2,11 +2,17 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Main extends Application { // the Application Class manages the life-cycle of a JavaFX app
     /*
     1. Download the proper ver 11 Java FX file for your OS from here: https://gluonhq.com/products/javafx/
     2. Unlock the zip file and place file where you usually put Java files
@@ -25,12 +31,42 @@ public class Main extends Application {
     }
     8. That's it. Now I have successfully installed JavaFX and implemented it within a project
             */
+
+/*
+Overview:
+JavaFX was designed with the MVC or Model View Controller, pattern in mind. In a nutshell,
+this pattern keeps the code that handles an application's data separate from the UI code
+
+B/c of this, when we're using the MVC pattern, we wouldn't mix the code that deals with the UI
+and the code that manipulates the app's data in the same class. The controller is sort of the
+middleman between the UI and the data.
+
+When working with JavaFX, the model corresponds to the app's data model, the view is the FXML,
+and the controller is the code that determines what happens when a user interacts with the UI.
+Essentially the controller handles events.
+ */
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml")); // loads FX UI file
+
+        // editing the font type, color, size, and weight via main class
+//        GridPane root = new GridPane();
+//        root.setAlignment(Pos.CENTER);
+
+//        // setting equivalent of V/H gap from Main instead of sample.fxml
+//        root.setVgap(10);
+//        root.setHgap(10);
+//        Label greeting = new Label("Welcome to JavaFX!");
+//
+//        greeting.setTextFill(Color.GREEN); // changing color
+//        // changing font and font weight and font size
+//        greeting.setFont(Font.font("Times New Roman", FontWeight.BOLD, 70));
+//        root.getChildren().add(greeting); // adding a label control to the list
+
+
+        primaryStage.setTitle("Hello JavaFX!"); // title on top of window
+        primaryStage.setScene(new Scene(root, 700, 275)); // theatre metaphor
+        primaryStage.show(); // showing the ui
     }
 
 
