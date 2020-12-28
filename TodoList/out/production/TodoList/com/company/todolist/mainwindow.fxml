@@ -15,6 +15,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.ToggleButton?>
+
 <BorderPane fx:id="mainBorderPane" fx:controller="com.company.todolist.Controller"
             xmlns:fx="http://javafx.com/fxml"
 >
@@ -30,38 +31,35 @@
                 </items>
             </Menu>
         </MenuBar>
-      </VBox>
-<ToolBar>
-    <HBox>
-        <Button text="New..." onAction="#showNewItemDialog" >
-            <tooltip>
-                <Tooltip text="Add a New Todo item."/>
-            </tooltip>
-            <graphic>
-                <ImageView>
-                    <Image url="@/toolbarButtonGraphics/general/New24.gif"/>
-                </ImageView>
-            </graphic>
-        </Button>
-    <ToggleButton fx:id="filterToggleButton" text="Today's Items" onAction="#handleFilterButton">
-        <tooltip>
-            <Tooltip text="Button Down: Down Button: Show Today's item's only. Up Button: Show all items"/>
-        </tooltip>
-    </ToggleButton>
-    </HBox>
-</ToolBar>
+        <ToolBar>
+            <HBox>
+                <Button onAction="#showNewItemDialog" >
+                    <tooltip>
+                        <Tooltip text="Add a New Todo item."/>
+                    </tooltip>
+                    <graphic>
+                        <ImageView>
+                            <Image url="@/toolbarButtonGraphics/general/New24.gif"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <ToggleButton fx:id="filterToggleButton" text="Today's Items" onAction="#handleFilterButton">
+                    <tooltip>
+                        <Tooltip text="Button Down: Down Button: Show Today's item's only. Up Button: Show all items"/>
+                    </tooltip>
+                </ToggleButton>
+            </HBox>
+        </ToolBar>
+        </VBox>
     </top>
     <left>
-
         <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed" >
         </ListView>
-
     </left>
     <center>
         <VBox style="-fx-background-color: white">
-            <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true"/><!-- VBox.vgrow  maxamizes space for VBox and
-            pushes all children down-->
-
+            <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true"/>
+            <!-- VBox.vgrow  maxamizes space for VBox and pushes all children down-->
 <!--            HBox made for the due date-->
             <HBox>
                 <Label text="Due: " style="-fx-background-color: white">
@@ -69,7 +67,7 @@
                         <Font name="Arial bold" size="18" />
                     </font>
                 </Label>
-                <Label fx:id="deadlineLabel" style="-fx-background-color: white">
+                <Label fx:id="deadlineLabel" style="-fx-background-color: white" >
                     <font>
                         <Font name="Arial bold" size="18" />
                     </font>
