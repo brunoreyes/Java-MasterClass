@@ -83,7 +83,8 @@ public class Controller { // the Controller handles interaction between UI and d
             }
         });
 
-        todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // getting all items and setting them on the UI
+        todoListView.setItems(TodoData.getInstance().getTodoItems());
+//        todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // getting all items and setting them on the UI
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE); // selecting one item at a time
         todoListView.getSelectionModel().selectFirst(); // setting the first item as the view using .selectFirst()
     }
@@ -114,11 +115,11 @@ public class Controller { // the Controller handles interaction between UI and d
             controller.processResults();
             // refreshing the list after adding an item by setting it to the new list
             TodoItem newItem = controller.processResults();
-            todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // replace contents with what comes back from dialog box
+//            todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // replace contents with what comes back from dialog box
             todoListView.getSelectionModel().select(newItem); // selecting the newly added item to display details
-            System.out.println("Ok Pressed");
+//            System.out.println("Ok Pressed");
         } else {
-            System.out.printf("Cancel pressed");
+//            System.out.printf("Cancel pressed");
         }
     }
 

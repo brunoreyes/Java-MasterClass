@@ -1,6 +1,7 @@
 package com.company.todolist.datamodel;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,7 +18,7 @@ public class TodoData {
     private static TodoData instance = new TodoData();
     private static String filename = "TodoListItems.txt"; // file where Todo items  are saved
 
-    private List<TodoItem> todoItems;
+    private ObservableList<TodoItem> todoItems;
     private DateTimeFormatter formatter;
 
     public static TodoData getInstance(){ // public method that returns the only instance of the todo class
@@ -28,7 +29,7 @@ public class TodoData {
         formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); // case-sensitive pattern
     }
 
-    public List<TodoItem> getTodoItems() {
+    public ObservableList<TodoItem> getTodoItems() {
         return todoItems;
     }
 

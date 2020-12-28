@@ -31,7 +31,7 @@
     </left>
     <center>
         <VBox style="-fx-background-color: white">
-            <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS"/><!-- VBox.vgrow  maxamizes space for VBox and
+            <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true"/><!-- VBox.vgrow  maxamizes space for VBox and
             pushes all children down-->
 
 <!--            HBox made for the due date-->
