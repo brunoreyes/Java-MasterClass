@@ -2,8 +2,10 @@ package com.company.todolist;
 
 import com.company.todolist.datamodel.TodoData;
 import com.company.todolist.datamodel.TodoItem;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,6 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class Controller { // the Controller handles interaction between UI and data model
 
@@ -50,6 +53,12 @@ public class Controller { // the Controller handles interaction between UI and d
 
     @FXML
     private ToggleButton filterToggleButton;
+
+    // a filtered list called filteredList comprised of item's with type: TodoItem
+    private FilteredList<TodoItem> filteredList;
+
+    private Predicate<TodoItem> wantAllItems;
+    private Predicate<TodoItem> wantTodaysItems;
 
 
     public void initialize(){
@@ -101,7 +110,7 @@ public class Controller { // the Controller handles interaction between UI and d
                 if (newValue != null){
                     TodoItem item = todoListView.getSelectionModel().getSelectedItem();
                     String formattedDetails = item.getDetails().substring(0,1).toUpperCase() + // making 1st char Uppercase
-                            item.getDetails().substring(1).toLowerCase(Locale.ROOT); // making rest of details lowercase
+                            item.getDetails().substring(1).toLowerCase(); // making rest of details lowercase
                     itemDetailsTextArea.setText(formattedDetails); // setting details
 
                     DateTimeFormatter df = DateTimeFormatter.ofPattern("MMMM d, yyyy"); // using dateTime formatter
@@ -111,8 +120,32 @@ public class Controller { // the Controller handles interaction between UI and d
             }
         });
 
-        SortedList<TodoItem> sortedList =
-                new SortedList<TodoItem>(TodoData.getInstance().getTodoItems(), new Comparator<TodoItem>() {
+        wantAllItems = new Predicate<TodoItem>() {
+            @Override
+            public boolean test(TodoItem todoItem) {
+                return true;
+            }
+        };
+
+        wantTodaysItems = new Predicate<TodoItem>() {
+            @Override
+            public boolean test(TodoItem todoItem) {
+                return (todoItem.getDeadline().equals(LocalDate.now()));
+            }
+        };
+
+        filteredList = new FilteredList<TodoItem>(TodoData.getInstance().getTodoItems(), wantAllItems);
+//                new Predicate<TodoItem>() { // Predicate a boolean type argument, usually expressed as a Lamda
+//            // if test returns true, the item is granted access and is passed,
+//            // if test returns false, the item fails the filter and isn't kept for display
+//                    @Override
+//                    public boolean test(TodoItem todoItem) {
+//                        return true;
+//                    }
+//                });
+
+        SortedList<TodoItem> sortedList = new SortedList<TodoItem>(filteredList,
+                new Comparator<TodoItem>() {
             @Override
             public int compare(TodoItem o1, TodoItem o2) {
                 // returns a negative value if 01 < 02, return 0 if 01 = 02, return 1 if 01 > 02
@@ -138,9 +171,12 @@ public class Controller { // the Controller handles interaction between UI and d
                             setText(null);
                         } else {
                             setText(item.getShortDescription());
-                            if (item.getDeadline().isBefore(LocalDate.now().plusDays(1))){ // if the item is set to be due today or before today
-                                setTextFill(Color.RED);                 // than make the short description red
-                            } else if (item.getDeadline().equals(LocalDate.now().plusDays(1))){
+                            // if the item is set to be due today or before today than make the short description red
+                            if (item.getDeadline().isBefore(LocalDate.now())){
+                                setTextFill(Color.MAROON);
+                            } else if (item.getDeadline().equals(LocalDate.now())){ //.plusDays(1)
+                                setTextFill(Color.RED);
+                            } else if (item.getDeadline().isAfter(LocalDate.now())){
                                 setTextFill(Color.ORANGE);
                             }
                         }
@@ -154,7 +190,6 @@ public class Controller { // the Controller handles interaction between UI and d
                                 cell.setContextMenu(listContextMenu);
                             }
                 });
-
                 return cell;
             }
         });
@@ -189,9 +224,10 @@ public class Controller { // the Controller handles interaction between UI and d
 //            todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // replace contents with what comes back from dialog box
             todoListView.getSelectionModel().select(newItem); // selecting the newly added item to display details
 //            System.out.println("Ok Pressed");
-        } else {
-//            System.out.printf("Cancel pressed");
         }
+//        else {
+////            System.out.printf("Cancel pressed");
+//        }
     }
 
     public void handleKeyPressed(KeyEvent keyEvent){
@@ -201,7 +237,7 @@ public class Controller { // the Controller handles interaction between UI and d
                 deleteItem(selectedItem);
             }
         }
-}
+    }
 
     @FXML
     public void handleClickListView(){
@@ -229,11 +265,41 @@ public class Controller { // the Controller handles interaction between UI and d
         }
     }
 
+    @FXML
     public void handleFilterButton(){
+        TodoItem selectedItem = todoListView.getSelectionModel().getSelectedItem();
         if (filterToggleButton.isSelected()){
-
+            filteredList.setPredicate(wantTodaysItems);
+            if (filteredList.isEmpty()){
+                itemDetailsTextArea.clear();
+                deadlineLabel.setText("");
+            } else if (filteredList.contains(selectedItem)){
+                todoListView.getSelectionModel().select(selectedItem);
+            } else {
+                todoListView.getSelectionModel().selectFirst();
+            }
+            // code functionality for handleFilterButton() is now in predicates wantAllItems & wantTodaysItems above
+//            new Predicate<TodoItem>() {
+//                @Override
+//                public boolean test(TodoItem todoItem) {
+//                    // returning list of items of which their deadline is today
+//                    return (todoItem.getDeadline().equals(LocalDate.now()));
+//                }
+//            });
         }else{
-
+           filteredList.setPredicate(wantAllItems); // if button isn't clicked we want all items
+           todoListView.getSelectionModel().select(selectedItem);
+                   //new Predicate<TodoItem>() {
+//                @Override
+//                public boolean test(TodoItem todoItem) {
+//                    return true; // returning ture instead of false, thus returning all items
+//                }
+//            });
         }
+    }
+
+    @FXML
+    public void handleExit(){
+        Platform.exit(); // closes down the app when pressed
     }
 }

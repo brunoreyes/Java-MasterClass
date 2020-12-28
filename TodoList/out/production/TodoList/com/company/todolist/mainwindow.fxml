@@ -14,6 +14,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.ToggleButton?>
 <BorderPane fx:id="mainBorderPane" fx:controller="com.company.todolist.Controller"
             xmlns:fx="http://javafx.com/fxml"
 >
@@ -25,14 +26,14 @@
                 <items>
                     <MenuItem text="New..." onAction="#showNewItemDialog" />
                     <SeparatorMenuItem />
-                    <MenuItem text="Exit" />
+                    <MenuItem text="Exit" onAction="#handleExit"/>
                 </items>
             </Menu>
         </MenuBar>
       </VBox>
 <ToolBar>
     <HBox>
-        <Button text="New..." onKeyPressed="#showNewItemDialog" >
+        <Button text="New..." onAction="#showNewItemDialog" >
             <tooltip>
                 <Tooltip text="Add a New Todo item."/>
             </tooltip>
@@ -42,13 +43,19 @@
                 </ImageView>
             </graphic>
         </Button>
+    <ToggleButton fx:id="filterToggleButton" text="Today's Items" onAction="#handleFilterButton">
+        <tooltip>
+            <Tooltip text="Button Down: Down Button: Show Today's item's only. Up Button: Show all items"/>
+        </tooltip>
+    </ToggleButton>
     </HBox>
 </ToolBar>
     </top>
     <left>
-        <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed" >
 
+        <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed" >
         </ListView>
+
     </left>
     <center>
         <VBox style="-fx-background-color: white">
@@ -59,12 +66,12 @@
             <HBox>
                 <Label text="Due: " style="-fx-background-color: white">
                     <font>
-                        <Font name="Times New Roman bold" size="20" />
+                        <Font name="Arial bold" size="18" />
                     </font>
                 </Label>
                 <Label fx:id="deadlineLabel" style="-fx-background-color: white">
                     <font>
-                        <Font name="Times New Roman bold" size="20" />
+                        <Font name="Arial bold" size="18" />
                     </font>
                 </Label>
             </HBox>
