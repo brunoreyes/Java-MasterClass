@@ -4,6 +4,7 @@ import com.company.todolist.datamodel.TodoData;
 import com.company.todolist.datamodel.TodoItem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,7 +19,9 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class Controller { // the Controller handles interaction between UI and data model
@@ -44,6 +47,9 @@ public class Controller { // the Controller handles interaction between UI and d
 
     @FXML
     private ContextMenu listContextMenu;
+
+    @FXML
+    private ToggleButton filterToggleButton;
 
 
     public void initialize(){
@@ -94,7 +100,9 @@ public class Controller { // the Controller handles interaction between UI and d
             public void changed(ObservableValue <? extends TodoItem> observable, TodoItem oldValue, TodoItem newValue) {
                 if (newValue != null){
                     TodoItem item = todoListView.getSelectionModel().getSelectedItem();
-                    itemDetailsTextArea.setText(item.getDetails()); // setting details
+                    String formattedDetails = item.getDetails().substring(0,1).toUpperCase() + // making 1st char Uppercase
+                            item.getDetails().substring(1).toLowerCase(Locale.ROOT); // making rest of details lowercase
+                    itemDetailsTextArea.setText(formattedDetails); // setting details
 
                     DateTimeFormatter df = DateTimeFormatter.ofPattern("MMMM d, yyyy"); // using dateTime formatter
                     deadlineLabel.setText(df.format(item.getDeadline()));
@@ -103,7 +111,17 @@ public class Controller { // the Controller handles interaction between UI and d
             }
         });
 
-        todoListView.setItems(TodoData.getInstance().getTodoItems());
+        SortedList<TodoItem> sortedList =
+                new SortedList<TodoItem>(TodoData.getInstance().getTodoItems(), new Comparator<TodoItem>() {
+            @Override
+            public int compare(TodoItem o1, TodoItem o2) {
+                // returns a negative value if 01 < 02, return 0 if 01 = 02, return 1 if 01 > 02
+                return o1.getDeadline().compareTo(o2.getDeadline());
+            }
+        });
+
+//        todoListView.setItems(TodoData.getInstance().getTodoItems());
+        todoListView.setItems(sortedList); // Sets items in order of soonest due at top to later due at bottom
 //        todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // getting all items and setting them on the UI
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE); // selecting one item at a time
         todoListView.getSelectionModel().selectFirst(); // setting the first item as the view using .selectFirst()
@@ -175,7 +193,8 @@ public class Controller { // the Controller handles interaction between UI and d
 //            System.out.printf("Cancel pressed");
         }
     }
-public void handleKeyPressed(KeyEvent keyEvent){
+
+    public void handleKeyPressed(KeyEvent keyEvent){
         TodoItem selectedItem = todoListView.getSelectionModel().getSelectedItem();
         if (selectedItem != null){
             if (keyEvent.getCode().equals(KeyCode.DELETE)){
@@ -207,6 +226,14 @@ public void handleKeyPressed(KeyEvent keyEvent){
 
         if (result.isPresent() && (result.get() == ButtonType.OK)){
             TodoData.getInstance().deleteTodoItem(item);
+        }
+    }
+
+    public void handleFilterButton(){
+        if (filterToggleButton.isSelected()){
+
+        }else{
+
         }
     }
 }

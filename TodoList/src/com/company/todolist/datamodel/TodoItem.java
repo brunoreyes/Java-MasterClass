@@ -1,6 +1,7 @@
 package com.company.todolist.datamodel;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class TodoItem {
     private String shortDescription;
