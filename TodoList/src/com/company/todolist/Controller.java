@@ -4,6 +4,8 @@ import com.company.todolist.datamodel.TodoData;
 import com.company.todolist.datamodel.TodoItem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -38,8 +40,21 @@ public class Controller { // the Controller handles interaction between UI and d
     @FXML // instance var for border pane that we can ask for ref to parent calling the scene to get dialog window
     private BorderPane mainBorderPane;
 
+    @FXML
+    private ContextMenu listContextMenu;
+
 
     public void initialize(){
+
+        listContextMenu = new ContextMenu();
+        MenuItem deleteMenuItem = new MenuItem("Delete");
+        deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                TodoItem item = todoListView.getSelectionModel().getSelectedItem();
+                deleteItem(item);
+            }
+        });
 
 //        temporarily getting rid of hard coded instances
 //        TodoItem item1 = new TodoItem("Mail birthday card",
@@ -111,6 +126,15 @@ public class Controller { // the Controller handles interaction between UI and d
                         }
                     }
                 };
+                cell.emptyProperty().addListener(
+                        (obs, wasEmpty, isNowEmpty) -> {
+                            if (isNowEmpty){
+                                cell.setContextMenu(null);
+                            } else {
+                                cell.setContextMenu(listContextMenu);
+                            }
+                });
+
                 return cell;
             }
         });
@@ -162,5 +186,17 @@ public class Controller { // the Controller handles interaction between UI and d
 //        sb.append("Due: ");
 //        sb.append(item.getDeadline().toString());
 //        itemDetailsTextArea.setText(sb.toString());
+    }
+
+    public void deleteItem(TodoItem item){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Todo Item");
+        alert.setHeaderText("Delete item: " + item.getShortDescription());
+        alert.setContentText("Are you sure? Press OK to confirm, or cancel to Back out.");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && (result.get() == ButtonType.OK)){
+            TodoData.getInstance().deleteTodoItem(item);
+        }
     }
 }
