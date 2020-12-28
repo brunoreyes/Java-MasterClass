@@ -5,11 +5,12 @@ import com.company.todolist.datamodel.TodoItem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextArea;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +34,9 @@ public class Controller { // the Controller handles interaction between UI and d
 
     @FXML
     private Label deadlineLabel;
+
+    @FXML // instance var for border pane that we can ask for ref to parent calling the scene to get dialog window
+    private BorderPane mainBorderPane;
 
 
     public void initialize(){
@@ -85,6 +89,21 @@ public class Controller { // the Controller handles interaction between UI and d
         todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // getting all items and setting them on the UI
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE); // selecting one item at a time
         todoListView.getSelectionModel().selectFirst(); // setting the first item as the view using .selectFirst()
+    }
+
+    @FXML
+    public void showNewItemDialog(){
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("todoItemDialog.fxml"));
+            dialog.getDialogPane().setContent(root);
+        } catch (IOException e){
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+
     }
 
     @FXML
