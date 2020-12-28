@@ -37,8 +37,9 @@ public class TodoItem {
         this.deadline = deadline;
     }
 
-    @Override
-    public String toString() {
-        return  shortDescription;
-    }
+//    No longer need this, b/c the update item method from our cell factory is handling this functionality for us.
+//    @Override
+//    public String toString() {
+//        return  shortDescription;
+//    }
 }
