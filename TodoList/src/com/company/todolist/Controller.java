@@ -17,10 +17,10 @@ import java.util.List;
 
 public class Controller { // the Controller handles interaction between UI and data model
 
-    // singleton will create one instance over the entire run of the application
+    // singleton will create one instance of itself over the entire run of the application
     // the singleton class creates one instance of itself, having a private constructor ensuring
     // no other class can create an instance
-    // usually containing a static method
+    // usually containing a static method that allows any class to get the single instance and call's its methods
 
     private List<TodoItem> todoItems;
 
