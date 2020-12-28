@@ -6,15 +6,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,6 +92,8 @@ public class Controller { // the Controller handles interaction between UI and d
     public void showNewItemDialog(){
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.initOwner(mainBorderPane.getScene().getWindow());
+        dialog.setTitle("Add New Todo Item");
+        dialog.setHeaderText("Use this dialog to create a new todo item");
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("todoItemDialog.fxml"));
         try {
@@ -114,6 +112,10 @@ public class Controller { // the Controller handles interaction between UI and d
         if (result.isPresent() && result.get() == ButtonType.OK){
             DialogController controller = fxmlLoader.getController();
             controller.processResults();
+            // refreshing the list after adding an item by setting it to the new list
+            TodoItem newItem = controller.processResults();
+            todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // replace contents with what comes back from dialog box
+            todoListView.getSelectionModel().select(newItem); // selecting the newly added item to display details
             System.out.println("Ok Pressed");
         } else {
             System.out.printf("Cancel pressed");
