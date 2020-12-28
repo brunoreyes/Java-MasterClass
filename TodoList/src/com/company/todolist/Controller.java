@@ -1,5 +1,6 @@
 package com.company.todolist;
 
+import com.company.todolist.datamodel.TodoData;
 import com.company.todolist.datamodel.TodoItem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,32 +36,36 @@ public class Controller { // the Controller handles interaction between UI and d
 
 
     public void initialize(){
-        TodoItem item1 = new TodoItem("Mail birthday card",
-                "Buy a 'Happy 30th birthday' card for John",
-                LocalDate.of(2016, Month.APRIL, 25));
 
-        TodoItem item2 = new TodoItem("Doctor's Appointment",
-                "See Dr. Smith at 123 Main St. Bring paperwork",
-                LocalDate.of(2018, Month.MAY, 25));
+//        temporarily getting rid of hard coded instances
+//        TodoItem item1 = new TodoItem("Mail birthday card",
+//                "Buy a 'Happy 30th birthday' card for John",
+//                LocalDate.of(2016, Month.APRIL, 25));
+//
+//        TodoItem item2 = new TodoItem("Doctor's Appointment",
+//                "See Dr. Smith at 123 Main St. Bring paperwork",
+//                LocalDate.of(2018, Month.MAY, 25));
+//
+//        TodoItem item3 = new TodoItem("Finish design proposal for Toyota",
+//                "Promised Mike, I'd email website mockups by Friday 22nd April",
+//                LocalDate.of(2022, Month.JANUARY, 22));
+//
+//        TodoItem item4 = new TodoItem("Mail mom's gift ",
+//                "Mail mom's mother's day flowers",
+//                LocalDate.of(2021, Month.APRIL, 20));
+//
+//        TodoItem item5 = new TodoItem("Buy groceries",
+//                "Preferably from Trader Joe's",
+//                LocalDate.of(2020, Month.DECEMBER, 28));
 
-        TodoItem item3 = new TodoItem("Finish design proposal for Toyota",
-                "Promised Mike, I'd email website mockups by Friday 22nd April",
-                LocalDate.of(2022, Month.JANUARY, 22));
-
-        TodoItem item4 = new TodoItem("Mail mom's gift ",
-                "Mail mom's mother's day flowers",
-                LocalDate.of(2021, Month.APRIL, 20));
-
-        TodoItem item5 = new TodoItem("Buy groceries",
-                "Preferably from Trader Joe's",
-                LocalDate.of(2020, Month.DECEMBER, 28));
-
-        todoItems = new ArrayList<TodoItem>();
-        todoItems.add(item1);
-        todoItems.add(item2);
-        todoItems.add(item3);
-        todoItems.add(item4);
-        todoItems.add(item5);
+//        todoItems = new ArrayList<TodoItem>();
+//        todoItems.add(item1);
+//        todoItems.add(item2);
+//        todoItems.add(item3);
+//        todoItems.add(item4);
+//        todoItems.add(item5);
+//
+//        TodoData.getInstance().setTodoItems(todoItems); // retrieving the singleton and passing items to set to it
 
         // overriding method change, this event handler is aka an event listener
         todoListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TodoItem>() {
@@ -77,7 +82,7 @@ public class Controller { // the Controller handles interaction between UI and d
             }
         });
 
-        todoListView.getItems().setAll(todoItems); // getting all items and setting them on the UI
+        todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // getting all items and setting them on the UI
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE); // selecting one item at a time
         todoListView.getSelectionModel().selectFirst(); // setting the first item as the view using .selectFirst()
     }
