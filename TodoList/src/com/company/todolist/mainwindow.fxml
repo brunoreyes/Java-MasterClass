@@ -64,18 +64,27 @@
         </VBox>
     </top>
     <left>
-        <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed" minWidth="300" >
+        <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed" minWidth="400" >
 
         </ListView>
     </left>
     <center>
         <VBox style="-fx-background-color: white">
 
-            <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true"/>
+            <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true">
+                <font>
+                    <Font name="Arial " size="15" />
+                </font>
+            </TextArea>
 
             <!-- VBox.vgrow maximizes space for VBox and pushes all children down-->
 <!--            HBox made for the due date-->
-            <HBox>
+            <HBox >
+
+                    <padding>
+                        <Insets left="5" top="1" bottom="2"/>
+                    </padding>
+
                 <Label text="Due: " style="-fx-background-color: white">
                     <font>
                         <Font name="Arial " size="20" />

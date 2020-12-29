@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("mainwindow.fxml"));
         primaryStage.setTitle("Todo List");
-        primaryStage.setScene(new Scene(root, 700, 500));
+        primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();
     }
 
@@ -37,7 +37,7 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
         try {
-            TodoData.getInstance().loadTodoItems(); // accessing the singleton instance and strong the items
+            TodoData.getInstance().loadTodoItems(); // accessing the singleton instance and storing the items
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
