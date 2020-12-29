@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -170,14 +171,18 @@ public class Controller { // the Controller handles interaction between UI and d
                         if (empty){
                             setText(null);
                         } else {
-                            setText(item.getShortDescription());
+                            setText(item.getShortDescription().substring(0,1).toUpperCase() + item.getShortDescription().substring(1));
                             // if the item is set to be due today or before today than make the short description red
                             if (item.getDeadline().isBefore(LocalDate.now())){
                                 setTextFill(Color.MAROON);
+                                setFont(Font.font("Arial",16));
+
                             } else if (item.getDeadline().equals(LocalDate.now())){ //.plusDays(1)
                                 setTextFill(Color.RED);
+                                setFont(Font.font("Arial",16));
                             } else if (item.getDeadline().isAfter(LocalDate.now())){
                                 setTextFill(Color.ORANGE);
+                                setFont(Font.font("Arial",16));
                             }
                         }
                     }
@@ -218,7 +223,7 @@ public class Controller { // the Controller handles interaction between UI and d
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK){
             DialogController controller = fxmlLoader.getController();
-            controller.processResults();
+
             // refreshing the list after adding an item by setting it to the new list
             TodoItem newItem = controller.processResults();
 //            todoListView.getItems().setAll(TodoData.getInstance().getTodoItems()); // replace contents with what comes back from dialog box
@@ -243,6 +248,7 @@ public class Controller { // the Controller handles interaction between UI and d
     public void handleClickListView(){
         TodoItem item = (TodoItem) todoListView.getSelectionModel().getSelectedItem();
         itemDetailsTextArea.setText(item.getDetails());
+
         deadlineLabel.setText(item.getDeadline().toString());
 //        System.out.println("The selected item is "+ item); // shortcut: type: souf to print as string instead of variable
 

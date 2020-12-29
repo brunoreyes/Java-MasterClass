@@ -9,7 +9,6 @@
 <!--    Dialog pane is a layout manager utilized for dialogs-->
     <headerText>
 <!--        headerText outputs a string and can input like so below-->
-        We could put instructions here.
     </headerText>
     <content>
         <GridPane vgap="10" hgap="10">

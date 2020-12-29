@@ -85,7 +85,7 @@ public class TodoData {
     }
 
     public void deleteTodoItem(TodoItem item){
-        todoItems.remove(item);
+        todoItems.remove(item); // on mac is cfn + delete
     }
 
 

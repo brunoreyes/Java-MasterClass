@@ -16,6 +16,7 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.ToggleButton?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane fx:id="mainBorderPane" fx:controller="com.company.todolist.Controller"
             xmlns:fx="http://javafx.com/fxml"
 >
@@ -42,34 +43,47 @@
                             <Image url="@/toolbarButtonGraphics/general/New24.gif"/>
                         </ImageView>
                     </graphic>
-                </Button>
-                <ToggleButton fx:id="filterToggleButton" text="Today's Items" onAction="#handleFilterButton">
+                </Button >
+                <HBox spacing="5">
+                <padding>
+                    <Insets left="15"/>
+                </padding>
+                    </HBox>
+
+                <ToggleButton fx:id="filterToggleButton"  text="Today's Items Due" onAction="#handleFilterButton" >
+                    <font>
+                        <Font name="Arial " size="17" />
+                    </font>
                     <tooltip>
                         <Tooltip text="Button Down: Down Button: Show Today's item's only. Up Button: Show all items"/>
                     </tooltip>
                 </ToggleButton>
+
             </HBox>
         </ToolBar>
         </VBox>
     </top>
     <left>
-        <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed" >
+        <ListView fx:id="todoListView" onKeyPressed="#handleKeyPressed" minWidth="300" >
+
         </ListView>
     </left>
     <center>
         <VBox style="-fx-background-color: white">
+
             <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true"/>
-            <!-- VBox.vgrow  maxamizes space for VBox and pushes all children down-->
+
+            <!-- VBox.vgrow maximizes space for VBox and pushes all children down-->
 <!--            HBox made for the due date-->
             <HBox>
                 <Label text="Due: " style="-fx-background-color: white">
                     <font>
-                        <Font name="Arial bold" size="18" />
+                        <Font name="Arial " size="20" />
                     </font>
                 </Label>
                 <Label fx:id="deadlineLabel" style="-fx-background-color: white" >
                     <font>
-                        <Font name="Arial bold" size="18" />
+                        <Font name="Arial " size="20" />
                     </font>
                 </Label>
             </HBox>
