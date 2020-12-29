@@ -1,16 +1,16 @@
 Get Haircut before New Year's	Book an appointment with hairstylist.	31-12-2020
-Get to half way point of Java Course	Complete over 40 hours of course material consisting of challenges, object-oriented programming foundations, and best practices	26-12-2020
 Buy Groceries	Go to Trader Joe's for cheese, produce and Filet Mignon	30-12-2020
 Prep for interview	-Prepare questions ready. Prepare talking points. Have a pen and piece of paper ready for notes	29-12-2020
 Start reading the Pragmatic Programmer	This will help instill fundamentals and open a world of functional possibilities	28-12-2020
-Go Skiing with Adam and Liz	Possibly Ski at Buckhill. Need to get snowpants and borrow some goggles.	02-01-2021
+Go Skiing with Adam and Liz	Possibly Ski at Buckhill. Need to get snow pants and borrow some goggles.	02-01-2021
 Finish reading economics book	At least 10 pages each read.	28-02-2022
-Work out	Possibly do olyptical for an 30 minutes and then abdominal work outs like Russian twist and crouches.	29-12-2020
+Work out	Possibly do Elliptical for an 30 minutes and then abdominal work outs like Russian twist and crouches.	29-12-2020
 View saved weblinks of possible next projects and interesting start-ups	Weblinks are on desktop	02-01-2021
-Do laundry	Seperate blacks, whites, towels, reds, blues and kitchen towels.	29-12-2020
+Do laundry	Separate blacks, whites, towels, reds, blues and kitchen towels.	29-12-2020
 Do 4-5 hours of programming daily	Finish Section 13 on JavaFX	29-12-2020
 Get ready for New Year's	Have resolution prepared and stay safe and connect with loved ones via calls	31-12-2020
 Embedded source code and demos within Resume	This is optional but would make it easier for others to view my work.	09-01-2021
-Finish Todo List Add using new language Java	Finsihed testing for major bugs and found and recorded minor bugs. Todo list add successfully adds new items, deletes items, and filters through items.	29-12-2020
+Finish Todo List Add using new language Java	Finished testing for major bugs and found and recorded minor bugs. Todo list add successfully adds new items, deletes items, and filters through items.	29-12-2020
 Review Notes	Every Sunday	03-01-2021
 Stay current	Talk with friends and family, read up on items and listen to podcast	28-01-2022
+Make hot coco	Buy chocolate bar	29-12-2020
