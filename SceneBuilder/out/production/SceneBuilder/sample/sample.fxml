@@ -20,7 +20,7 @@ using Scene Builder-->
    <children>
       <HBox spacing="5.0" GridPane.rowIndex="1">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleAction" style="-fx-text-fill: white;" text="OK">
+            <Button mnemonicParsing="false" onAction="#handleAction" text="OK">
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin></Button>
