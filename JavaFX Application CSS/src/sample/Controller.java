@@ -39,20 +39,36 @@ public class Controller {
     @FXML
     public void handleClick(){
         // chooses a file instead of a directory (folder)
-//        FileChooser chooser = new FileChooser();
-//        chooser.showOpenDialog(null);
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Save Application File");
+
+        // Able to save choose type of file you want to save as either txt or pdf.
+        chooser.getExtensionFilters().addAll(
+//                new FileChooser.ExtensionFilter("Text", "*.txt"),
+                new FileChooser.ExtensionFilter("Zip", "*.zip"),
+                new FileChooser.ExtensionFilter("PDF", "*.pdf"),
+                new FileChooser.ExtensionFilter("Image Files", "*.jpg","*.png","*.gif"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+
   //      chooser.showOpenDialog(gridPane.getScene().getWindow()); // requiring to select a window
 //        Chooses a directory(folder)
 
+//        DirectoryChooser chooser = new DirectoryChooser();
+//        File file = chooser.showDialog(gridPane.getScene().getWindow());
+//        chooser.showDialog(gridPane.getScene().getWindow()); // requiring to select a window
 
-        DirectoryChooser chooser = new DirectoryChooser();
-        File file = chooser.showDialog(gridPane.getScene().getWindow());
+        // opens a dialog that prompts user to save a file by first naming it then choosing where to store it
+//        File file = chooser.showSaveDialog(gridPane.getScene().getWindow());
+
+        // showOpenDialog() will open up the file and gray out files that cannot be selected via filter
+        File file = chooser.showOpenDialog(gridPane.getScene().getWindow());
         if (file != null){
             System.out.println(file.getPath()); // printing out file path
         } else {
             System.out.println("Chooser was cancelled");
         }
-//        chooser.showDialog(gridPane.getScene().getWindow()); // requiring to select a window
+//
 
 
 
