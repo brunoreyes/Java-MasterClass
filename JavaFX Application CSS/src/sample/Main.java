@@ -6,13 +6,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        // changing from modena to caspian default styled theme
-     //   setUserAgentStylesheet(STYLESHEET_CASPIAN);
+//        setUserAgentStylesheet(STYLESHEET_CASPIAN);
+
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 600, 275));
         primaryStage.show();
@@ -23,3 +24,4 @@ public class Main extends Application {
         launch(args);
     }
 }
+
