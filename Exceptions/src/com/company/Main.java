@@ -10,7 +10,14 @@ public class Main {
 //        if else
 
     // E.A.F.P. - Easy to Ask for Forgiveness than Permission
-    //        try and catch
+    //        try code and catch exception
+
+//        An exception is an event which occurred during the execution of a program that
+//        disrupts the flow of the program's instructions. aka something went wrong somewhere
+
+//        Can view thrown exceptions if view exception error in terminal
+//        in terminal you can view which piece of code caused and error by going down the call stack
+
 
 //        int x = 98;
 //        int y = 0;
@@ -21,8 +28,8 @@ public class Main {
 
 //        int x = getInt();
 //        int x = getIntLBYL(); // best for this scenario just because it's more straight forward logic
-        int x = getIntEAFP();
-        System.out.println("x is " + x);
+//        int x = getIntEAFP();
+//        System.out.println("x is " + x);
     }
     private static int getInt(){
         Scanner s = new Scanner(System.in);
@@ -52,6 +59,7 @@ public class Main {
         try {
             return s.nextInt();
         } catch (InputMismatchException e){ // if input isn't matched or isn't an int
+            // better to be specific in the type of exception thrown like above
             return 0;
         }
     }
@@ -71,7 +79,7 @@ public class Main {
         }
     }
 
-    private static int divide(int x, int y){
-        return x/y; // program will crash w/o either E.A.F.P. or L.B.Y.L.
-    }
+//    private static int divide(int x, int y){
+//        return x/y; // program will crash w/o either E.A.F.P. or L.B.Y.L.
+//    }
 }
