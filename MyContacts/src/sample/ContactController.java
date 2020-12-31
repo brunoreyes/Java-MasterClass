@@ -29,5 +29,20 @@ public class ContactController {
         return newContact;
         }
 
+        // Setting the four fields within the dialog
+        public void editContact(Contact contact){
+            firstNameField.setText(contact.getFirstName());
+            lastNameField.setText(contact.getLastName());
+            phoneNumberField.setText(contact.getPhoneNumber());
+            notesField.setText(contact.getNotes());
+        }
+
+        // transferring the values back from the dialog fields back into the contact object
+        public void updateContact(Contact contact){
+            contact.setFirstName(firstNameField.getText());
+            contact.setLastName(lastNameField.getText());
+            contact.setPhoneNumber(phoneNumberField.getText());
+            contact.setNotes(notesField.getText());
+        }
     }
 
