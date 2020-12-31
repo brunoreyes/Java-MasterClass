@@ -50,7 +50,7 @@ public class ContactData {
     }
 
     // DELETE
-    public void removeContact( Contact contact){
+    public void deleteContact( Contact contact){
         contacts.remove(contact);
     }
 

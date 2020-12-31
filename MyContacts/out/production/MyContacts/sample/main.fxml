@@ -18,6 +18,9 @@
                     <items>
                         <MenuItem text="Edit..." onAction="#showEditContactDialog"/>
                     </items>
+                    <items>
+                        <MenuItem text="Delete..." onAction="#deleteContact"/>
+                    </items>
                 </Menu>
             </menus>
         </MenuBar>
@@ -29,6 +32,9 @@ action is preformed, each column is assigned to a cellValueFactory and an instan
 of the PropertyValueFactory specifically designed to be used with cellValueFactory.
 -->
         <TableView fx:id="contactsTable">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
             <columns>
                 <TableColumn text="First Name">
                     <cellValueFactory>
