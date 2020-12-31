@@ -7,8 +7,10 @@ public class Example {
         try {
             int result = divide();
             System.out.println(result);
-        } catch (ArithmeticException e){
-
+            // catching two exceptions using: exception1 | exception2, "|" is used for checking multiple exceptions
+        } catch (ArithmeticException | NoSuchElementException e){
+            System.out.println(e.toString());
+            System.out.println("Unable to perform division, autopilot is shutting down");
         }
 
     }
