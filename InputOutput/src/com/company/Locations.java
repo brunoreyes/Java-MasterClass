@@ -10,35 +10,56 @@ import java.util.Set;
 public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new HashMap<Integer, Location>();
 
-    public static void main(String[] args) {
-        FileWriter locationFile = null;
-        try { // try must have a catch or finally block
+    public static void main(String[] args) throws IOException{ // throwing an exception
+        // the caller must catch the exception or specify it will throw it.
 
-            // Make sure not to have any duplicated files within the project or else won't be created
-            locationFile = new FileWriter("locations.txt");
-            for (Location location: locations.values()){
-                // Writing data in string format and storing it in recently created file: locations.txt
-                locationFile.write(location.getLocationID() +
-                        ", " + location.getDescription() + "\n");
-            }
-
-        } catch (IOException e){
-            System.out.println("In catch block");
-            e.printStackTrace();
-        } finally {
-            System.out.println("In finally block");
-            // try & catch checking to see if location file is null and not allowing null files to be closed
-            try {
-                // Ensuring code doesn't crash
-                if (locationFile != null){
-                    System.out.println("Attempting to close location file");
-                    // Remember to CLOSE streams to avoid resource leaks & locked files errors
-                    locationFile.close();
-                }
-            } catch (IOException e){
-                e.printStackTrace();
+        // Try with Resources like this automatically ensure the file will close
+        // whether or not an exception occurs, suppressing the exception and
+        // throwing the exception from the try block
+        try(FileWriter locationFile = new FileWriter("locations.txt")) {
+            for (Location location : locations.values()){
+                locationFile.write(location.getLocationID() +", " + location.getDescription() +"\n");
             }
         }
+//        FileWriter locationFile = null; // Have to initialize outside of try and catch/finally block
+//                                        // because those blocks introduce their own scopes
+//        try { // Try block must be followed by a catch or finally block
+//
+//            // Make sure not to have any duplicated files within the project or else won't be created
+//            locationFile = new FileWriter("locations.txt");
+//            for (Location location: locations.values()){
+//                // Writing data in string format and storing it in recently created file: locations.txt
+//                locationFile.write(location.getLocationID() +
+//                        ", " + location.getDescription() + "\n");
+////                throw new IOException("test exception thrown while writing"); // testing throw
+//                // remove throw statement after production
+//            }
+//
+//        }
+//        // Got rid of catch IOException block's because I've accounted for the exception via throwing it
+////        catch (IOException e){ // an alternative to catching is throwing an exception back up the callstack
+////            System.out.println("In catch block");
+////            e.printStackTrace();
+////        }
+//        finally {
+//            System.out.println("In finally block");
+//            // try & catch checking to see if location file is null and not allowing null files to be closed
+//
+//            // got rid of try and catch for this method b/c catch functionality was taken care of in throw above
+////            try {
+//                // Ensuring code doesn't crash
+//                if (locationFile != null){
+//                    System.out.println("Attempting to close location file");
+//                    // Remember to CLOSE streams to avoid resource leaks & locked files errors
+//                    locationFile.close();
+//                }
+////            }
+//            // Got rid of catch IOException block's because I've accounted for the exception via throwing it
+//
+////            catch (IOException e){
+////                e.printStackTrace();
+////            }
+//        }
     }
 
     static {
