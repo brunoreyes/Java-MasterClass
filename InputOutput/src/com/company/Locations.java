@@ -1,5 +1,7 @@
 package com.company;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +9,37 @@ import java.util.Set;
 
 public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new HashMap<Integer, Location>();
+
+    public static void main(String[] args) {
+        FileWriter locationFile = null;
+        try { // try must have a catch or finally block
+
+            // Make sure not to have any duplicated files within the project or else won't be created
+            locationFile = new FileWriter("locations.txt");
+            for (Location location: locations.values()){
+                // Writing data in string format and storing it in recently created file: locations.txt
+                locationFile.write(location.getLocationID() +
+                        ", " + location.getDescription() + "\n");
+            }
+
+        } catch (IOException e){
+            System.out.println("In catch block");
+            e.printStackTrace();
+        } finally {
+            System.out.println("In finally block");
+            // try & catch checking to see if location file is null and not allowing null files to be closed
+            try {
+                // Ensuring code doesn't crash
+                if (locationFile != null){
+                    System.out.println("Attempting to close location file");
+                    // Remember to CLOSE streams to avoid resource leaks & locked files errors
+                    locationFile.close();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     static {
         Map<String, Integer> tempExit = new HashMap<String, Integer>();
