@@ -83,54 +83,81 @@ public class Locations implements Map<Integer, Location> {
     }
 
     static {
-        try( Scanner scanner = new Scanner(new BufferedReader(new FileReader("locations_big.txt")))) { // has to be initialized outside of try block in order to use it
-                                            // Implemented BufferedReader to read in chucks rather than in characters
 
-            // FileReader isn't closed b/c when scanner is closed, everything
-            // the source for a scanner must be an object that has a readable interface.
-            // Scanner automatically closes down making us not have to close down the scanner.
+        try(DataInputStream locFile = new DataInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+            boolean eof = false; // eof or end of file
+            while(!eof) { // while not end of file
+                try {
+                    Map<String, Integer> exits = new LinkedHashMap<>();
+                    int locID = locFile.readInt();
+                    String description = locFile.readUTF();
+                    int numExits = locFile.readInt();
+                    System.out.println("Read location " + locID + " : " + description);
+                    System.out.println("Found " + numExits + " exits");
+                    for(int i=0; i<numExits; i++) {
+                        String direction = locFile.readUTF(); // reading unicode
+                        int destination = locFile.readInt();
+                        exits.put(direction, destination);
+                        System.out.println("\t\t" + direction + "," + destination);
+                    }
+                    locations.put(locID, new Location(locID, description, exits));
 
-            scanner.useDelimiter(",");
-            // useDelimiter() lets scanner know our info should be separated, in this case by a comma
-            while (scanner.hasNextLine()){
-                int locationNumber = scanner.nextInt();
-                scanner.skip(scanner.delimiter());
-                String descriptionString = scanner.nextLine();
-                System.out.println("Imported location: " + locationNumber + ": " + descriptionString);
-                Map<String, Integer> tempExit = new HashMap<>();
-                locations.put(locationNumber, new Location(locationNumber, descriptionString, tempExit));
+                } catch(EOFException e) { // end of file exception
+                    eof = true;
+                }
+
             }
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch(IOException io) {
+            System.out.println("IO Exception");
         }
-
-        // Now reading the exits
-        // to read files we create file reader objects, then buffered the streams so large chunks of data are read into
-        // memory using BufferedReader preventing excessive access to the disk, so data is only read from the disk when
-        // the buffer is empty, otherwise the file reader continues to take data from the memory buffer. Reducing disc
-        // access time
-        try (BufferedReader directionFile = (new BufferedReader(new FileReader("directions_big.txt")))){
-            String input;
-            while ((input = directionFile.readLine()) != null ){
+//        try( Scanner scanner = new Scanner(new BufferedReader(new FileReader("locations_big.txt")))) { // has to be initialized outside of try block in order to use it
+//                                            // Implemented BufferedReader to read in chucks rather than in characters
+//
+//            // FileReader isn't closed b/c when scanner is closed, everything
+//            // the source for a scanner must be an object that has a readable interface.
+//            // Scanner automatically closes down making us not have to close down the scanner.
+//
+//            scanner.useDelimiter(",");
+//            // useDelimiter() lets scanner know our info should be separated, in this case by a comma
+//            while (scanner.hasNextLine()){
 //                int locationNumber = scanner.nextInt();
 //                scanner.skip(scanner.delimiter());
-//                String direction = scanner.next();
-//                scanner.skip(scanner.delimiter()); // going to the next comma (delimiter)
-//                String destination = scanner.nextLine();
-//                int destinationNumber = Integer.parseInt(destination); // converting the String to an int
-                String[] data = input.split(",");
-                int locationNumber = Integer.parseInt(data[0]);
-                String direction = data[1];
-                int destinationNumber = Integer.parseInt(data[2]);
-
-                System.out.println(locationNumber + ": " + direction + ": " + destinationNumber);
-                Location location = locations.get(locationNumber);
-                location.addExit(direction, destinationNumber);
-
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+//                String descriptionString = scanner.nextLine();
+//                System.out.println("Imported location: " + locationNumber + ": " + descriptionString);
+//                Map<String, Integer> tempExit = new HashMap<>();
+//                locations.put(locationNumber, new Location(locationNumber, descriptionString, tempExit));
+//            }
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
+//
+//        // Now reading the exits
+//        // to read files we create file reader objects, then buffered the streams so large chunks of data are read into
+//        // memory using BufferedReader preventing excessive access to the disk, so data is only read from the disk when
+//        // the buffer is empty, otherwise the file reader continues to take data from the memory buffer. Reducing disc
+//        // access time
+//        try (BufferedReader directionFile = (new BufferedReader(new FileReader("directions_big.txt")))){
+//            String input;
+//            while ((input = directionFile.readLine()) != null ){
+////                int locationNumber = scanner.nextInt();
+////                scanner.skip(scanner.delimiter());
+////                String direction = scanner.next();
+////                scanner.skip(scanner.delimiter()); // going to the next comma (delimiter)
+////                String destination = scanner.nextLine();
+////                int destinationNumber = Integer.parseInt(destination); // converting the String to an int
+//                String[] data = input.split(",");
+//                int locationNumber = Integer.parseInt(data[0]);
+//                String direction = data[1];
+//                int destinationNumber = Integer.parseInt(data[2]);
+//
+//                System.out.println(locationNumber + ": " + direction + ": " + destinationNumber);
+//                Location location = locations.get(locationNumber);
+//                location.addExit(direction, destinationNumber);
+//
+//            }
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
     }
 
     @Override
