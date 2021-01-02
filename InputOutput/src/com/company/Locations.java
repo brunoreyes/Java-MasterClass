@@ -87,6 +87,10 @@ public class Locations implements Map<Integer, Location> {
 ////            }
 //        }
     }
+//    1. The first four bytes will contain the number of locations (bytes 0-3)
+//    2. The next four bytes will contain the start offset of the locations section (bytes 4-7)
+//    3. The next section of the file will contain the index ( index is 1692 bytes long. ranges from byte 8 to 1699)
+//    4. The final section of the file will contain the location record (the data). It will start at byte 1700
 
     static {
 
@@ -124,8 +128,10 @@ public class Locations implements Map<Integer, Location> {
                         eof = true;
                     }
                 }
+            } catch(InvalidClassException e) {
+            System.out.println("InvalidClassException " + e.getMessage());
             } catch(IOException io) {
-                System.out.println("IO Exception" + io.getMessage());
+                System.out.println("IO Exception " + io.getMessage());
             } catch(ClassNotFoundException e) {
                 System.out.println("ClassNotFoundException " + e.getMessage());
             }

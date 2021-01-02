@@ -10,7 +10,7 @@ public class Location {
     private final String description; // ensuring that fields can't be changed in the future
     private final Map<String, Integer> exits; // Map<key StringType, value IntType, key is a direction
 
-    private long serialVersionUID = 1l;
+//    private long serialVersionUID = 1l;
 
     public Location(int locationID, String description, Map<String, Integer> exits) {
         this.locationID = locationID;

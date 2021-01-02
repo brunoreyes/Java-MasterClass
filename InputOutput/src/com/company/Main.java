@@ -8,6 +8,9 @@ public class Main {
     private static Locations locations = new Locations();
     public static void main(String[] args) {
 
+//        startByte = (n - 1) * 30 great for same location length, but not in this case, better to use an index
+
+
 //        A java byte stream can itself be used to read/write any of the primitive types and String variables,
 //        eliminating the need for parsing
 
@@ -56,7 +59,6 @@ public class Main {
                     }
                 }
             }else {
-
             }
 
             if (exits.containsKey(direction)){
