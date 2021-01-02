@@ -4,49 +4,54 @@ import java.io.*;
 import java.util.*;
 
 public class Locations implements Map<Integer, Location> {
-    private static Map<Integer, Location> locations = new LinkedHashMap<>();
+    private static Map<Integer, Location> locations = new LinkedHashMap<Integer, Location>();
 
-    public static void main(String[] args) throws IOException{ // throwing an exception
+    public static void main(String[] args) throws IOException { // throwing an exception
+        try (ObjectOutputStream locationFile =
+                     new ObjectOutputStream((new BufferedOutputStream(new FileOutputStream("locations.dat"))))) {
+            for (Location location: locations.values()){
+                locationFile.writeObject(location);
+            }
+
+        }
+    }
+
 //        try (DataOutputStream locationFile =
 //             new DataOutputStream((new BufferedOutputStream(new FileOutputStream("locations.dat"))))) {
-//                                                        // .dat file is used bc it has binary written within it
-//                                                        // locations and exits are now all written within same file
-//            for (Location location: locations.values()){
+//            // .dat file is used bc it has binary written within it
+//            // locations and exits are now all written within same file
+//            for (Location location : locations.values()) {
 //                locationFile.writeInt((location.getLocationID()));
 //                locationFile.writeUTF(location.getDescription());
 //                System.out.println("Writing location " + location.getLocationID() + " : " +
 //                        location.getDescription());
-//                System.out.println("Writing " + (location.getExits().size() -1) + " exits.");
-//                locationFile.writeInt(location.getExits().size() -1); // deducted one to avoid recording quit
-//                for (String direction: location.getExits().keySet()){
-//                    if (!direction.equalsIgnoreCase("Q")){
+//                System.out.println("Writing " + (location.getExits().size() - 1) + " exits.");
+//                locationFile.writeInt(location.getExits().size() - 1); // deducted one to avoid recording quit
+//                for (String direction : location.getExits().keySet()) {
+//                    if (!direction.equalsIgnoreCase("Q")) {
 //                        System.out.println("\t\t" + direction + ", " + location.getExits().get(direction));
 //                        locationFile.writeUTF(direction);
 //                        locationFile.writeInt(location.getExits().get(direction));
 //                    }
 //                }
 //            }
-            try (ObjectOutputStream locationFile =
-                new ObjectOutputStream((new BufferedOutputStream(new FileOutputStream("locations.dat"))))) {
-                for (Location location: locations.values()){
-                    locationFile.writeObject(location);
-                }
+//        }
 
-        }
-//        try(BufferedWriter locationFile = new BufferedWriter(new FileWriter("locations.txt"));
-//            BufferedWriter directionFile = new BufferedWriter(new FileWriter("directions.txt"))) {
+//        try (BufferedWriter locationFile = new BufferedWriter(new FileWriter("locations.txt"));
+//             BufferedWriter directionFile = new BufferedWriter(new FileWriter("directions.txt"))) {
 //            // the location and description is being written first
-//            for (Location location : locations.values()){
-//                locationFile.write(location.getLocationID() +"," + location.getDescription() +"\n");
+//            for (Location location : locations.values()) {
+//                locationFile.write(location.getLocationID() + "," + location.getDescription() + "\n");
 //                // looping through the location, going through all of the exits for the given location
-//                for (String direction: location.getExits().keySet()){
-//                    if (!direction.equalsIgnoreCase("Q")){ // avoiding the quit options
+//                for (String direction : location.getExits().keySet()) {
+//                    if (!direction.equalsIgnoreCase("Q")) { // avoiding the quit options
 //                        directionFile.write(location.getLocationID() + "," +
-//                                direction + "," +location.getExits().get(direction) + "\n");
+//                                direction + "," + location.getExits().get(direction) + "\n");
 //                    }
 //                }
 //            }
 //        }
+//    }
 //        FileWriter locationFile = null; // Have to initialize outside of try and catch/finally block
 //                                        // because those blocks introduce their own scopes
 //        try { // Try block must be followed by a catch or finally block
@@ -86,16 +91,40 @@ public class Locations implements Map<Integer, Location> {
 ////                e.printStackTrace();
 ////            }
 //        }
-    }
+
 //    1. The first four bytes will contain the number of locations (bytes 0-3)
 //    2. The next four bytes will contain the start offset of the locations section (bytes 4-7)
 //    3. The next section of the file will contain the index ( index is 1692 bytes long. ranges from byte 8 to 1699)
 //    4. The final section of the file will contain the location record (the data). It will start at byte 1700
 
+
+
     static {
 
         try(ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
             boolean eof = false; // eof: end of file
+            while(!eof) {
+                try {
+                    Location location = (Location) locFile.readObject();
+                    System.out.println("Read location " + location.getLocationID() + " : " + location.getDescription());
+                    System.out.println("Found " + location.getExits().size() + " exits");
+
+                    locations.put(location.getLocationID(), location);
+                } catch(EOFException e) {
+                    eof = true;
+                }
+            }
+        } catch(InvalidClassException e) {
+            System.out.println("InvalidClassException " + e.getMessage());
+        } catch(IOException io) {
+            System.out.println("IO Exception " + io.getMessage());
+        } catch(ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException " + e.getMessage());
+        }
+    }
+
+
+
 //            while(!eof) { // while not end of file
 //                try {
 //                    Map<String, Integer> exits = new LinkedHashMap<>();
@@ -117,24 +146,7 @@ public class Locations implements Map<Integer, Location> {
 //                }
 //
 //            }
-                while(!eof) {
-                    try {
-                        Location location = (Location) locFile.readObject();
-                        System.out.println("Read location " + location.getLocationID() + " : " + location.getDescription());
-                        System.out.println("Found " + location.getExits().size() + " exits");
 
-                        locations.put(location.getLocationID(), location);
-                    } catch(EOFException e) {
-                        eof = true;
-                    }
-                }
-            } catch(InvalidClassException e) {
-            System.out.println("InvalidClassException " + e.getMessage());
-            } catch(IOException io) {
-                System.out.println("IO Exception " + io.getMessage());
-            } catch(ClassNotFoundException e) {
-                System.out.println("ClassNotFoundException " + e.getMessage());
-            }
 
 //        try( Scanner scanner = new Scanner(new BufferedReader(new FileReader("locations_big.txt")))) { // has to be initialized outside of try block in order to use it
 //                                            // Implemented BufferedReader to read in chucks rather than in characters
@@ -184,7 +196,7 @@ public class Locations implements Map<Integer, Location> {
 //        } catch (IOException e){
 //            e.printStackTrace();
 //        }
-    }
+
 
     @Override
     public int size() {

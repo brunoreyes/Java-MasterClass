@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Main {
     private static Locations locations = new Locations();
+
     public static void main(String[] args) {
 
 //        startByte = (n - 1) * 30 great for same location length, but not in this case, better to use an index
