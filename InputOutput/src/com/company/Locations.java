@@ -70,11 +70,9 @@ public class Locations implements Map<Integer, Location> {
     }
 
     static {
-        Scanner scanner = null; // has to be initialized outside of try block in order to use it
-        // in catch or finally
+        try( Scanner scanner = new Scanner(new FileReader("locations_big.txt"))) { // has to be initialized outside of try block in order to use it
+             // in catch or finally
 
-        try {
-            scanner = new Scanner(new FileReader("locations_big.txt"));
             // FileReader isn't closed b/c when scanner is closed, everything
             // the source for a scanner must be an object that has a readable interface.
             // Scanner automatically closes down making us not have to close down the scanner.
@@ -90,24 +88,18 @@ public class Locations implements Map<Integer, Location> {
             }
         } catch (IOException e){
             e.printStackTrace();
-        } finally {
-            if (scanner != null){
-                scanner.close();
-            }
         }
 
         // Now reading the exits
-        try {
-            scanner = new Scanner(new BufferedReader(new FileReader("directions_big.txt")));
-            scanner.useDelimiter(",");
-            while (scanner.hasNextLine()){
+        try (BufferedReader directionFile = (new BufferedReader(new FileReader("directions_big.txt")))){
+            String input;
+            while ((input = directionFile.readLine()) != null ){
 //                int locationNumber = scanner.nextInt();
 //                scanner.skip(scanner.delimiter());
 //                String direction = scanner.next();
 //                scanner.skip(scanner.delimiter()); // going to the next comma (delimiter)
 //                String destination = scanner.nextLine();
 //                int destinationNumber = Integer.parseInt(destination); // converting the String to an int
-                String input = scanner.nextLine();
                 String[] data = input.split(",");
                 int locationNumber = Integer.parseInt(data[0]);
                 String direction = data[1];
@@ -120,11 +112,12 @@ public class Locations implements Map<Integer, Location> {
             }
         } catch (IOException e){
             e.printStackTrace();
-        } finally {
-            if (scanner != null){
-                scanner.close();
-            }
-        }
+        } // finally no longer needed because the file automatically closes
+//        finally {
+//            if (scanner != null){
+//                scanner.close();
+//            }
+//        }
 
 //        Map<String, Integer> tempExit = new HashMap<String, Integer>();
 //        locations.put(0, new Location(0, "You are sitting in front of a computer learning Java", tempExit));
