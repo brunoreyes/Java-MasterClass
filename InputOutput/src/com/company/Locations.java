@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,11 +20,11 @@ public class Locations implements Map<Integer, Location> {
             FileWriter directionFile = new FileWriter("directions.txt")) {
             // the location and description is being written first
             for (Location location : locations.values()){
-                locationFile.write(location.getLocationID() +", " + location.getDescription() +"\n");
+                locationFile.write(location.getLocationID() +"," + location.getDescription() +"\n");
                 // looping through the location, going through all of the exits for the given location
                 for (String direction: location.getExits().keySet()){
-                    directionFile.write(location.getLocationID() + ", " +
-                            direction + ", " +location.getExits().get(direction) + "\n");
+                    directionFile.write(location.getLocationID() + "," +
+                            direction + "," +location.getExits().get(direction) + "\n");
                 }
             }
         }
@@ -80,12 +81,42 @@ public class Locations implements Map<Integer, Location> {
             scanner.useDelimiter(",");
             // useDelimiter() lets scanner know our info should be separated, in this case by a comma
             while (scanner.hasNextLine()){
-                int location = scanner.nextInt();
+                int locationNumber = scanner.nextInt();
                 scanner.skip(scanner.delimiter());
-                String description = scanner.nextLine();
-                System.out.println("Imported location: " + location + ": " + description);
+                String descriptionString = scanner.nextLine();
+                System.out.println("Imported location: " + locationNumber + ": " + descriptionString);
                 Map<String, Integer> tempExit = new HashMap<>();
-                locations.put(location, new Location(location, description, tempExit));
+                locations.put(locationNumber, new Location(locationNumber, descriptionString, tempExit));
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            if (scanner != null){
+                scanner.close();
+            }
+        }
+
+        // Now reading the exits
+        try {
+            scanner = new Scanner(new BufferedReader(new FileReader("directions.txt")));
+            scanner.useDelimiter(",");
+            while (scanner.hasNextLine()){
+//                int locationNumber = scanner.nextInt();
+//                scanner.skip(scanner.delimiter());
+//                String direction = scanner.next();
+//                scanner.skip(scanner.delimiter()); // going to the next comma (delimiter)
+//                String destination = scanner.nextLine();
+//                int destinationNumber = Integer.parseInt(destination); // converting the String to an int
+                String input = scanner.nextLine();
+                String[] data = input.split(",");
+                int locationNumber = Integer.parseInt(data[0]);
+                String direction = data[1];
+                int destinationNumber = Integer.parseInt(data[2]);
+
+                System.out.println(locationNumber + ": " + direction + ": " + destinationNumber);
+                Location location = locations.get(locationNumber);
+                location.addExit(direction, destinationNumber);
+
             }
         } catch (IOException e){
             e.printStackTrace();

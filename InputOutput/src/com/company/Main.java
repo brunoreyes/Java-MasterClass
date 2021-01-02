@@ -35,7 +35,7 @@ public class Main {
             Map<String, Integer> exits = locations.get(loc).getExits();
             System.out.println("Available exits are: ");
             for (String exit: exits.keySet()){
-                System.out.print(exit + ", "); // mapping out exits
+                System.out.print(exit + ","); // mapping out exits
             }
             System.out.println();
 
