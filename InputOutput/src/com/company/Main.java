@@ -25,7 +25,8 @@ public class Main {
         vocabulary.put("EAST", "E");
         vocabulary.put("WEST", "W");
 
-        int loc = 1;
+        int loc = 64; // introducing a new starting point giving me a complex junction
+//        int loc = 1;
         while (true){ // while loc # exist
             System.out.println(locations.get(loc).getDescription());
             if (loc == 0){

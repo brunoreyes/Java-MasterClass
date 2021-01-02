@@ -74,7 +74,7 @@ public class Locations implements Map<Integer, Location> {
         // in catch or finally
 
         try {
-            scanner = new Scanner(new FileReader("locations.txt"));
+            scanner = new Scanner(new FileReader("locations_big.txt"));
             // FileReader isn't closed b/c when scanner is closed, everything
             // the source for a scanner must be an object that has a readable interface.
             // Scanner automatically closes down making us not have to close down the scanner.
@@ -98,7 +98,7 @@ public class Locations implements Map<Integer, Location> {
 
         // Now reading the exits
         try {
-            scanner = new Scanner(new BufferedReader(new FileReader("directions.txt")));
+            scanner = new Scanner(new BufferedReader(new FileReader("directions_big.txt")));
             scanner.useDelimiter(",");
             while (scanner.hasNextLine()){
 //                int locationNumber = scanner.nextInt();
