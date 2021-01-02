@@ -7,21 +7,40 @@ public class Locations implements Map<Integer, Location> {
     private static Map<Integer, Location> locations = new LinkedHashMap<>();
 
     public static void main(String[] args) throws IOException{ // throwing an exception
-
-        try(BufferedWriter locationFile = new BufferedWriter(new FileWriter("locations.txt"));
-            BufferedWriter directionFile = new BufferedWriter(new FileWriter("directions.txt"))) {
-            // the location and description is being written first
-            for (Location location : locations.values()){
-                locationFile.write(location.getLocationID() +"," + location.getDescription() +"\n");
-                // looping through the location, going through all of the exits for the given location
+        try (DataOutputStream locationFile =
+             new DataOutputStream((new BufferedOutputStream(new FileOutputStream("locations.dat"))))) {
+                                                        // .dat file is used bc it has binary written within it
+                                                        // locations and exits are now all written within same file
+            for (Location location: locations.values()){
+                locationFile.writeInt((location.getLocationID()));
+                locationFile.writeUTF(location.getDescription());
+                System.out.println("Writing location " + location.getLocationID() + " : " +
+                        location.getDescription());
+                System.out.println("Writing " + (location.getExits().size() -1) + " exits.");
+                locationFile.writeInt(location.getExits().size() -1); // deducted one to avoid recording quit
                 for (String direction: location.getExits().keySet()){
-                    if (!direction.equalsIgnoreCase("Q")){ // avoiding the quit options
-                        directionFile.write(location.getLocationID() + "," +
-                                direction + "," +location.getExits().get(direction) + "\n");
+                    if (!direction.equalsIgnoreCase("Q")){
+                        System.out.println("\t\t" + direction + ", " + location.getExits().get(direction));
+                        locationFile.writeUTF(direction);
+                        locationFile.writeInt(location.getExits().get(direction));
                     }
                 }
             }
         }
+//        try(BufferedWriter locationFile = new BufferedWriter(new FileWriter("locations.txt"));
+//            BufferedWriter directionFile = new BufferedWriter(new FileWriter("directions.txt"))) {
+//            // the location and description is being written first
+//            for (Location location : locations.values()){
+//                locationFile.write(location.getLocationID() +"," + location.getDescription() +"\n");
+//                // looping through the location, going through all of the exits for the given location
+//                for (String direction: location.getExits().keySet()){
+//                    if (!direction.equalsIgnoreCase("Q")){ // avoiding the quit options
+//                        directionFile.write(location.getLocationID() + "," +
+//                                direction + "," +location.getExits().get(direction) + "\n");
+//                    }
+//                }
+//            }
+//        }
 //        FileWriter locationFile = null; // Have to initialize outside of try and catch/finally block
 //                                        // because those blocks introduce their own scopes
 //        try { // Try block must be followed by a catch or finally block
@@ -88,7 +107,8 @@ public class Locations implements Map<Integer, Location> {
         // Now reading the exits
         // to read files we create file reader objects, then buffered the streams so large chunks of data are read into
         // memory using BufferedReader preventing excessive access to the disk, so data is only read from the disk when
-        // the buffer is empty, otherwise the file reader continues to take data from the memory buffer. So our
+        // the buffer is empty, otherwise the file reader continues to take data from the memory buffer. Reducing disc
+        // access time
         try (BufferedReader directionFile = (new BufferedReader(new FileReader("directions_big.txt")))){
             String input;
             while ((input = directionFile.readLine()) != null ){
