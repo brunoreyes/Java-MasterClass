@@ -11,6 +11,16 @@ public class Main {
 //        A java byte stream can itself be used to read/write any of the primitive types and String variables,
 //        eliminating the need for parsing
 
+//        Object input/output steam classes can read and write objects as a single unit.
+//        When writing an object to a file, it has to be translated to a format that can be stored to a file
+//        and reassembled into an object later when read by an application.
+
+//        The process of translating a data structure or an object into a format that can be stored and recreated
+//        is called Serialization. This can be done by using a serialization interface, having no methods.
+//        When creating a serialized class, it's best practice to create a private long field called SerialVersionUId
+//        Serialization can work with LinkedHashMap as well b/c it implements the serialized interface
+
+
         Scanner scanner = new Scanner(System.in);
 // Instead of using hashmap this time around. I've placed a map interface within Class Locations
         Map<String, String> vocabulary = new HashMap<String, String>(); // <keyType, valueType>
