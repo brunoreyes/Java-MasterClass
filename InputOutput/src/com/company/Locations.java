@@ -1,30 +1,24 @@
 package com.company;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Locations implements Map<Integer, Location> {
-    private static Map<Integer, Location> locations = new HashMap<Integer, Location>();
+    private static Map<Integer, Location> locations = new LinkedHashMap<>();
 
     public static void main(String[] args) throws IOException{ // throwing an exception
-        // the caller must catch the exception or specify it will throw it.
 
-        // Try with Resources like this automatically ensure the file will close
-        // whether or not an exception occurs, suppressing the exception and
-        // throwing the exception from the try block.
-        // Let Try with Resources close the file, do not do it manually
-        try(FileWriter locationFile = new FileWriter("locations.txt");
-            FileWriter directionFile = new FileWriter("directions.txt")) {
+        try(BufferedWriter locationFile = new BufferedWriter(new FileWriter("locations.txt"));
+            BufferedWriter directionFile = new BufferedWriter(new FileWriter("directions.txt"))) {
             // the location and description is being written first
             for (Location location : locations.values()){
                 locationFile.write(location.getLocationID() +"," + location.getDescription() +"\n");
                 // looping through the location, going through all of the exits for the given location
                 for (String direction: location.getExits().keySet()){
-                    directionFile.write(location.getLocationID() + "," +
-                            direction + "," +location.getExits().get(direction) + "\n");
+                    if (!direction.equalsIgnoreCase("Q")){ // avoiding the quit options
+                        directionFile.write(location.getLocationID() + "," +
+                                direction + "," +location.getExits().get(direction) + "\n");
+                    }
                 }
             }
         }
@@ -70,12 +64,13 @@ public class Locations implements Map<Integer, Location> {
     }
 
     static {
-        try( Scanner scanner = new Scanner(new FileReader("locations_big.txt"))) { // has to be initialized outside of try block in order to use it
-             // in catch or finally
+        try( Scanner scanner = new Scanner(new BufferedReader(new FileReader("locations_big.txt")))) { // has to be initialized outside of try block in order to use it
+                                            // Implemented BufferedReader to read in chucks rather than in characters
 
             // FileReader isn't closed b/c when scanner is closed, everything
             // the source for a scanner must be an object that has a readable interface.
             // Scanner automatically closes down making us not have to close down the scanner.
+
             scanner.useDelimiter(",");
             // useDelimiter() lets scanner know our info should be separated, in this case by a comma
             while (scanner.hasNextLine()){
@@ -91,6 +86,9 @@ public class Locations implements Map<Integer, Location> {
         }
 
         // Now reading the exits
+        // to read files we create file reader objects, then buffered the streams so large chunks of data are read into
+        // memory using BufferedReader preventing excessive access to the disk, so data is only read from the disk when
+        // the buffer is empty, otherwise the file reader continues to take data from the memory buffer. So our
         try (BufferedReader directionFile = (new BufferedReader(new FileReader("directions_big.txt")))){
             String input;
             while ((input = directionFile.readLine()) != null ){
@@ -112,45 +110,7 @@ public class Locations implements Map<Integer, Location> {
             }
         } catch (IOException e){
             e.printStackTrace();
-        } // finally no longer needed because the file automatically closes
-//        finally {
-//            if (scanner != null){
-//                scanner.close();
-//            }
-//        }
-
-//        Map<String, Integer> tempExit = new HashMap<String, Integer>();
-//        locations.put(0, new Location(0, "You are sitting in front of a computer learning Java", tempExit));
-//
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("W", 2);
-//        tempExit.put("E", 3);
-//        tempExit.put("S", 4);
-//        tempExit.put("N", 5);
-//        locations.put(1, new Location(1, "You are standing at the end of a road before a small brick building", tempExit));
-//
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("N", 5);
-//        locations.put(2, new Location(2, "You are at the top of a hill", tempExit));
-//
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("W", 1);
-//        locations.put(3, new Location(3, "You are inside a building, a well house for a small spring", tempExit));
-//
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("N", 1);
-//        tempExit.put("W", 2);
-//        locations.put(4, new Location(4, "You are in a valley beside a stream", tempExit));
-//
-//
-//        tempExit = new HashMap<String, Integer>();
-//        tempExit.put("S", 1);
-//        tempExit.put("W", 2);
-//        locations.put(5, new Location(5, "You are in the forest", tempExit));
+        }
     }
 
     @Override

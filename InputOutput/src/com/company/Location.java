@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 // based on Colossal Cave Adventure Game
@@ -13,9 +14,9 @@ public class Location {
         this.locationID = locationID;
         this.description = description;
         if (exits != null){
-            this.exits = new HashMap<String, Integer>(exits);
+            this.exits = new LinkedHashMap<String, Integer>(exits); // Utilizing LinkedHashMap to have ordered elements
         } else { // if null was passed in as a user's inputted exit choice
-            this.exits = new HashMap<String, Integer>(); // this time not passing any valid data
+            this.exits = new LinkedHashMap<String, Integer>(); // this time not passing any valid data
         }
 
         this.exits.put("Q",0); //adding the ability to quit out of the program from any location
@@ -34,7 +35,7 @@ public class Location {
     }
 
     public Map<String, Integer> getExits() {
-        return new HashMap<String, Integer>(exits); // returning new hashmap of exits
+        return new LinkedHashMap<String, Integer>(exits); // returning new hashmap of exits
         // nothing outside of class can change exits
 
         // the getter returns a copy of the exits so if the calling program wants to add/remove
