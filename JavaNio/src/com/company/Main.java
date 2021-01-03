@@ -3,6 +3,7 @@ package com.company;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
@@ -56,10 +57,10 @@ public class Main {
 
 
             // Creating a byte array for the string I want to output
-            byte[] outputByte = "Hello World!".getBytes(); // 12 bytes were written
+            byte[] outputBytes = "Hello World!".getBytes(); // 12 bytes were written
 
             // wrapping the byte array into a buffer, modifying the array/buffer changes the buffer/array.
-            ByteBuffer buffer = ByteBuffer.wrap(outputByte);
+            ByteBuffer buffer = ByteBuffer.wrap(outputBytes);
             // when calling wrap(), you tell the run time that you want to use the byte array as the buffer
 
             int numBytes = binaryChannel.write(buffer); // using channel to write
@@ -67,15 +68,16 @@ public class Main {
 
             // Calling ByteBuffer.allocate() and passing the size we want the buffer to be an Int value
             ByteBuffer intBuffer = ByteBuffer.allocate(Integer.BYTES);
-            
-            intBuffer.putInt(-98765); //
-            intBuffer.flip(); //always recall to set position of buffer back to 0 using the flip method
-
             intBuffer.putInt(245);
             intBuffer.flip(); // sets the buffers position back to zero
+            numBytes = binaryChannel.write(intBuffer);
+            System.out.println("numBytes written was: " + numBytes);
+
+            intBuffer.flip();
+            intBuffer.putInt(-98765); //
+            intBuffer.flip(); //always recall to set position of buffer back to 0 using the flip method
             numBytes = binaryChannel.write(intBuffer); // starting read at the buffer's position (245)
                                                         // not starting position is 0
-
             System.out.println("numBytes was written as " + numBytes); //  0 bytes were written
 
 
@@ -95,6 +97,53 @@ public class Main {
 //            for (String line : lines){
 //                System.out.println(line);
 //            }
+            RandomAccessFile ra = new RandomAccessFile("data.dat", "rwd");
+            FileChannel channel = ra.getChannel();
+            // changes outputBytes variable to abllo World!, read method isn't returning expectedly
+            outputBytes[0] = 'a';
+            outputBytes[1] = 'b';
+            buffer.flip(); // always remember to call flip
+            // now the read method returns  Hello World!
+
+            long numBytesRead = channel.read(buffer);
+
+            if (buffer.hasArray()){
+                System.out.println("byte buffer = " + new String(buffer.array()));
+            }
+//      Absolute Read, allowing us to forgo using the flip method for the buffer after reading from
+//            the file channel
+            intBuffer.flip();
+            numBytesRead = channel.read(intBuffer);
+            System.out.println(intBuffer.getInt(0));
+            intBuffer.flip();
+            numBytesRead = channel.read(intBuffer);
+            System.out.println(intBuffer.getInt(0));
+
+//      Relative Read
+//            intBuffer.flip();
+//            numBytesRead = channel.read(intBuffer);
+//            intBuffer.flip();
+//            System.out.println(intBuffer.getInt());
+//            intBuffer.flip();
+//            numBytesRead = channel.read(intBuffer);
+//            intBuffer.flip();
+//            System.out.println(intBuffer.getInt());
+//            channel.close();
+//            ra.close();
+
+//            System.out.println("outputBytes = " + new String(outputBytes));
+
+//            // retrieving data via RandomAccessFile Class
+//            RandomAccessFile ra = new RandomAccessFile("data.dat", "rwd");
+//            byte[] b = new byte[outputByte.length];
+//            ra.read(b); // what is read goes into the byte array
+//            System.out.println(new String(b));
+//
+//            // reading in the two integers
+//            long int1 = ra.readInt();
+//            long int2 = ra.readInt();
+//            System.out.println(int1);
+//            System.out.println(int2);
 
         } catch (IOException e){
             e.printStackTrace();
