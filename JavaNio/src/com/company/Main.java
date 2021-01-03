@@ -1,9 +1,6 @@
 package com.company;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
@@ -57,16 +54,59 @@ public class Main {
             // Mantra for fixing errors in java.NIO: when something goes wrong, flip
 
             ByteBuffer buffer = ByteBuffer.allocate(100);
+
+            // chained version of method calls
+//            byte[] outputBytes = "Hello World!".getBytes();
+//            byte[] outputBytes2 = "Nice to meet you".getBytes();
+//            buffer.put(outputBytes).putInt(245).putInt(-98765).put(outputBytes2).putInt(1000); // chained method calls
+//            buffer.flip();
+
+//            read(ByteBuffer) - reads bytes beginning at the channel's current position, and after the read,
+//                               updates the position accordingly.
+//                               Note that now we're talking about the channel's position, not the byte buffer's position.
+//                               Of course, the bytes will be placed into the buffer starting at its current position.
+//            write(ByteBuffer) - the same as read, except it writes. There's one exception.
+//                              If a datasource is opened in APPEND mode, then the first write will take place starting
+//                              at the end of the datasource, rather than at position 0. After the write, the position
+//                              will be updated accordingly.
+//            position() - returns the channel's position.
+//            position(long) - sets the channel's position to the passed value.
+//            truncate(long) - truncates the size of the attached datasource to the passed value.
+//            size() - returns the size of the attached datasource
+
+            // Unchained long method calls
             // all writes are relative writes, (not specifying index like absolutes)
             byte[] outputBytes = "Hello World!".getBytes();
             buffer.put(outputBytes);
-            buffer.putInt(245);
+            long int1Pos = outputBytes.length;
+            buffer.putInt(245); // wrote first integer, with start position being the number of bytes in the string
+
+            long int2Pos = int1Pos + Integer.BYTES; // defining start position for next int is length of string + int of integer
             buffer.putInt(-98765);
             byte[] outputBytes2 = "Nice to meet you".getBytes();
             buffer.put(outputBytes2);
+            long int3Pos = int2Pos + Integer.BYTES + outputBytes2.length; // 3rd start position of second int + size of int + size of second String
             buffer.putInt(1000);
             buffer.flip(); // flip from writing to reading to the buffer
             binaryChannel.write(buffer); // writing buffer's contents to the binary file channel
+
+            RandomAccessFile ra = new RandomAccessFile("data.dat","rwd");
+            FileChannel channel = ra.getChannel();
+
+            ByteBuffer readBuffer = ByteBuffer.allocate(100);
+            channel.read(readBuffer); // read methods reads until the end of the file
+            readBuffer.flip();
+            byte[] inputString = new byte[outputBytes.length];
+            readBuffer.get(inputString);
+            System.out.println("inputString = " + new String(inputString));
+            System.out.println("int1 = " + readBuffer.getInt());
+            System.out.println("int2 = " + readBuffer.getInt());
+
+            byte[] inputString2 = new byte[outputBytes2.length];
+            readBuffer.get(inputString2);
+            System.out.println("inputString2 " + new String(inputString2));
+            System.out.println("int3 = " + readBuffer.getInt());
+
 
             // Creating a byte array for the string I want to output
 //            byte[] outputBytes = "Hello World!".getBytes(); // 12 bytes were written
