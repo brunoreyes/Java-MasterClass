@@ -54,70 +54,95 @@ public class Main {
             // To rewind the buffer to a certain point, you'll mark the point, and then later you
             // can call the reset method to reset the position of the mark.
 
+            // Mantra for fixing errors in java.NIO: when something goes wrong, flip
 
+            ByteBuffer buffer = ByteBuffer.allocate(100);
+            // all writes are relative writes, (not specifying index like absolutes)
+            byte[] outputBytes = "Hello World!".getBytes();
+            buffer.put(outputBytes);
+            buffer.putInt(245);
+            buffer.putInt(-98765);
+            byte[] outputBytes2 = "Nice to meet you".getBytes();
+            buffer.put(outputBytes2);
+            buffer.putInt(1000);
+            buffer.flip(); // flip from writing to reading to the buffer
+            binaryChannel.write(buffer); // writing buffer's contents to the binary file channel
 
             // Creating a byte array for the string I want to output
-            byte[] outputBytes = "Hello World!".getBytes(); // 12 bytes were written
+//            byte[] outputBytes = "Hello World!".getBytes(); // 12 bytes were written
 
             // wrapping the byte array into a buffer, modifying the array/buffer changes the buffer/array.
-            ByteBuffer buffer = ByteBuffer.wrap(outputBytes);
+//            ByteBuffer buffer = ByteBuffer.wrap(outputBytes);
             // when calling wrap(), you tell the run time that you want to use the byte array as the buffer
 
-            int numBytes = binaryChannel.write(buffer); // using channel to write
-            System.out.println("numBytes written was: " + numBytes);
-
-            // Calling ByteBuffer.allocate() and passing the size we want the buffer to be an Int value
-            ByteBuffer intBuffer = ByteBuffer.allocate(Integer.BYTES);
-            intBuffer.putInt(245);
-            intBuffer.flip(); // sets the buffers position back to zero
-            numBytes = binaryChannel.write(intBuffer);
-            System.out.println("numBytes written was: " + numBytes);
-
-            intBuffer.flip();
-            intBuffer.putInt(-98765); //
-            intBuffer.flip(); //always recall to set position of buffer back to 0 using the flip method
-            numBytes = binaryChannel.write(intBuffer); // starting read at the buffer's position (245)
-                                                        // not starting position is 0
-            System.out.println("numBytes was written as " + numBytes); //  0 bytes were written
-
-
-//            // Creating the file input stream
-//            FileInputStream file = new FileInputStream("data.txt");
-
-//            // Calling the getChannel method to get the file channel
-//            FileChannel channel = file.getChannel();
-
-//            Path dataPath = FileSystems.getDefault().getPath("data.txt");
-
-            // Writing bytes, converting a string to bytes in the data.txt file.
-            // StandardOpenOption.APPEND to write more to a file that already exist
-//            Files.write(dataPath, "\nLine 5".getBytes("UTF-8"), StandardOpenOption.APPEND);
+//            ByteBuffer buffer = ByteBuffer.allocate(outputBytes.length);
+//            buffer.put(outputBytes);
 //
-//            List<String> lines = Files.readAllLines(dataPath); // calling the file's readAllLines method
-//            for (String line : lines){
-//                System.out.println(line);
+//
+//            buffer.flip();
+//            int numBytes = binaryChannel.write(buffer); // using channel to write
+//            System.out.println("numBytes written was: " + numBytes);
+//
+//            // Calling ByteBuffer.allocate() and passing the size we want the buffer to be an Int value
+//            ByteBuffer intBuffer = ByteBuffer.allocate(Integer.BYTES);
+//            intBuffer.putInt(245);
+//            intBuffer.flip(); // sets the buffers position back to zero
+//            numBytes = binaryChannel.write(intBuffer);
+//            System.out.println("numBytes written was: " + numBytes);
+//
+//            intBuffer.flip();
+//            intBuffer.putInt(-98765); //
+//            intBuffer.flip(); //always recall to set position of buffer back to 0 using the flip method
+//            numBytes = binaryChannel.write(intBuffer); // starting read at the buffer's position (245)
+//                                                        // not starting position is 0
+//            System.out.println("numBytes was written as " + numBytes); //  0 bytes were written
+//
+//
+////            // Creating the file input stream
+////            FileInputStream file = new FileInputStream("data.txt");
+//
+////            // Calling the getChannel method to get the file channel
+////            FileChannel channel = file.getChannel();
+//
+////            Path dataPath = FileSystems.getDefault().getPath("data.txt");
+//
+//            // Writing bytes, converting a string to bytes in the data.txt file.
+//            // StandardOpenOption.APPEND to write more to a file that already exist
+////            Files.write(dataPath, "\nLine 5".getBytes("UTF-8"), StandardOpenOption.APPEND);
+////
+////            List<String> lines = Files.readAllLines(dataPath); // calling the file's readAllLines method
+////            for (String line : lines){
+////                System.out.println(line);
+////            }
+//            RandomAccessFile ra = new RandomAccessFile("data.dat", "rwd");
+//            FileChannel channel = ra.getChannel();
+//            // changes outputBytes variable to abllo World!, read method isn't returning expectedly
+//            outputBytes[0] = 'a';
+//            outputBytes[1] = 'b';
+//            buffer.flip(); // always remember to call flip
+//            // now the read method returns  Hello World!
+//
+//            long numBytesRead = channel.read(buffer);
+//
+//            if (buffer.hasArray()){
+//                System.out.println("byte buffer = " + new String(buffer.array()));
+////                System.out.println("byte buffer = " + new String(outputBytes));
 //            }
-            RandomAccessFile ra = new RandomAccessFile("data.dat", "rwd");
-            FileChannel channel = ra.getChannel();
-            // changes outputBytes variable to abllo World!, read method isn't returning expectedly
-            outputBytes[0] = 'a';
-            outputBytes[1] = 'b';
-            buffer.flip(); // always remember to call flip
-            // now the read method returns  Hello World!
-
-            long numBytesRead = channel.read(buffer);
-
-            if (buffer.hasArray()){
-                System.out.println("byte buffer = " + new String(buffer.array()));
-            }
-//      Absolute Read, allowing us to forgo using the flip method for the buffer after reading from
-//            the file channel
-            intBuffer.flip();
-            numBytesRead = channel.read(intBuffer);
-            System.out.println(intBuffer.getInt(0));
-            intBuffer.flip();
-            numBytesRead = channel.read(intBuffer);
-            System.out.println(intBuffer.getInt(0));
+////      Absolute Read, allowing us to forgo using the flip method for the buffer after reading from
+////            the file channel. When using absolute, the buffer position isn't updated
+//            intBuffer.flip();
+//            numBytesRead = channel.read(intBuffer);
+//            System.out.println(intBuffer.getInt(0));
+//            intBuffer.flip();
+//            numBytesRead = channel.read(intBuffer);
+//
+//            intBuffer.flip();
+//
+//            // absolute read, specifying the index
+//            System.out.println(intBuffer.getInt(0));
+//
+//            // relative read bc absolute read above doesn't change position
+//            System.out.println(intBuffer.getInt());
 
 //      Relative Read
 //            intBuffer.flip();
