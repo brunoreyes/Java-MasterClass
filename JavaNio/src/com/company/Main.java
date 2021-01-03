@@ -93,19 +93,82 @@ public class Main {
             RandomAccessFile ra = new RandomAccessFile("data.dat","rwd");
             FileChannel channel = ra.getChannel();
 
-            ByteBuffer readBuffer = ByteBuffer.allocate(100);
-            channel.read(readBuffer); // read methods reads until the end of the file
-            readBuffer.flip();
-            byte[] inputString = new byte[outputBytes.length];
-            readBuffer.get(inputString);
-            System.out.println("inputString = " + new String(inputString));
-            System.out.println("int1 = " + readBuffer.getInt());
-            System.out.println("int2 = " + readBuffer.getInt());
+            ByteBuffer readBuffer = ByteBuffer.allocate(Integer.BYTES);
 
-            byte[] inputString2 = new byte[outputBytes2.length];
-            readBuffer.get(inputString2);
-            System.out.println("inputString2 " + new String(inputString2));
-            System.out.println("int3 = " + readBuffer.getInt());
+            // For each integer (int3, int2, & int1) I call the .position() method to specify the starting position in the file.
+            channel.position(int3Pos);
+            // Then I call the read method to read out what's within the buffer
+            channel.read(readBuffer);
+            // Now that I want to write the code to the console, I have to flip from read to write to print
+            readBuffer.flip();
+            System.out.println("Int3 = " + readBuffer.getInt());
+            // To read the next integer, I have to switch from writing back to reading using flip again and repeating the process
+            readBuffer.flip();
+            channel.position(int2Pos);
+            channel.read(readBuffer);
+            readBuffer.flip();
+
+            System.out.println("int2 = " + readBuffer.getInt());
+            readBuffer.flip();
+            channel.position(int1Pos);
+            channel.read(readBuffer);
+            readBuffer.flip();
+
+            System.out.println("int1 = " + readBuffer.getInt());
+
+            // Calculating all of the start positions
+            byte[] outputString = "Hello, World!".getBytes();
+            long str1Pos = 0;
+            long newInt1Pos = outputString.length;
+            long newInt2Pos = newInt1Pos + Integer.BYTES;
+            byte[] outputString2 = "Nice to meet you ".getBytes();
+            long str2Pos = newInt2Pos + Integer.BYTES;
+            long newInt3Pos = str2Pos + outputString2.length;
+
+            // Writing the three integers (245, -98765, 1000)
+
+            // 1st: writing the value to the buffer after flipping the buffer if necessary
+            // 2nd: flip buffer to preparing the buffer to write to the channel
+            // 3rd: set the channel to the start position for the integer
+            // 4th: write the buffer to the file
+            ByteBuffer intBuffer = ByteBuffer.allocate(Integer.BYTES);
+            intBuffer.putInt(245); // writing int to intBuffer using .putInt() method
+            intBuffer.flip();
+            binaryChannel.position(newInt1Pos);
+            binaryChannel.write(intBuffer);
+
+            intBuffer.flip();
+            intBuffer.putInt(-98765);
+            intBuffer.flip();
+            binaryChannel.position(newInt2Pos);
+            binaryChannel.write(intBuffer);
+
+            intBuffer.flip();
+            intBuffer.putInt(1000);
+            intBuffer.flip();
+            binaryChannel.position(newInt3Pos);
+            binaryChannel.write(intBuffer);
+
+            // Using wrap method takes care of flipping and creating the buffer.
+            binaryChannel.position(str1Pos);
+            binaryChannel.write(ByteBuffer.wrap(outputString));
+            binaryChannel.position(str2Pos);
+            binaryChannel.write(ByteBuffer.wrap(outputString2));
+
+
+//            ByteBuffer readBuffer = ByteBuffer.allocate(100);
+//            channel.read(readBuffer); // read methods reads until the end of the file
+//            readBuffer.flip();
+//            byte[] inputString = new byte[outputBytes.length];
+//            readBuffer.get(inputString);
+//            System.out.println("inputString = " + new String(inputString));
+//            System.out.println("int1 = " + readBuffer.getInt());
+//            System.out.println("int2 = " + readBuffer.getInt());
+//
+//            byte[] inputString2 = new byte[outputBytes2.length];
+//            readBuffer.get(inputString2);
+//            System.out.println("inputString2 " + new String(inputString2));
+//            System.out.println("int3 = " + readBuffer.getInt());
 
 
             // Creating a byte array for the string I want to output
