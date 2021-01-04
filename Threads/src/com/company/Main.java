@@ -80,7 +80,5 @@ public class Main {
         // Hello again from the main thread
         // Hello from another thread
 
-
-
     }
 }
