@@ -13,6 +13,7 @@ public class AnotherThread extends Thread { // extending Thread class to overrid
 
         } catch (InterruptedException e){
             System.out.println(ANSI_BLUE + "Another thread woke me up");
+            return; // return terminates the anotherThread() instance in main
         }
         System.out.println(ANSI_BLUE + "Three seconds have passed and I'm awake");
     }

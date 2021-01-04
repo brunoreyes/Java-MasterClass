@@ -42,9 +42,21 @@ public class Main {
             @Override
             public void run() {
                 System.out.println(ANSI_RED + "Hello from the anonymous class implementation of run()");
+                try {
+                    anotherThread.join();  // join() waits for anotherThread to terminate
+                    System.out.println(ANSI_RED + "AnotherThread terminated, so I'm running again");
+                } catch (InterruptedException e){
+                    // can't guarantee anything: which orders threads will execute or
+                    // how long threads sleep or wake
+                    System.out.println(ANSI_RED + "I couldn't wait after all, I was interrupted");
+                }
             }
         });
         myRunnableThread.start();
+
+        // Calling interrupt() instance
+//        anotherThread.interrupt();
+
 
         System.out.println( ANSI_PURPLE +"Hello again from the main thread");
         // output: (never assume it'll run in the same order, up to the system to schedule when threads run)
