@@ -63,6 +63,33 @@ public class Main {
 //        File class cannot get metadata from a file and is inefficient.
 
 //        Working through a directory tree is problematic.
+
+
+        // Java.io file class contains methods for pointing and deleting and others
+        // Now Java.nio the path interface sticks to file paths, leaving java operations
+        // moved to Java.nio.file.files class
+
+        // The files class contains copy, move and delete
+
+        // Checking whether a file or directory exist
+
+        /// path to file that doesn't exist
+        Path path3 = FileSystems.getDefault().getPath("ThisFileDoesNotExist.txt");
+        System.out.println(path3.toAbsolutePath());
+        //Output: /Users/brunoreyes/Desktop/Code/Java/Java-MasterClass/FileSystem/ThisFileDoesNotExist.txt
+
+        // creating a path that doesn't exist
+        Path path4 = Paths.get("/Volumes/Test/ING", "abcdef", "doesnNotExist.txt");
+        System.out.println(path4.toAbsolutePath());
+
+        // best to check and see if the path or file exist
+
+        filePath = FileSystems.getDefault().getPath("files");
+        System.out.println("Exists = " + Files.exists(filePath)); // output: true
+
+        // testing to see if path 4 exist, should not
+        System.out.println("Exists = " + Files.exists(path4)); // output: false
+
     }
 
     private static void printFile(Path path){
@@ -77,4 +104,5 @@ public class Main {
             e.printStackTrace();
         }
     }
+
 }
