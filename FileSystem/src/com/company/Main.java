@@ -3,17 +3,47 @@ package com.company;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 
 public class Main {
 
     public static void main(String[] args) {
         try {
-            // Deleting a file
-            Path fileToDelete = FileSystems.getDefault().getPath(
-                    "Examples","Dir1","file1copy.txt");
-            Files.delete(fileToDelete);
-            // good to use if you don't want an exception to be thrown if a file doesn't exist
-//            Files.deleteIfExists(fileToDelete);
+            // Getting attributes of a file
+            Path filePath = FileSystems.getDefault().getPath("Examples/Dir1/file1.txt");
+            long size = Files.size(filePath);
+            System.out.println("Size = " + size) ;
+            System.out.println("Last modified = " + Files.getLastModifiedTime(filePath));
+
+            // getting all attributes in a file at once
+            BasicFileAttributes attr = Files.readAttributes(filePath,BasicFileAttributes.class);
+            System.out.println("Size = " + attr.size()) ;
+            System.out.println("Last modified = " + attr.lastModifiedTime()) ;
+            System.out.println("Created = " + attr.creationTime()) ;
+            System.out.println("Is directory = " + attr.isDirectory()) ;
+            System.out.println("Is regular file = " + attr.isRegularFile()) ;
+
+
+//            // Create a file  (can't be used to create a directory)
+//            Path fileToCreate = FileSystems.getDefault().getPath("Examples","file4.txt");
+//            Files.createFile(fileToCreate);
+//
+//            // Create a directory
+//            Path dirToCreate = FileSystems.getDefault().getPath("Examples","Dir5");
+//            Files.createDirectory(dirToCreate);
+
+//            // Create multiple directories
+//            Path dirToCreate2 = FileSystems.getDefault().getPath(
+//                    "Examples/Dir6/Dir4/Dir3/Dir2/Dir1");
+//            Files.createDirectories(dirToCreate2);
+
+
+//            // Deleting a file
+//            Path fileToDelete = FileSystems.getDefault().getPath(
+//                    "Examples","Dir1","file1copy.txt");
+//            Files.delete(fileToDelete);
+//            // good to use if you don't want an exception to be thrown if a file doesn't exist
+////            Files.deleteIfExists(fileToDelete);
 
             // moving files to a new directory
 //            Path fileToMove = FileSystems.getDefault().getPath("Examples", "file1copy.txt");
