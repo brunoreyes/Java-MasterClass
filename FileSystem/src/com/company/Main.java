@@ -50,6 +50,19 @@ public class Main {
         // getting the absolute path of this project from the console
         filePath = Paths.get(".");
         System.out.println(filePath.toAbsolutePath());
+
+        Path path2 = FileSystems.getDefault().getPath(".", "files",
+                "..", "files", "SubDirectoryFile.txt");
+        System.out.println(path2.normalize().toAbsolutePath());
+        printFile(path2.normalize());
+        // generally a good idea to normalize a path when getting it from a user or another source.
+
+//        java.IO.File, file class has issues b/c a lot of methods don't throw exceptions, leaving you
+//        dumbfounded. No support for symbolic links.
+
+//        File class cannot get metadata from a file and is inefficient.
+
+//        Working through a directory tree is problematic.
     }
 
     private static void printFile(Path path){
