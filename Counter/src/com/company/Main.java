@@ -36,6 +36,20 @@ class Countdown {
 
         synchronized (this) { // the threads no longer interweave or skip numbers
             // static methods and objects can be synchronized as well
+
+            // synchronization is reentrant meaning if a thread acquires an objects lock
+            // and within the synchronized code it calls a method that uses the same object to
+            // synchronize some code. The thread can acquire a lock it already owns.
+
+            // When a class or method is thread-safe t means the dev has synchronized all
+            // the critical sections within the code, so I don't have to worry about the
+            // thread interference
+
+            // None of the UI components are safe in JavaFX, so JavaFX allows all code to run
+            // on JavaFX run-time thread
+
+            // When synchronizing code, only synchronize what's necessary like the for loop here
+
             for (i = 10; i > 0; i--) {
                 System.out.println(color + Thread.currentThread().getName() + ": i = " + i);
             }
