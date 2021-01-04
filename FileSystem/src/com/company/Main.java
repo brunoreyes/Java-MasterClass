@@ -2,21 +2,46 @@ package com.company;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
 public class Main {
 
     public static void main(String[] args) {
         try {
-            // Since file1 exist, it's copied and stored within the directory Examples as file1copy
-            Path sourceFile = FileSystems.getDefault().getPath("Examples","file1.txt");
-            Path copyFile = FileSystems.getDefault().getPath("Examples", "file1copy.txt");
-            Files.copy(sourceFile, copyFile);
+            // Deleting a file
+            Path fileToDelete = FileSystems.getDefault().getPath(
+                    "Examples","Dir1","file1copy.txt");
+            Files.delete(fileToDelete);
+            // good to use if you don't want an exception to be thrown if a file doesn't exist
+//            Files.deleteIfExists(fileToDelete);
+
+            // moving files to a new directory
+//            Path fileToMove = FileSystems.getDefault().getPath("Examples", "file1copy.txt");
+//            Path destination = FileSystems.getDefault().getPath(
+//                    "Examples","Dir1", "file1copy.txt");
+//            Files.move(fileToMove, destination);
+
+            // renaming and moving a file into another directory
+//            Path fileToMove2 = FileSystems.getDefault().getPath("Examples", "file1.txt");
+//            Path destination2 = FileSystems.getDefault().getPath(
+//                    "Examples","Dir1", "file4.txt");
+//            Files.move(fileToMove2, destination2);
+
+//            // Since file1 exist, it's copied and stored within the directory Examples as file1copy
+//            Path sourceFile = FileSystems.getDefault().getPath("Examples","file1.txt");
+//            Path copyFile = FileSystems.getDefault().getPath("Examples", "file1copy.txt");
+////            Files.copy(sourceFile, copyFile);
+//
+//            // avoid exception block from being executed
+//            Files.copy(sourceFile, copyFile, StandardCopyOption.REPLACE_EXISTING);
+//
+//            sourceFile = FileSystems.getDefault().getPath("Examples","Dir1");
+//            copyFile = FileSystems.getDefault().getPath("Examples", "Dir4");
+//            Files.copy(sourceFile, copyFile, StandardCopyOption.REPLACE_EXISTING);
+
         } catch (IOException e){
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.out.println(e.getMessage()); // since we just created the file, this message gets called
         }
 
     }
