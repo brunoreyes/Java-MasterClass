@@ -43,8 +43,12 @@ public class Main {
             public void run() {
                 System.out.println(ANSI_RED + "Hello from the anonymous class implementation of run()");
                 try {
-                    anotherThread.join();  // join() waits for anotherThread to terminate
-                    System.out.println(ANSI_RED + "AnotherThread terminated, so I'm running again");
+//                    anotherThread.join();  // join() waits for anotherThread to terminate
+
+                    // wait for the termination or for time time out period to end, whichever happens first
+                    anotherThread.join(2000);
+                    System.out.println(ANSI_RED + "AnotherThread terminated or timed out," +
+                            " so I'm running again");
                 } catch (InterruptedException e){
                     // can't guarantee anything: which orders threads will execute or
                     // how long threads sleep or wake
