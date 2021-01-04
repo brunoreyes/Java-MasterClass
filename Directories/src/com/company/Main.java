@@ -82,6 +82,16 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
+        System.out.println("--Copy Tree for Dir2--");
+        Path copyPath = FileSystems.getDefault().getPath(
+                "FileTree" + File.separator + "Dir4" + File.separator + "Dir2Copy");
+        // FileTree.Dir4.Dir2Copy
+        try {
+            Files.walkFileTree(dir2Path, new CopyFiles(dir2Path, copyPath));
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+
         // * characters matches any string containing any # of characters
         // 8.dat matches any path with .dat extension
         // *.{dat,txt} matches any path that has .dat or .txt
