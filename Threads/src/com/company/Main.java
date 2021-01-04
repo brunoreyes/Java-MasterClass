@@ -10,6 +10,18 @@ public class Main {
     // are many methods in the Java API that want a runnable interface. Since Lambda,
     // runnable is also picked because it's more flexible.
 
+    // All threads can't access a thread stack that isn't theres, but they can access the
+    // process heap that they all share.
+    // An objects instance value is stored in the memory of the heap
+
+    // There are multiple points at which the current thread can be suspended
+
+    // Thread interference is when threads interfere with each other because one thread is
+    // changing the value of a variable the other is trying to change aka a race condition.
+
+    // Problems arise not because resources are shared but problems arise when
+    // one of the threads are updating or writing a resource
+
 
     public static void main(String[] args) {
         System.out.println(ANSI_PURPLE +"Hello from the main thread");
