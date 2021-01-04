@@ -1,10 +1,11 @@
 package com.company;
+import static com.company.ThreadColor.ANSI_BLUE;
 
 public class AnotherThread extends Thread { // extending Thread class to override
 
     @Override
     public void run() {
-        System.out.println("Hello from another thread");
+        System.out.println(ANSI_BLUE + "Hello from another thread");
     }
 
 
