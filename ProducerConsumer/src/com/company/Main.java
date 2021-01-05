@@ -43,15 +43,17 @@ class MyProducer implements Runnable {
         String[] nums = {"1","2", "3", "4", "5"};
         for ( String num: nums){
             try {
-                System.out.println(color + "Adding...");
+                System.out.println(color + "Adding..." + num);
 //                synchronized (buffer){
                 bufferLock.lock(); // lock() acquires the lock
+                // by adding a try and finally unlock only has to be in finally clause and will be executed
+                try {
                     buffer.add(num);
-//                }
-                bufferLock.unlock(); // unlock() releases the lock
-                // forgetting to release the lock, threads waiting for the lock
-                // will start locking forever.
-
+                } finally {
+                    bufferLock.unlock(); // unlock() releases the lock
+                    // forgetting to release the lock, threads waiting for the lock
+                    // will start blocking forever.
+                }
 
                 Thread.sleep(random.nextInt(1000));
             } catch (InterruptedException e){
@@ -60,10 +62,15 @@ class MyProducer implements Runnable {
         }
         System.out.println(color + "Adding EOF & exiting...");
         bufferLock.lock();
-//        synchronized (buffer){
+        try {
+            // updating the array list
             buffer.add("EOF");// letting consumers know there won't be any more data to process.
+
+        } finally {
+            bufferLock.unlock();
+        }
+//        synchronized (buffer){
 //        }
-        bufferLock.unlock();
     }
 }
 
@@ -80,23 +87,31 @@ class MyConsumer implements Runnable {
         this.bufferLock = bufferLock;
     }
     public void run(){
+        int counter = 0;
+
         while (true){
           //  synchronized (buffer){ // thread interference no longer occurs thanks to synchronized
-                bufferLock.lock();
-                if (buffer.isEmpty()){
-                    bufferLock.unlock();
-                    continue;
-                }
-                if (buffer.get(0).equals(Main.EOF)){
-                    System.out.println(color + "Exiting");
-                    bufferLock.unlock();
-                    break;
-                } else {
-                    System.out.println(color + "Removed " + buffer.remove(0));
-                }
-                bufferLock.unlock();
-//            }
 
+            // tryLock() acquire the lock only if it isn't acquired by another thread
+            if (bufferLock.tryLock()) { // so tryLock is bufferLock.lock(); if isn't acquire already
+                try {
+                    if (buffer.isEmpty()){
+                        continue;
+                    }
+                    System.out.println(color + "The counter = " + counter);
+                    counter = 0;
+                    if (buffer.get(0).equals(Main.EOF)){
+                        System.out.println(color + "Exiting");
+                        break;
+                    } else {
+                        System.out.println(color + "Removed " + buffer.remove(0));
+                    }
+                } finally {
+                    bufferLock.unlock();
+                }
+            } else {
+                counter++;
+            }
         }
 //        ReentrantLock lock1:
 //        public void methodA(){
