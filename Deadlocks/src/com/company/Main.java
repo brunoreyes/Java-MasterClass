@@ -8,12 +8,16 @@ package com.company;
 // because all threads holding the locks are blocked. Never releasing the
 // locks they are holding, so none of the waiting threads will ever run.
 
+// This problem can be resolved if both threads try to obtain the same locks in the same order
+// Another solution is using a lock object instead of synchronizing locks
+
 public class Main {
     public static Object lock1 = new Object();
     public static Object lock2 = new Object();
 
     public static void main(String[] args) {
-
+        new Thread1().start();
+        new Thread2().start();
     }
 
     private static class Thread1 extends Thread {
@@ -40,20 +44,22 @@ public class Main {
     }
     private static class Thread2 extends Thread {
         public void run(){
-            synchronized (lock2){
-                System.out.println("Thread 2 has lock 2");
+            // Reversed order to prevent deadlock from occurring.
+            // Because it's not possible for one thread to hold one lock but not the other lock.
+            synchronized (lock1){ // synchronized (lock2){
+                System.out.println("Thread 2 has lock 1");
                 try {
                     Thread.sleep(100);
                 }catch (InterruptedException e){
 
                 }
-                System.out.println("Thread 2: Waiting for lock 1");
-                synchronized (lock2){
-                    System.out.println("Thread 2 has lock 2 & now lock 1");
+                System.out.println("Thread 2: Waiting for lock 2");
+                synchronized (lock1){ // synchronized (lock1){
+                    System.out.println("Thread 2 has lock 1 & now lock 2");
                 }
-                System.out.println("Thread 2 has released lock 1");
+                System.out.println("Thread 2 has released lock 2");
             }
-            System.out.println("Thread 2 has released lock 2. Exiting...");
+            System.out.println("Thread 2 has released lock 1. Exiting...");
         }
     }
 }
