@@ -14,19 +14,24 @@ public class Main {
         // Producer: Thread that adds data to a buffer
         // Consumer: Thread that reads data from the buffer
 
-        List<String> buffer = new ArrayList<String>();
+        ArrayBlockingQueue<String> buffer = new ArrayBlockingQueue<String>(6);
+        // removing the need for buffer locks and a lot of synchronization
+
+//        List<String> buffer = new ArrayList<String>();
 
         // lock object, using instance of ReentrantLock class
-        ReentrantLock bufferLock = new ReentrantLock();
+//        ReentrantLock bufferLock = new ReentrantLock();
 
         // ExecutorService handles thread pools, (multiple threads)
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        // when 5 the callable code doesn't have to wait for the 3 threads to finish
+        // but would wait until the end if only 3 threads were passed in.
         // ExecutorService is overkill for this situation but optimal when dealing wil a lot of threads
 
 
-        MyProducer producer = new MyProducer(buffer, ThreadColor.ANSI_PURPLE, bufferLock);
-        MyConsumer consumer1 = new MyConsumer(buffer, ThreadColor.ANSI_CYAN, bufferLock); // utilizing private packages
-        MyConsumer consumer2 = new MyConsumer(buffer, ThreadColor.ANSI_GREEN, bufferLock);
+        MyProducer producer = new MyProducer(buffer, ThreadColor.ANSI_PURPLE);
+        MyConsumer consumer1 = new MyConsumer(buffer, ThreadColor.ANSI_CYAN); // utilizing private packages
+        MyConsumer consumer2 = new MyConsumer(buffer, ThreadColor.ANSI_GREEN);
 
 //        new Thread(producer).start();
 //        new Thread(consumer1).start();
@@ -38,7 +43,8 @@ public class Main {
         Future<String> future = executorService.submit(new Callable<String>() {
             @Override
             public String call() throws Exception {
-                System.out.println(ThreadColor.ANSI_BLUE);
+                System.out.println(ThreadColor.ANSI_BLUE +"I'm being printed" +
+                        "for the Callable class. This is the callable result");
                 return "This is the callable result";
             }
         });
@@ -56,14 +62,15 @@ public class Main {
 }
 
 class MyProducer implements Runnable {
-    private List<String> buffer;
+    ArrayBlockingQueue<String> buffer;
+//    private List<String> buffer;
     private String color;
-    private ReentrantLock bufferLock;
+//    private ReentrantLock bufferLock;
 
-    public MyProducer(List<String> buffer, String color, ReentrantLock bufferLock) {
+    public MyProducer(ArrayBlockingQueue<String> buffer, String color) {
         this.buffer = buffer;
         this.color = color;
-        this.bufferLock = bufferLock;
+//        this.bufferLock = bufferLock;
     }
     public void run(){
         Random random = new Random();
@@ -71,16 +78,17 @@ class MyProducer implements Runnable {
         for ( String num: nums){
             try {
                 System.out.println(color + "Adding..." + num);
+                buffer.put(num);
 //                synchronized (buffer){
-                bufferLock.lock(); // lock() acquires the lock
+               // bufferLock.lock(); // lock() acquires the lock
                 // by adding a try and finally unlock only has to be in finally clause and will be executed
-                try {
-                    buffer.add(num);
-                } finally {
-                    bufferLock.unlock(); // unlock() releases the lock
-                    // forgetting to release the lock, threads waiting for the lock
-                    // will start blocking forever.
-                }
+//                try {
+//                    buffer.add(num);
+//                } finally {
+//                 //   bufferLock.unlock(); // unlock() releases the lock
+//                    // forgetting to release the lock, threads waiting for the lock
+//                    // will start blocking forever.
+//                }
 
                 Thread.sleep(random.nextInt(1000));
             } catch (InterruptedException e){
@@ -88,13 +96,14 @@ class MyProducer implements Runnable {
             }
         }
         System.out.println(color + "Adding EOF & exiting...");
-        bufferLock.lock();
+       // bufferLock.lock();
         try {
             // updating the array list
-            buffer.add("EOF");// letting consumers know there won't be any more data to process.
+            buffer.put("EOF"); // how to add an element in an ArrayBlockingQueue
+           // buffer.add("EOF");// letting consumers know there won't be any more data to process.
 
-        } finally {
-            bufferLock.unlock();
+        } catch (InterruptedException e){//finally {
+          //  bufferLock.unlock();
         }
 //        synchronized (buffer){
 //        }
@@ -103,43 +112,49 @@ class MyProducer implements Runnable {
 
 class MyConsumer implements Runnable {
 
-    private List<String> buffer;
+    private ArrayBlockingQueue<String> buffer;
     private String color;
-    private ReentrantLock bufferLock;
+//    private ReentrantLock bufferLock;
 
 
-    MyConsumer(List<String> buffer, String color, ReentrantLock bufferLock){
+    MyConsumer(ArrayBlockingQueue<String> buffer, String color){
         this.buffer = buffer;
         this.color = color;
-        this.bufferLock = bufferLock;
+//        this.bufferLock = bufferLock;
     }
     public void run(){
         int counter = 0;
 
-        while (true){
-          //  synchronized (buffer){ // thread interference no longer occurs thanks to synchronized
+        while (true) {
+            synchronized (buffer) { // thread interference no longer occurs thanks to synchronized
+                // used to also avoid null pointer exception.
 
-            // tryLock() acquire the lock only if it isn't acquired by another thread
-            if (bufferLock.tryLock()) { // so tryLock is bufferLock.lock(); if isn't acquire already
+                // tryLock() acquire the lock only if it isn't acquired by another thread
+                //  if (bufferLock.tryLock()) { // so tryLock is bufferLock.lock(); if isn't acquire already
                 try {
-                    if (buffer.isEmpty()){
+                    if (buffer.isEmpty()) {
                         continue;
                     }
                     System.out.println(color + "The counter = " + counter);
                     counter = 0;
-                    if (buffer.get(0).equals(Main.EOF)){
+                    if (buffer.peek().equals(Main.EOF)) { // buffer.peek() = buffer.get(0)
                         System.out.println(color + "Exiting");
                         break;
                     } else {
-                        System.out.println(color + "Removed " + buffer.remove(0));
+                        System.out.println(color + "Removed " + buffer.take());// buffer.remove() = buffer.take(0)
                     }
-                } finally {
-                    bufferLock.unlock();
+                } catch (InterruptedException e) {
+
                 }
-            } else {
-                counter++;
             }
         }
+//                finally {
+////                    bufferLock.unlock();
+//                }
+//            } else {
+//                counter++;
+//            }
+    }
 
 //        ReentrantLock lock1:
 //        public void methodA(){
@@ -158,7 +173,7 @@ class MyConsumer implements Runnable {
 
         // Bc the same thread can acquire the same lock multiple times, the unlock method won't
         // release the lock until the hold count reaches 0.
-    }
+
 }
 
 // drawbacks for synchronized code:
