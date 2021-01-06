@@ -15,11 +15,11 @@ public class Main {
         // Eliminating the need for runnable
 //        new Thread(()-> System.out.println("Printing from the Runnable")).start();
         //Or
-        new Thread(()-> {
-            System.out.println("Printing from the Runnable");
-            System.out.println("Line 2");
-            System.out.format("This is line %d\n",3);
-        }).start();
+//        new Thread(()-> {
+//            System.out.println("Printing from the Runnable");
+//            System.out.println("Line 2");
+//            System.out.format("This is line %d\n",3);
+//        }).start();
 
         Employee john = new Employee("John Doe", 30);
         Employee bon = new Employee("Bon John", 10);
@@ -30,13 +30,22 @@ public class Main {
         employees.add(bon);
         employees.add(jillian);
 
+
         // sorting by A-Z
-        Collections.sort(employees, new Comparator<Employee>() {
-            @Override
-            public int compare(Employee employee1, Employee employee2) {
-                return employee1.getName().compareTo(employee2.getName());
-            }
-        });
+//        Collections.sort(employees, new Comparator<Employee>() {
+//            @Override
+//            public int compare(Employee employee1, Employee employee2) {
+//                return employee1.getName().compareTo(employee2.getName());
+//            }
+//        });
+        // Here the Lambda expression is being passed as a second parameter instead
+        // of being an anonymous comparator.
+        // ((Employee employee1, Employee employee2): argument list
+        // -> : arrow token
+        // body: employee1.getName().compareTo(employee2.getName())
+        Collections.sort(employees, ( employee1,  employee2) ->
+                employee1.getName().compareTo(employee2.getName()));
+
         for (Employee employee: employees) {
             System.out.println(employee.getName());
         }
