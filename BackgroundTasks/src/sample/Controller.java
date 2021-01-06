@@ -45,8 +45,10 @@ public class Controller {
 
                 for (int i = 0; i < 4; i++) { // adding names from string array into the Observable list
                     employees.add(names[i]);
+                    updateMessage("Added " + names[i] + " to the list");
+
                     updateProgress(i + 1, 4);
-                    Thread.sleep(2000);
+                    Thread.sleep(300);
                 }
                 return employees;
 //                return FXCollections.observableArrayList(
