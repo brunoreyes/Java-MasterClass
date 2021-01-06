@@ -29,6 +29,25 @@ public class Main {
         t3.setPriority(6);
         t4.setPriority(4);
         t5.setPriority(2);
+        // Starvation describes a situation where a thread is unable to gain regular access to
+        // shared resources and is unable to make progress. This happens when shared resources
+        // are made unavailable for long periods by "greedy" threads. For example, suppose an
+        // object provides a synchronized method that often takes a long time to return. If one
+        // thread invokes this method frequently, other threads that also need frequent synchronized
+        // access to the same object will often be blocked.
+
+        // Since synchronized blocks aren't first come first served,
+        // setting priority can result in starvation to happen . Threads can languish even
+        // when a lock is frequently released.
+
+        // The order I've started my threads isn't necessarily the order that the OS will run in.
+        // Even though we suggested a certain order of priority to the OS.
+
+        // A thread can only be suspended once in the middle of counting or not. In other words,
+        // a thread can run for quite a long time while the other threads are stuck waiting.
+
+        // So the thread with the highest priority hogged up all the time and then the other threads
+        // didn't run in order of priority, but results vary. Priority has a loosely effect on order.
 
         t1.start();
         t2.start();
@@ -42,6 +61,8 @@ public class Main {
         // Answer: The worker objects may be different but the lock on the object is static,
         // so in other words, there is only one instance of the object. Therefore all the threads
         // will be competing for that thread's one instances lock.
+
+
 
     }
 
