@@ -12,10 +12,15 @@ public class BankAccount {
 
     // Using unlock with timeout to make BankAccount class threadsafe
     public void deposit(double amount){
+        // Since status variable is a local variable, it's thread safe
+        // Local vars are stored on the thread stack, so each thread has it's own copy.
+        // Threads don't interfere with each other when setting and getting status value
+        boolean status = false;
         try {
             if (lock.tryLock(1000, TimeUnit.MILLISECONDS)){
                 try {
                     balance += amount;
+                    status = true;
                 } finally {
                     lock.unlock();
                 }
@@ -25,13 +30,16 @@ public class BankAccount {
         } catch (InterruptedException e){
 
         }
+        System.out.println("Transaction status = " + status);
     }
 
     public void withdraw(double amount){
+        boolean status = false;
         try {
             if (lock.tryLock(1000, TimeUnit.MILLISECONDS)){
                 try {
                     balance -= amount;
+                    status = true;
                 } finally {
                     lock.unlock();
                 }
@@ -41,6 +49,7 @@ public class BankAccount {
         } catch (InterruptedException e){
 
         }
+        System.out.println("Transaction status = " + status);
     }
 
     // Using Reentrant lock class instead of Synchronized keyword to threadsafe.
