@@ -37,7 +37,7 @@ public class Main {
             }
         });
 
-        // Make the BankAccount class Threadsafe using synchronized keywords
+
         transactionThread1.start();
         transactionThread2.start();
     }
