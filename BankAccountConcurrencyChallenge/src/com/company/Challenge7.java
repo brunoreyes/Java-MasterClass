@@ -25,6 +25,7 @@ class NewBankAccount {
 
     public boolean withdraw(double amount) {
         if (lock.tryLock()) {
+            // debugged livelock by applying unlock try and finally block
             try {
                 try {
                     // Simulate database access
