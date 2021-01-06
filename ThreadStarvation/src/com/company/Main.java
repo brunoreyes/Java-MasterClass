@@ -12,9 +12,32 @@ package com.company;
 // The OS may choose another thread if it has a higher priority
 // than the first blocked thread.
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Main {
     // Starting off by adding a static var to synchronize code
-    private static Object lock = new Object();
+
+
+    // by setting the instance of the ReentrantLock to true, I am stating that
+    // I want it to be set up to be first come, first served order.
+
+    // Fair reentrant locks only guarantee fairness in acquiring a lock not
+    // fairness in thread scheduling.
+
+    // The try lock method on the other hand, does not honor the fairness setting.
+    // It is not first come, first served.
+
+    // When using fair locks with a lot of threads, performance will be affected.
+    // To ensure fairness, an additional layer of processing occurs, managing
+    // which thread gets the lock, slowing things down with a lot of threads
+    // competing for the lock.
+
+    private static ReentrantLock lock = new ReentrantLock(true);
+    // ensuring a far more fair result with plenty of interweaving threads,
+    // eliminating the starvation problem
+
+
+    //    private static Object lock = new Object();
 
     public static void main(String[] args) {
 
@@ -29,6 +52,7 @@ public class Main {
         t3.setPriority(6);
         t4.setPriority(4);
         t5.setPriority(2);
+
         // Starvation describes a situation where a thread is unable to gain regular access to
         // shared resources and is unable to make progress. This happens when shared resources
         // are made unavailable for long periods by "greedy" threads. For example, suppose an
@@ -48,6 +72,8 @@ public class Main {
 
         // So the thread with the highest priority hogged up all the time and then the other threads
         // didn't run in order of priority, but results vary. Priority has a loosely effect on order.
+
+        // The reentrant lock implementation allows for the creation of fair locks
 
         t1.start();
         t2.start();
@@ -77,11 +103,15 @@ public class Main {
         @Override
         public void run() {
             for (int i = 0; i < 100; i++) {
-                synchronized (lock){
-                    System.out.format(threadColor +"%s: runCount = %d\n",// %s: parameter, %d: int parameter
-                            Thread.currentThread().getName(),runCount++); // \n: newline
-                    // execute critical section of code, creating a worker object for each thread
-                }
+//                synchronized (lock){
+                    lock.lock();
+                    try {
+                        System.out.format(threadColor +"%s: runCount = %d\n",// %s: parameter, %d: int parameter
+                                Thread.currentThread().getName(),runCount++); // \n: newline
+                    } finally {
+                        lock.unlock();
+                    }
+                    //                }
             }
         }
     }
