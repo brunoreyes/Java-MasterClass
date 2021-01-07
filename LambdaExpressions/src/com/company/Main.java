@@ -18,14 +18,20 @@ public class Main {
 //            System.out.format("This is line %d\n",3);
 //        }).start();
 
-//        Employee john = new Employee("John Doe", 30);
-//        Employee bon = new Employee("Bon John", 10);
-//        Employee jillian = new Employee("Jillian Smith", 31);
-//
-//        List<Employee> employees = new ArrayList<>();
-//        employees.add(john);
-//        employees.add(bon);
-//        employees.add(jillian);
+        Employee john = new Employee("John Doe", 30);
+        Employee bon = new Employee("Bon John", 10);
+        Employee jillian = new Employee("Jillian Smith", 31);
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(john);
+        employees.add(bon);
+        employees.add(jillian);
+
+        for (Employee employee: employees){
+            System.out.println(employee.getName());
+            new Thread(() -> System.out.println(employee.getAge())).start();
+        }
+
 
 
         // sorting by A-Z
@@ -64,9 +70,9 @@ public class Main {
 //        String sillyString = doStringStuff(uc, employees.get(0).getName(), employees.get(1).getName());
 //        System.out.println(sillyString);
 
-        AnotherClass anotherClass = new AnotherClass();
-        String s = anotherClass.doSomething();
-        System.out.println(s);
+//        AnotherClass anotherClass = new AnotherClass();
+//        String s = anotherClass.doSomething();
+//        System.out.println(s);
     }
 
     public final static String doStringStuff(UpperConcat uc, String s1, String s2){
@@ -107,18 +113,46 @@ interface  UpperConcat {
 
 class AnotherClass {
     public String doSomething(){
+        int i = 0;
+
+        UpperConcat uc = (s1, s2) -> {
+            System.out.println("The lambda expression's class is " + getClass().getSimpleName());
+            System.out.println("i in the lambda expression = " + i);
+            String result = s1.toUpperCase() + s2.toUpperCase();
+            return result;
+        };
+        System.out.println("The AnotherClass's name is: " + getClass().getSimpleName());
+        return Main.doStringStuff(uc,"String1", "String2");
+    }
+    public void printValue(){
+        int number = 25;
+        // Utilizing a lambda for a runnable
+        Runnable r = () ->{
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            System.out.println("The value is " + number);
+        };
+        new Thread(r).start();// the runtime will use the value of 25 because it's the value of
+        // number when processing the lambda.
+
+        // So lambdas may not be immediately evaluated, any variables that we use within the lambda
+        // but we're declared outside of the lambda must be marked final.
+
+        // However any vars declared within the lambda's scope can be changed
+    }
+}
+
+
 //        UpperConcat uc = (s1, s2) -> {
 //            System.out.println("The lambda expression's class is " + getClass().getSimpleName());
 //            String result = s1.toUpperCase() + s2.toUpperCase();
 //            return result;
 //        };
 //        final int i = 0;
-         int i = 0;
-         UpperConcat uc = (s1, s2) -> {
-             System.out.println("The lambda expression's class is " + getClass().getSimpleName());
-             String result = s1.toUpperCase() + s2.toUpperCase();
-             return result;
-         };
+
 //        {// code within a nest block can reference variables within the enclosing block ( doSomething() )
 //            UpperConcat uc = new UpperConcat() {
 //                @Override
@@ -133,9 +167,7 @@ class AnotherClass {
 //            i++;
 //            System.out.println("i = " + i);
 
-        System.out.println("The AnotherClass's name is: " + getClass().getSimpleName());
-        return Main.doStringStuff(uc,"String1", "String2");
-        }
+
 
 //        System.out.println("The AnotherClass's name is: " + getClass().getSimpleName());
 //        return Main.doStringStuff(new UpperConcat() {
@@ -145,7 +177,7 @@ class AnotherClass {
 //                return s1.toUpperCase(Locale.ROOT) + s2.toUpperCase(Locale.ROOT);
 //            }
 //        },"String1", "String2");
-    }
+
 
 //class CodeToRun implements Runnable{
 //    @Override
