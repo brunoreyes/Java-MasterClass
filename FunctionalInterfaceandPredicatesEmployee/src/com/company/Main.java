@@ -66,6 +66,7 @@ public class Main {
         // comprised function, chainFunction.
         System.out.println(chainedFunction.apply(employees.get(0)));
 
+        // BiFunction is just like Function but it takes two arguments instead of one.
         BiFunction<String, Employee, String> concatAge = (String name, Employee employee) ->{
             return name.concat(" " + employee.getAge());
         };
