@@ -38,7 +38,7 @@ public class Main {
 //        for (Employee employee: employees){
 //            System.out.println(employee.getName());
 //            System.out.println(employee.getAge());
-        }
+}
 
 //        or
 //        System.out.println("****************");
@@ -89,7 +89,7 @@ public class Main {
 //        AnotherClass anotherClass = new AnotherClass();
 //        String s = anotherClass.doSomething();
 //        System.out.println(s);
-    }
+
 
     public final static String doStringStuff(UpperConcat uc, String s1, String s2){
         return uc.UpperAndConcat(s1, s2); // calling do something method within another class
