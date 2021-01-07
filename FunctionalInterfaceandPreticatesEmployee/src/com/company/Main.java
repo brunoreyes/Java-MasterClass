@@ -2,8 +2,10 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class Main {
 
@@ -44,7 +46,7 @@ public class Main {
         System.out.println(greaterThan15.and(lessThan100).test(50)); // output: true: 15 < 50 < 100
         System.out.println(greaterThan15.and(lessThan100).test(15)); // output: false
 
-//        Visualization of each variable being in the scope of a single lambda
+//        Visualization of each variable being in the scope of each single lambda
 //        {
 //            int i;
 //            return i > 15;
@@ -54,6 +56,18 @@ public class Main {
 //            int i;
 //            return i < 100;
 //        }
+
+        Random random = new Random();
+
+        // Using a supplier to provide a random integer.
+        // Suppliers can supply boolean, double, int,  and longs as well.
+        // Supplier is a functional interface whose functional method is get()
+        Supplier<Integer> randomSupplier = () -> random.nextInt(1000);
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println(randomSupplier.get());
+            //System.out.println(random.nextInt(1000));// bounding random numbers to be only as high as 1000
+        }
 
 
 //        System.out.println("Employees over 30:");
