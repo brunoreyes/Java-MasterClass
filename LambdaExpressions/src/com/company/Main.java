@@ -27,10 +27,26 @@ public class Main {
         employees.add(bon);
         employees.add(jillian);
 
-        for (Employee employee: employees){
+        // In place for a lambda expression it's always optional to use an anonymous class
+
+        // Example of a for Each lambda expression
+        employees.forEach(employee -> {
             System.out.println(employee.getName());
-            new Thread(() -> System.out.println(employee.getAge())).start();
+            System.out.println(employee.getAge());
+        });
+
+//        for (Employee employee: employees){
+//            System.out.println(employee.getName());
+//            System.out.println(employee.getAge());
         }
+
+//        or
+//        System.out.println("****************");
+//        for (int i = 0; i < employees.size() ; i++) {
+//            Employee employee = employees.get(i);
+//            System.out.println(employee.getName());
+//            new Thread(() -> System.out.println(employee.getAge())).start();
+//        }
 
 
 
