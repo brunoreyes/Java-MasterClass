@@ -2,11 +2,9 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public class Main {
 
@@ -30,7 +28,7 @@ public class Main {
 
         // By using function, we can pass code that accepts and returns a value to a method
         // in the form of a lambda expression and then run that code without having to create
-        // an interface and a class that implements the interface.
+        // an interface and a class that implements the interface. Reducing interface and class use.
         Function<Employee, String> getLastName = (Employee employee) -> {
             // getting a substring after the space in between the first and last name (.indexOf(' ') + 1))
             return employee.getName().substring(employee.getName().indexOf(' ') + 1);
@@ -45,6 +43,7 @@ public class Main {
         };
 
         Random random1 = new Random();
+
         for (Employee employee: employees) {
             if (random1.nextBoolean()){
                 System.out.println(getAName(getFirstName,employee));
@@ -52,6 +51,44 @@ public class Main {
                 System.out.println(getAName(getLastName, employee));
             }
         }
+                        // name of function: upperCase
+        Function<Employee,String> upperCase = employee -> employee.getName().toUpperCase();
+        Function<String, String> firstName = name -> name.substring(0, name.indexOf(' '));
+
+        // using .andThen() method takes the result of the function first name and passes
+        // it as a parameter to the upperCase function
+
+        Function chainedFunction = upperCase.andThen(firstName);
+
+        // Recall, Functions only take one argument
+
+        // getting the first name of the first index of the employees arrayList using the
+        // comprised function, chainFunction.
+        System.out.println(chainedFunction.apply(employees.get(0)));
+
+        BiFunction<String, Employee, String> concatAge = (String name, Employee employee) ->{
+            return name.concat(" " + employee.getAge());
+        };
+        String upperName = upperCase.apply(employees.get(0));
+        System.out.println(concatAge.apply(upperName, employees.get(0)));
+
+        IntUnaryOperator incrementBy5 = i -> i + 5;
+
+        // incrementing the passed operand 10 + 5
+        System.out.println(incrementBy5.applyAsInt(10));
+
+        // Recall when I want to use a lambda expression to test a value and return true/false
+        // I can use a predicate.
+
+
+        Consumer<String> c1 = s -> s.toUpperCase();
+        Consumer<String> c2 = s -> System.out.println(s);
+        c1.andThen(c2).accept("Hello, World!");
+
+        // if I need more than 2 arguments within a lambda, it can be done but won't be able to do it
+        // with any of the interfaces used in the java.util.function package. This may happen with APIs
+
+
     }
     private static String getAName(Function<Employee, String> getName, Employee employee){
         return getName.apply(employee);
