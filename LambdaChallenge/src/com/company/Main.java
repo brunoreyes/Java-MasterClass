@@ -3,6 +3,7 @@ package com.company;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class Main {
        public static void main(String[] args) {
@@ -58,14 +59,37 @@ public class Main {
            );
 
            List<String> firstUpperCaseList = new ArrayList<>();
-           topNames2015.forEach(name ->
-                   firstUpperCaseList.add(name.substring(0,1).toUpperCase() + name.substring(1)));
+//           topNames2015.forEach(name ->
+//                   firstUpperCaseList.add(name.substring(0,1).toUpperCase() + name.substring(1)));
 //           firstUpperCaseList.sort((s1, s2) -> s1.compareTo(s2));
 //           firstUpperCaseList.forEach(s -> System.out.println(s));
+
            // changing code to use method references instead off full method
-           firstUpperCaseList.sort(String::compareTo);
-           // print out each item of firstUpperCaseList on a new line
-           firstUpperCaseList.forEach(System.out::println);
+//           firstUpperCaseList.sort(String::compareTo);
+//           // print out each item of firstUpperCaseList on a new line
+//           firstUpperCaseList.forEach(System.out::println);
+
+           // stream that takes a list and capitalizes the first letter of each list item
+           // , sorts the list alphabetically and prints out each item on its own line.
+           topNames2015
+                   .stream()
+                   .map(name -> name.substring(0,1).toUpperCase() + name.substring(1))
+                   .peek(System.out::println)
+                   .sorted(String::compareTo) // if code ends here, nothing will be printed out b/c
+                                              // code needs to be printed out using a terminal condition
+                   .forEach(System.out::println); // terminal condition is like a print statement
+//                    .count(); // a terminal operation will be disclosed within the documentation
+//                    .collect(Collectors.toList());
+
+           // stream that takes a list and  prints out each list item starting with "A" on its own line.
+
+           long namesBeginningWithA = topNames2015
+                   .stream()
+                   .map(name -> name.substring(0,1).toUpperCase() + name.substring(1))
+                   .filter(name -> name.startsWith("A")) // removing all items that don't start with A
+                   .count();
+
+           System.out.println("Names beginning with A: "+ namesBeginningWithA);
     }
 
 
