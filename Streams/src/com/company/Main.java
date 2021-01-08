@@ -2,10 +2,7 @@ package com.company;
 
 import org.w3c.dom.ls.LSOutput;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -99,7 +96,24 @@ public class Main {
             System.out.println(s);
         }
 
+        Map<Integer, List<Employee>> groupedByAge = departments.stream()
+                .flatMap(department -> department.getEmployees().stream())
+                // groupingBy() helps creating a map of list that are grouped by age
+                .collect(Collectors.groupingBy(employee -> employee.getAge()));
 
+        // Finding the youngest employee in the stream
+        departments.stream()
+                .flatMap(department -> department.getEmployees().stream())
+                .reduce((e1, e2) -> e1.getAge() < e2.getAge() ? e1 : e2)
+                // .reduce() takes in two values and outputs 1
+                .ifPresent(System.out::println); //ifPresent() prints if true
+
+        Stream.of("ABC", "AC","BAA","CCCC","XY", "ST")
+                .filter(s ->{
+                    System.out.println(s);
+                    return s.length() == 3;
+                })
+                .count();
     }
 }
 
@@ -107,3 +121,10 @@ public class Main {
 //                .filter(w -> w.getColor() == RED)
 //                .mapToInt(w -> w.getWeight())
 //                .sum();
+
+// Lambda Best Practices
+// 1. Specify the types of parameters vs. letting the compiler infer the,
+// 2. Used a return statement with curly braces for one statement lambda expression vs.
+// not using return because it's implied (and hence not requiring curly braces)
+// 3. Try to use lambda expressions that have one statement rather than multiple statements
+// 4. Use parenthesis when a lambda expression has more than only one argument
