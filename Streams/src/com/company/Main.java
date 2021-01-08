@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -47,6 +48,56 @@ public class Main {
 //        System.out.println(concatStream.distinct().count());  //6
         // .peak() reveals the items within the stream
         System.out.println(concatStream.distinct().peek(System.out::println).count());
+
+        Employee john = new Employee("John Doe", 30);
+        Employee jane = new Employee("Jane Deer", 25);
+        Employee jack = new Employee("Jack Hill", 40);
+        Employee snow = new Employee("Snow White", 22);
+
+        Department hr = new Department("Human Resources");
+        hr.addEmployee(jack);
+        hr.addEmployee(jane);
+        hr.addEmployee(snow);
+        Department accounting = new Department("Accounting");
+        accounting.addEmployee(john);
+
+        List<Department> departments = new ArrayList<>();
+        departments.add(hr);
+        departments.add(accounting);
+
+        departments.stream()
+                // .flatMap() is used to flatten a nested list
+                // for ex: so I am going into each department and getting each departments employees
+                // and printing them out. flatMap is great to use to get a list from a targeted object
+                .flatMap(department -> department.getEmployees().stream())
+                .forEach(System.out::println);
+
+//        List<String> sortedGNumbers = someBingoNumbers
+//                .stream()
+//                .map(String::toUpperCase)
+//                .filter(s -> s.startsWith("G"))
+//                .sorted()
+//                .collect(Collectors.toList());
+
+        List<String> sortedGNumbers = someBingoNumbers
+                .stream()
+                .map(String::toUpperCase)
+                .filter(s -> s.startsWith("G"))
+                .sorted()
+                // supplier: ArrayList:: new
+                // accumulator: ArrayList:: add, used to add a single item into the list/result
+                // combiner: ArrayList:: addAll, improves the efficiency of the operation
+
+        //Performs a mutable reduction operation on the elements of this stream.
+                // A mutable reduction is one in which the reduced value is a mutable
+                // result container, such as an ArrayList, and elements are incorporated
+                // by updating the state of the result rather than by replacing the result.
+                // This produces a result equivalent to:
+                .collect(ArrayList:: new, ArrayList:: add, ArrayList:: addAll);
+
+        for (String s: sortedGNumbers) {
+            System.out.println(s);
+        }
 
 
     }
