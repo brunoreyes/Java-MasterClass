@@ -1,9 +1,12 @@
 package com.company;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -36,9 +39,20 @@ public class Main {
                 .sorted() // 3rd: sorting the filtered items that started with g in numerical order
                 .forEach(System.out::println); // 4th: printing each item out in sorted order
 
+        Stream<String> ioNumberStream = Stream.of("I26","I17","I29","O71"); // streams can only contain 1 type
+        Stream<String> inNumberStream = Stream.of("N40","N36","I26","I17","I29","O71");
+        Stream<String> concatStream = Stream.concat(ioNumberStream, inNumberStream);// concat adds the streams
+//        System.out.println(concatStream.count()); //10
+        // .distinct will get rid of duplicated and only show unique items
+//        System.out.println(concatStream.distinct().count());  //6
+        // .peak() reveals the items within the stream
+        System.out.println(concatStream.distinct().peek(System.out::println).count());
+
+
+    }
+}
+
 //        int sum = widgets.stream()
 //                .filter(w -> w.getColor() == RED)
 //                .mapToInt(w -> w.getWeight())
 //                .sum();
-    }
-}
