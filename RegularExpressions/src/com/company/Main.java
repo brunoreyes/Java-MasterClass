@@ -129,7 +129,7 @@ public class Main {
 
         // Utilizing a stringBuilder to create a long string
         StringBuilder htmlText = new StringBuilder("<h1>My Heading</h1>");
-        htmlText.append("<h2>Sub Header</h2");
+        htmlText.append("<h2>Sub Header</h2>");
         htmlText.append("<p>A Paragraph</p>");
         htmlText.append("<p>Another paragraph</p>");
         htmlText.append("<h2>Summary</h2>");
@@ -137,15 +137,42 @@ public class Main {
 
 
         // Using matcher to find any h2 tags within text
-        String h2Pattern = ".*<h2>.*"; // . matches
+//        String h2Pattern = ".*<h2>.*"; // "." = any character, "*" = 0 or more characters
+        // together .* = there can be anything before or after h2 , but this is only to find one instance
+
+        String h2Pattern = "<h2>"; // to find all instances of <h2>, remove .* on both sides
 
         // Checking if the pattern matches the regex (regular expression)
 //        Pattern pattern = Pattern.compile(h2Pattern, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
                                                         // ignoring case         checking unicode case
+        // Matcher used to find if there is any <h2> tags within text
+        // Pattern compiles the pattern we are looking for ("<h2>") to create a pattern instance
+        // that we can use to create a Matcher instance that checks for the pattern (Pattern instance)
+        // and sees if it matches any pattern within the String htmlText.
         Pattern pattern = Pattern.compile(h2Pattern);
         Matcher matcher = pattern.matcher(htmlText);
         System.out.println(matcher.matches());
+        // Remember: Each Matchers instances can only be used once, unless it is reset using the reset method
+        matcher.reset();
 
+
+        // Using the find, start and end methods to find out the # & position of occurrences within a String
+
+        int count = 0;
+        while (matcher.find()){
+            // Adding each occurrence to the counter
+            count++;                                      // matcher.start() & .end() return starting & ending indexes
+            System.out.println("Occurrence " + count + " : " + matcher.start() + " to " + matcher.end() );
+        }
+
+        String h2GroupPattern = "(<h2>.*</h2>)"; // want opening and closing tag and anything in between
+        Pattern groupPattern = Pattern.compile(h2GroupPattern);
+        Matcher groupMatcher = groupPattern.matcher(htmlText);
+        System.out.println(groupMatcher.matches());
+        groupMatcher.reset(); // resetting the matcher to be able to use it again
+        while (groupMatcher.find()) {
+            System.out.println("Occurrence: " + groupMatcher.group(1)); // only 1 group: (<h2>)
+        }
     }
 
 }
