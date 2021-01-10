@@ -199,22 +199,6 @@ public class Main {
                                             // look ahead (!char) don't actually include the characters they match in the matched text
                                             // look ahead for including the char "v" after char "t": t(?=v)
 
-            // validating a US Phone number
-            // ^ : start, of instance, so if anything comes before the start of the phone number, it won't match
-            // [\(] : Escaped starting parenthesis (used b/c the parenthesis is a char class used to indicate a group)
-            // matching the parenthesis character's literal by escaping it in this way: "[\characterLiteral]"
-            // [\)] : Escaped closing parenthesis
-            // [\-] : Escaped dash
-            // [ ] : Escaped space
-            // {#} : quantifier that indicates the number of the char that came before the quantifier:
-            // for ex [0-9]{3}, here the quantifier is set to 3, so 3 numbers ranging from 0-9 follow like "295" or "001"
-            // [0-9] : provides an inclusive range of numbers from 0-9
-            // $ : end of instance, so if anything follows the end of the phone number, it won't match
-
-            // ^([\(]{1}[0-9]{3}[\)][0-9]{1}[ ]{1}[0-9]{3}[\-]{1}[0-9]{4})$
-            String phone1 = "1234567890"; // should not match
-            String phone2 = "(123) 456-7890"; // should match
-
             Pattern tNotVPattern = Pattern.compile(tNotVRegExp);
             Matcher tNotVMatcher = tNotVPattern.matcher(tvTest);
 
@@ -226,9 +210,98 @@ public class Main {
                 // each bracket ("[" & "]") requires char to be before or after a char
                 // for instance "[apple" requires characters to come before apple
                 // for instance "apple]" requires characters to come after apple
-
-
             }
+
+            // validating a US Phone number
+            // ^ : start, of instance, so if anything comes before the start of the phone number, it won't match
+            // [\(] : Escaped starting parenthesis (used b/c the parenthesis is a char class used to indicate a group)
+            // matching the parenthesis character's literal by escaping it in this way: "[\characterLiteral]"
+            // [\)] : Escaped closing parenthesis
+            // [\-] : Escaped dash
+            // [ ] : Escaped space
+            // {#} : quantifier that indicates the number of the char that came before the quantifier:
+            // for ex [0-9]{3}, here the quantifier is set to 3, so 3 numbers ranging from 0-9 follow like "295" or "001"
+            // [0-9] : provides an inclusive range of numbers from 0-9
+            // $ : end of instance, so if anything follows the end of the phone number, it won't match
+            // ^([\(]{1}[0-9]{3}[\)][0-9]{1}[ ]{1}[0-9]{3}[\-]{1}[0-9]{4})$
+
+            String phone1 = "098) 765-4321"; // should not match, missing starting area code parenthesis: (###
+            String phone2 = "098) 765 4321"; // should not match, missing area code parenthesis: (### & dash: "-"
+            String phone3 = "098)765-4321"; // should not match, missing area code parenthesis: (### & space: " "
+            String phone4 = "098)7654321"; // should not match, missing area code parenthesis: (###, dash: "-" & space: " "
+            String phone5 = "(098 765-4321"; // should not match, missing ending area code parenthesis: ###)
+            String phone6 = "(098 765-4321"; // should not match, missing area code parenthesis: ###) & space: " "
+            String phone7 = "(098 7654321"; // should not match, missing area code parenthesis: ###) & dash: "-"
+            String phone8 = "(098 765 4321"; // should not match, missing area code parenthesis: ###), dash: "-" & space: " "
+            String phone9 = "098 765-4321"; // should not match, missing starting and ending area code parenthesis: (###)
+            String phone10 = "098765 4321"; // should not match, missing area code parenthesis: (###) & dash: "-"
+            String phone11 = "098 7654321"; // should not match, missing area code parenthesis: (###) & space: " "
+            String phone12 = "0987654321"; // should not match, missing area code parenthesis: (###), dash: "-" & space: " "
+            String phone13 = "(098)7654321"; // should not match, missing dash: "-" & space: " "
+            String phone14 = "(098)765-4321"; // should not match, missing space: " "
+            String phone15 = "(123) 4567890"; // should not match, missing dash: "-"
+            String phone16 = "(1a3) 456-7890"; // should not match, in the first [0-9]{3} instance, there's a non-number char
+            String phone17 = "(123) 4b6-7890"; // should not match, in second [0-9]{3} instance, there's a non-number char
+            String phone18 = "(123) 426-7c90"; // should not match, in the [0-9]{4} instance, there's a non-number char
+            String phone19 = "1(123) 426-7c90"; // should not match, theres a char coming before the phone number
+            String phone20 = "(123) 426-79011"; // should not match, theres a char coming after the phone number
+            String phone21 = "(123) 426 79011"; // should not match, space: " " in place of "-"
+            String phone22 = "(123)-426 7901"; // should not match, space: "-" in place of " "
+            String phone23 = "(123) 426 - 9011"; // should not match, extra space: " "
+            String phone24 = "(123) 426-9011"; // should match
+            String phone25 = "(098) 765-4321"; // should match
+
+            // the following unit test produce an output of false
+            System.out.println("phone1 = " + phone1.matches("^([\\(]{1}[0-9]{3}[\\){1}][ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone2 = " + phone2.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone3 = " + phone3.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone4 = " + phone4.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone5 = " + phone5.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone6 = " + phone6.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone7 = " + phone7.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone8 = " + phone8.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone9 = " + phone9.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone10 = " + phone10.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone11 = " + phone11.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone12 = " + phone12.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone13 = " + phone13.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone14 = " + phone14.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone15 = " + phone15.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone16 = " + phone16.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone17 = " + phone17.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone18 = " + phone18.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone19 = " + phone19.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone20 = " + phone20.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone21 = " + phone21.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone22 = " + phone22.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone23 = " + phone23.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+
+            // the following unit test produce an output of true
+            System.out.println("phone24 = " + phone24.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+            System.out.println("phone25 = " + phone25.matches("^([\\(]{1}[0-9]{3}[\\)]{1}[ ]{1}[0-9]{3}[\\-]{1}[0-9]{4})$"));
+
+            // ^4[0-9]{12}([0-9]{3})?$
+            String visa1 = "4444444444444"; // should match bc it starts with a "4": ^4
+                                            // then has 12 [0-9] chars that follow: [0-9]{12}
+                                            // and an optional 0 to 3 occurrences of numbers ranging from 0-9: ([0-9]{3}?)
+                                            // ? signifies it could be none of some but the {3} limits it to 3
+
+            String visa2 = "5444444444444"; // shouldn't match
+
+            // should match: 15 chars total (one "4" at the start beginning, followed by 12 numbers, followed by 0-3 optional numbers, ending)
+            String visa3 = "4444444444444444";
+
+            String visa4 = "44444444444444444";  // should not match, bc the optional numbers could only go up to 3 ( here, it's 4)
+            String visa5 = "4444";  // shouldn't match
+
+            System.out.println("visa1 " + visa1.matches("^4[0-9]{12}([0-9]{3})?$"));
+            System.out.println("visa2 " + visa2.matches("^4[0-9]{12}([0-9]{3})?$"));
+            System.out.println("visa3 " + visa3.matches("^4[0-9]{12}([0-9]{3})?$"));
+            System.out.println("visa4 " + visa4.matches("^4[0-9]{12}([0-9]{3})?$"));
+            System.out.println("visa5 " + visa5.matches("^4[0-9]{12}([0-9]{3})?$"));
+
+
+
         }
     }
 
