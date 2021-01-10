@@ -164,14 +164,28 @@ public class Main {
             count++;                                      // matcher.start() & .end() return starting & ending indexes
             System.out.println("Occurrence " + count + " : " + matcher.start() + " to " + matcher.end() );
         }
-
-        String h2GroupPattern = "(<h2>.*</h2>)"; // want opening and closing tag and anything in between
+                                // group 1: (<h2>.*?</h2>)
+        String h2GroupPattern = "(<h2>.*?</h2>)"; // want opening and closing tag and anything in between
+                                                    // ? turns * quantifier into a lazy quantifier
+                                                    // only getting what's within each instance of <h2> to </h2>
+                                                    // and not <h2> to </h2> to <h2> to </h2>
         Pattern groupPattern = Pattern.compile(h2GroupPattern);
         Matcher groupMatcher = groupPattern.matcher(htmlText);
         System.out.println(groupMatcher.matches());
         groupMatcher.reset(); // resetting the matcher to be able to use it again
         while (groupMatcher.find()) {
             System.out.println("Occurrence: " + groupMatcher.group(1)); // only 1 group: (<h2>)
+            // output:    Occurrence: <h2>Sub Header</h2>
+                        //Occurrence: <h2>Summary</h2>
+        }
+
+        String h2TextGroups = "(<h2>)(.+?)(</h2>)"; // group 1: (<h2>), group 2: (.+?), group 3: (</h2>)
+        Pattern h2TextPattern = Pattern.compile(h2TextGroups);
+        Matcher h2TextMatcher = h2TextPattern.matcher(htmlText);
+
+        while (h2TextMatcher.find()){
+            // gathering the text between the opening and closing tags and not the tags themselves
+            System.out.println("Occurrence: " + h2TextMatcher.group(2)); // here we are getting group 2 (.+?)
         }
     }
 
