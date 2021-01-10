@@ -1,5 +1,8 @@
 package com.company;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -121,6 +124,28 @@ public class Main {
 
        // replacing any occurrence of "h" followed by any # of i's, followed by at least 1 j replaced all that by a Y
         System.out.println(alphanumeric.replaceAll("h+i*j","Y"));
+
+        // matches is used to find multiple patterns within a string
+
+        // Utilizing a stringBuilder to create a long string
+        StringBuilder htmlText = new StringBuilder("<h1>My Heading</h1>");
+        htmlText.append("<h2>Sub Header</h2");
+        htmlText.append("<p>A Paragraph</p>");
+        htmlText.append("<p>Another paragraph</p>");
+        htmlText.append("<h2>Summary</h2>");
+        htmlText.append("<p>Here is the summary</p>");
+
+
+        // Using matcher to find any h2 tags within text
+        String h2Pattern = ".*<h2>.*"; // . matches
+
+        // Checking if the pattern matches the regex (regular expression)
+//        Pattern pattern = Pattern.compile(h2Pattern, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+                                                        // ignoring case         checking unicode case
+        Pattern pattern = Pattern.compile(h2Pattern);
+        Matcher matcher = pattern.matcher(htmlText);
+        System.out.println(matcher.matches());
+
     }
 
 }
