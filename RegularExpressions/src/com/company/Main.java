@@ -186,6 +186,49 @@ public class Main {
         while (h2TextMatcher.find()){
             // gathering the text between the opening and closing tags and not the tags themselves
             System.out.println("Occurrence: " + h2TextMatcher.group(2)); // here we are getting group 2 (.+?)
+
+            // "abc" "a", "b", and "c"
+            // [H|h]arry
+            System.out.println("harry".replaceAll("[H|h]arry", "Larry")); // replacing capitalized & lowercase versions
+            System.out.println("Harry".replaceAll("[H|h]arry", "Larry")); // of harry
+
+            // [^abc] means matches all characters but a, b, and c
+            String tvTest = "tstvtkt";
+//            String tNotVRegExp = "t[^v]";
+            String tNotVRegExp = "t(?!v)"; // look ahead regular expression says we want "t" that isn't followed (not operator: "!") by a "v"
+                                            // look ahead (!char) don't actually include the characters they match in the matched text
+                                            // look ahead for including the char "v" after char "t": t(?=v)
+
+            // validating a US Phone number
+            // ^ : start, of instance, so if anything comes before the start of the phone number, it won't match
+            // [\(] : Escaped starting parenthesis (used b/c the parenthesis is a char class used to indicate a group)
+            // matching the parenthesis character's literal by escaping it in this way: "[\characterLiteral]"
+            // [\)] : Escaped closing parenthesis
+            // [\-] : Escaped dash
+            // [ ] : Escaped space
+            // {#} : quantifier that indicates the number of the char that came before the quantifier:
+            // for ex [0-9]{3}, here the quantifier is set to 3, so 3 numbers ranging from 0-9 follow like "295" or "001"
+            // [0-9] : provides an inclusive range of numbers from 0-9
+            // $ : end of instance, so if anything follows the end of the phone number, it won't match
+
+            // ^([\(]{1}[0-9]{3}[\)][0-9]{1}[ ]{1}[0-9]{3}[\-]{1}[0-9]{4})$
+            String phone1 = "1234567890"; // should not match
+            String phone2 = "(123) 456-7890"; // should match
+
+            Pattern tNotVPattern = Pattern.compile(tNotVRegExp);
+            Matcher tNotVMatcher = tNotVPattern.matcher(tvTest);
+
+            count = 0;
+            while (tNotVMatcher.find()) {
+                count++;        // Using regular expression: "t[^v]" to count each occurrence of "t" that isn't followed by "v"
+                System.out.println("Occurrence " + count + " : " + tNotVMatcher.start() + " to " + tNotVMatcher.end()); // only 2 occurrences
+                // because"[^v]" signifies it has to be followed by a char, but not "v", if no char after the t, then it doesn't count
+                // each bracket ("[" & "]") requires char to be before or after a char
+                // for instance "[apple" requires characters to come before apple
+                // for instance "apple]" requires characters to come after apple
+
+
+            }
         }
     }
 
