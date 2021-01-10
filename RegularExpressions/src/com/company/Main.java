@@ -53,5 +53,35 @@ public class Main {
 
         System.out.println(alphanumeric.matches("abcDeeeF12Ghhiiiijkl99z")); // returns true b/c the entire string matches
 
+        // converting a name from up/low case to uppercase using either instance h or H following the String: arry
+        System.out.println("harry".replaceAll("[Hh]arry","Harry"));
+
+        String newAlphanumeric = "abcDeeeF12Ghhiiiijkl99z";
+
+        // replacing everything from the start of the String except chars: "e" or "j"
+        System.out.println(newAlphanumeric.replaceAll("[^ej]", "X"));
+
+        System.out.println(newAlphanumeric.replaceAll("[abcdef345678]","X"));
+        // is the same as using "-" as a range :
+        System.out.println(newAlphanumeric.replaceAll("[a-f3-8]","X"));
+
+        // To replace lowercase and capital letters as well
+        System.out.println(newAlphanumeric.replaceAll("[a-fA-F3-8]","X"));
+
+        // "?i" is used to ignore case so both "a" and "A" would be replaced
+        System.out.println(newAlphanumeric.replaceAll("(?i)[a-f3-8]", "X"));
+
+        //  to take into account for a unicode String: ?ui
+        System.out.println(newAlphanumeric.replaceAll("(?iu)[a-f3-8]", "X"));
+
+        // replacing all the numbers in a string using [0-9]
+        System.out.println(newAlphanumeric.replaceAll("[0-9]", "X"));
+        // or short hand: \\d
+        System.out.println(newAlphanumeric.replaceAll("\\d", "X"));
+
+        // replacing all non-digits using \\D
+        System.out.println(newAlphanumeric.replaceAll("\\D", "X"));
+
+
     }
 }
