@@ -101,5 +101,26 @@ public class Main {
 
         // replacing word boundaries of " word " with "x": " xwordx ": \\b (nice to add tags with)
         System.out.println(hasWhiteSpace.replaceAll("\\b","X"));
+
+        // a Quantifier specifies how often an element in a regular expression (regex) can occur
+
+        // {3} specifies the number of the preceding char (e) that must occur (so eee) to find a match
+        // Remember: the quantifier({#}) always comes after the character that it applies to.
+        System.out.println(alphanumeric.replaceAll("^abcDe{3}","YYY"));
+
+        // replaceAll strings with abcDe and all the preceding e's using "+" like so: "thisIsAString+"
+        // removing the need for the curly braces becuase no longer specifying an exact value
+        System.out.println(alphanumeric.replaceAll("^abcDe+","YYY"));
+
+        // replacing all string patterns with 0 or all of the preceding character: "e" using "*"
+        // this replaceAll will also remove "abcD" because it's either with all consecutive e's or without the e at all
+        System.out.println(alphanumeric.replaceAll("^abcDe*","YYY"));
+
+        // replacing strings that are followed by the range of 2-5 e's (only works if it's between 2-5 e's so not 1 e)
+        System.out.println(alphanumeric.replaceAll("^abcDe{2,5}","YYY"));
+
+       // replacing any occurrence of "h" followed by any # of i's, followed by at least 1 j replaced all that by a Y
+        System.out.println(alphanumeric.replaceAll("h+i*j","Y"));
     }
+
 }
