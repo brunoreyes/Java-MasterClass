@@ -82,6 +82,24 @@ public class Main {
         // replacing all non-digits using \\D
         System.out.println(newAlphanumeric.replaceAll("\\D", "X"));
 
+        String hasWhiteSpace = "I have blank spaces,\ta tab, and also a newline\n";
 
+        // removing all white space, tabs, and new lines within a String using: \\s
+        System.out.println(hasWhiteSpace.replaceAll("\\s",""));
+
+        // removing all tabs
+        System.out.println(hasWhiteSpace.replaceAll("\t","X"));
+
+        // replace all non-white space characters, only tab and new line chars remain
+        System.out.println(hasWhiteSpace.replaceAll("\\S",""));
+
+        // replace all a-z, A-z, 0-9, and _ using \\w
+        System.out.println(hasWhiteSpace.replaceAll("\\w","X"));
+
+        // replacing anything but: a-z, A-z, 0-9, and _ using \\W
+        System.out.println(hasWhiteSpace.replaceAll("\\W","X"));
+
+        // replacing word boundaries of " word " with "x": " xwordx ": \\b (nice to add tags with)
+        System.out.println(hasWhiteSpace.replaceAll("\\b","X"));
     }
 }
