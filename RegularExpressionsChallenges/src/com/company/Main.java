@@ -87,5 +87,14 @@ public class Main {
         while(matcher11a.find()) {
             System.out.println("Occurrence: " + matcher11a.group(1));
         }
+
+        String challenge12ZipCode = "11111";
+        String challenge12ZipCodeRegEx = "^\\d{5}$";
+        System.out.println(challenge12ZipCode.matches(challenge12ZipCodeRegEx));
+
+        String challenge13ZipCode = "11111-1111";
+        String challenge13ZipCodeRegEx = "^\\d{5}-\\d{4}?$"; // ?: 1 or more occurrences of numbers to 4
+        System.out.println(challenge13ZipCode.matches(challenge13ZipCodeRegEx));
+
     }
 }
