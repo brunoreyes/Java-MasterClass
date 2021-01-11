@@ -25,6 +25,8 @@ public class Main {
 
         // to see all break points or run debugger functionality go to the run menu on the tool bar
         // then go to "view breakpoints.." and uncheck/check breakpoints to hide/show breakpoints
+
+        // var with glasses are watches, they are updated as application runs
         StringUtilities utils = new StringUtilities();
         StringBuilder sb = new StringBuilder();
         while (sb.length() < 10){

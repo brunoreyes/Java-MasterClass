@@ -6,7 +6,9 @@ public class StringUtilities {
 
 
     public void addChar(StringBuilder sBuilder, char c){
-        this.sBuilder.append(c);
+//        this.sBuilder.append(c); // fix debugging error and now updating the variable passed
+        // to this method instead of the local instance variable ( by removing "this")
+        sBuilder.append(c);
         charsAdded++;
 
     }
