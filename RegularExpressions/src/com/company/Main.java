@@ -112,7 +112,7 @@ public class Main {
         System.out.println(alphanumeric.replaceAll("^abcDe{3}","YYY"));
 
         // replaceAll strings with abcDe and all the preceding e's using "+" like so: "thisIsAString+"
-        // removing the need for the curly braces becuase no longer specifying an exact value
+        // removing the need for the curly braces because no longer specifying an exact value
         System.out.println(alphanumeric.replaceAll("^abcDe+","YYY"));
 
         // replacing all string patterns with 0 or all of the preceding character: "e" using "*"
