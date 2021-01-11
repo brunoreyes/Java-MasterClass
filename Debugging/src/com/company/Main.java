@@ -28,6 +28,8 @@ public class Main {
 
         // var with glasses are watches, they are updated as application runs
 
+        // to associate a source with a third party library download the dependencies & source jar files
+
         // within the variables list
         StringUtilities utils = new StringUtilities();
         StringBuilder sb = new StringBuilder();
