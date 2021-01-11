@@ -27,6 +27,8 @@ public class Main {
         // then go to "view breakpoints.." and uncheck/check breakpoints to hide/show breakpoints
 
         // var with glasses are watches, they are updated as application runs
+
+        // within the variables list
         StringUtilities utils = new StringUtilities();
         StringBuilder sb = new StringBuilder();
         while (sb.length() < 10){
