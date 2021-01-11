@@ -18,6 +18,13 @@ public class Main {
         // step into: steps into any methods called by the next statement executed
         // force step into: goes into java's built in function
         // step out: run the rest of the method, return to the caller and suspend
+        // run to cursor suspends on the line.
+
+        // make sure to keep breakpoints to a minimum and make sure to get rid of them after debugging
+        // and then you are free to run your code.
+
+        // to see all break points or run debugger functionality go to the run menu on the tool bar
+        // then go to "view breakpoints.." and uncheck/check breakpoints to hide/show breakpoints
         StringUtilities utils = new StringUtilities();
         StringBuilder sb = new StringBuilder();
         while (sb.length() < 10){
