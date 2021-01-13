@@ -34,13 +34,20 @@ import java.sql.*;
 
 public class Main {
     // All JDBC drivers use a connection string to connect to a DB, using JDBC:
+    public static final String DB_NAME = "testjava.db";
+    public static final String CONNECTION_STRING =
+            // Utilized absolute path and changed it so it doesn't go into src but: TestDataBase
+            "jdbc:sqlite:/Users/brunoreyes/Desktop/Code/Java/Java-MasterClass/TestDataBase/" + DB_NAME;
+
+    public static final String TABLE_CONTACTS = "contacts";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_PHONE = "phone";
+    public static final String COLUMN_EMAIL = "email";
 
     public static void main(String[] args) {
-        // Utilized absolute path and changed it so it doesn't go into src but: TestDataBase
+
        //  Using try & catch with resources to automatically close the resource when try & catch block exits
-        try (Connection connection = DriverManager.getConnection(
-                "jdbc:sqlite:/Users/brunoreyes/Desktop/Code/Java/" +
-                        "Java-MasterClass/TestDataBase/testjava.db");
+        try (Connection connection = DriverManager.getConnection(CONNECTION_STRING);
              Statement statement = connection.createStatement()){
 
 //        try {
@@ -49,33 +56,53 @@ public class Main {
 //                        "Java-MasterClass/TestDataBase/testjava.db");
             //connection.setAutoCommit(false); // turning off auto commit to not automatically add data
 //            Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS" + //  only creates table "IF NOT EXISTS"
-                    " contacts (name TEXT, phone INTEGER, email TEXT)");
+            statement.execute("DROP TABLE IF NOT EXISTS" + TABLE_CONTACTS);
+
+            statement.execute("CREATE TABLE IF NOT EXISTS" + TABLE_CONTACTS +//  only creates table "IF NOT EXISTS"
+                                " (" + COLUMN_NAME + " TEXT,"
+                                + COLUMN_PHONE + " INTEGER,"
+                                + COLUMN_EMAIL +" TEXT)");
+
             // when calling execute() the driver understands I'm passing a complete query so no ";"
             // semicolon is need at the end of the statement.
 
 //            Commenting out Inserts to avoid adding duplicate data
-//            statement.execute("INSERT INTO contacts (name, phone, email)" +
-//                    " VALUES ('Bruno', 1234567890, 'bruno@email.com')");
-//            statement.execute("INSERT INTO contacts (name, phone, email)" +
-//                    " VALUES ('Joe', 0987654321, 'joe@email.com')");
-//            statement.execute("INSERT INTO contacts (name, phone, email)" +
-//                    " VALUES ('Mojo', 1234567899, 'mojo@email.com')");
+            statement.execute("INSERT INTO "+ TABLE_CONTACTS +
+                                    " (" + COLUMN_NAME + ", " +
+                                    COLUMN_PHONE + ", " +
+                                    COLUMN_EMAIL + ") " +
+                                " VALUES ('Bruno', 1234567890, 'bruno@email.com')");
+            statement.execute("INSERT INTO "+ TABLE_CONTACTS +
+                                    " (" + COLUMN_NAME + ", " +
+                                     COLUMN_PHONE + ", " +
+                                     COLUMN_EMAIL + ") " +
+                                    " VALUES ('Joe', 0987654321, 'joe@email.com')");
+            statement.execute("INSERT INTO "+ TABLE_CONTACTS +
+                                    " (" + COLUMN_NAME + ", " +
+                                    COLUMN_PHONE + ", " +
+                                    COLUMN_EMAIL + ") " +
+                                    " VALUES ('Mojo', 1234567899, 'mojo@email.com')");
 
-            statement.execute("UPDATE contacts SET phone=5566798 WHERE name='Joe'");
-            statement.execute("DELETE FROM contacts WHERE name='Bruno'");
-            statement.execute("SELECT * FROM contacts");
+            statement.execute("UPDATE " + TABLE_CONTACTS + " SET " + COLUMN_PHONE +
+                                    "=5566798 WHERE " + COLUMN_NAME + "='Joe'");
+            statement.execute("DELETE FROM  " + TABLE_CONTACTS +
+                                    " WHERE  " + COLUMN_NAME + "='Bruno'");
+//            statement.execute("SELECT * FROM contacts");
 
             // Recall to use different statement instances for each query when using or checking data
             // Above is okay because we are only preforming CRUD and not using or checking data
-            ResultSet results = statement.getResultSet(); // Gathering data from SQL database using ResultSet.
+//            ResultSet results = statement.getResultSet(); // Gathering data from SQL database using ResultSet.
+            // executeQuery returns a result set
+
+            // hardcoding strings create vulnerability to sequel injection attacks
+            ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_CONTACTS);
             while (results.next()){
-                System.out.println(results.getString("name")
-                    + " " + results.getString("phone")
-                    + " " + results.getString("email"));
+                System.out.println(results.getString(COLUMN_NAME)
+                    + " " + results.getString(COLUMN_PHONE)
+                    + " " + results.getString(COLUMN_EMAIL));
             }
             results.close();
-            
+
 
 
             // Connection is connection to db and statement is the statement that you want to execute.
