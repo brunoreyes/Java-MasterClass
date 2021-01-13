@@ -1,19 +1,34 @@
 package com.company;
 
+import org.junit.Before;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static junit.framework.TestCase.fail;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-
 //import org.junit.Test;
 
 public class BankAccountTest {
+
+    private BankAccount account;
+    private static int count;
+
+    @org.junit.jupiter.api.BeforeAll // runs before all methods run
+    public static void BeforeClass() {
+        System.out.println("This executes before any test class. Count = " + count++);
+    }
+
+
+    @org.junit.jupiter.api.BeforeEach // annotating with "@org.junit.Before" to ensure it runs before each method runs
+    public void setup(){
+        account = new BankAccount("Bruno", "Reyes", 1000.00, BankAccount.CHECKING);
+        System.out.println("Running setup() test...");
+    }
 
     // to get rid of errors, press on the error junit with option + enter. and add to classPath.
     // the same with jupiter for jUnit5
     @org.junit.jupiter.api.Test
     public void deposit() { // test method names should give some indication of the actual condition they are testing.
-        BankAccount account = new BankAccount("Bruno", "Reyes", 1000.00, BankAccount.CHECKING);
         double balance = account.deposit(200.00, true);
         // the assertEquals method uses the equals method
         assertEquals(1200.00, balance, 0);// third param is delta, allows le-way in comparison
@@ -42,27 +57,38 @@ public class BankAccountTest {
 
     @org.junit.jupiter.api.Test
     public void getBalance_deposit() {
-        BankAccount account = new BankAccount("Bruno", "Reyes", 1000.00, BankAccount.CHECKING);
         account.deposit(200.00, true);
         assertEquals(1200.00, account.getBalance(), 0);
     }
 
     @org.junit.jupiter.api.Test
     public void getBalance_withdraw() {
-        BankAccount account = new BankAccount("Bruno", "Reyes", 1000.00, BankAccount.CHECKING);
         account.withdraw(200.00, true);
         assertEquals(800.00, account.getBalance(), 0);
     }
 
     @org.junit.jupiter.api.Test
     public void isChecking_true(){
-        BankAccount account = new BankAccount("Bruno", "Reyes", 1000.00, BankAccount.CHECKING);
         assertTrue("This test has yet to be implemented", account.isChecking());
         // assertTrue("failure message", is a boolean returning true if the parameter is true, else false)
         // if assert true's 2nd param is false than the failure message will occur
     }
 
+    @org.junit.jupiter.api.AfterAll // runs after all methods run
+    public static void afterClass(){
+        System.out.println("This executes after any test cases");
+    }
 
+
+    // Assertion Methods
+    // assertNotEquals() used to make sure two variables don;t have the same value aka not equal
+
+    // assertArrayEquals() used to verify that the two values of each array and the array lengths are equal.
+    // Remember not to compare array values using assertEquals() b/c it'll return true if they are the same instance
+
+    // assertNull(), assertNotNull()
+    // assertSame(), assertNotSame(), checking if two instances are the exact same instances, comparing object refs only
+    // assertThat() comparing the actual value against a matcher
 
 
     // The Check box shown on the right within the specialized bottom left side of the terminal is a
