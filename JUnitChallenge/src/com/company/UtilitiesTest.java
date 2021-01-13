@@ -2,6 +2,7 @@ package com.company;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static junit.framework.TestCase.fail;
+import static junit.framework.TestCase.assertNull;
 
 class UtilitiesTest {
 
@@ -15,7 +16,9 @@ class UtilitiesTest {
         Utilities util = new Utilities();
         assertEquals("ABCDEF", util.removePairs("AABCDDEFF"));
         assertEquals("ABCABDEF", util.removePairs("ABCCABDEEF"));
-
+        assertNull("Did not get null returned when argument passed was null", util.removePairs(null));
+        assertEquals("A", util.removePairs("A"));
+        assertEquals("", util.removePairs(""));
     }
 
     @org.junit.jupiter.api.Test

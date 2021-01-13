@@ -23,7 +23,7 @@ public class Utilities {
     //"ABCBDEEF" -> "ABCBDEF" ( the two B's arent next to each other so they aren't removed)
     public String removePairs(String source){
         // if length is less than two there isn't any pairs
-        if (source.length() < 2){
+        if (source == null || source.length() < 2){
             return source;
         }
         StringBuilder sb = new StringBuilder();
