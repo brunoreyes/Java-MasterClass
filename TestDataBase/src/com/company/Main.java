@@ -49,16 +49,9 @@ public class Main {
        //  Using try & catch with resources to automatically close the resource when try & catch block exits
         try (Connection connection = DriverManager.getConnection(CONNECTION_STRING);
              Statement statement = connection.createStatement()){
+            statement.execute("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
 
-//        try {
-//            Connection connection = DriverManager.getConnection(
-//                "jdbc:sqlite:/Users/brunoreyes/Desktop/Code/Java/" +
-//                        "Java-MasterClass/TestDataBase/testjava.db");
-            //connection.setAutoCommit(false); // turning off auto commit to not automatically add data
-//            Statement statement = connection.createStatement();
-            statement.execute("DROP TABLE IF NOT EXISTS" + TABLE_CONTACTS);
-
-            statement.execute("CREATE TABLE IF NOT EXISTS" + TABLE_CONTACTS +//  only creates table "IF NOT EXISTS"
+            statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS +//  only creates table "IF NOT EXISTS"
                                 " (" + COLUMN_NAME + " TEXT,"
                                 + COLUMN_PHONE + " INTEGER,"
                                 + COLUMN_EMAIL +" TEXT)");
@@ -66,28 +59,14 @@ public class Main {
             // when calling execute() the driver understands I'm passing a complete query so no ";"
             // semicolon is need at the end of the statement.
 
-//            Commenting out Inserts to avoid adding duplicate data
-            statement.execute("INSERT INTO "+ TABLE_CONTACTS +
-                                    " (" + COLUMN_NAME + ", " +
-                                    COLUMN_PHONE + ", " +
-                                    COLUMN_EMAIL + ") " +
-                                " VALUES ('Bruno', 1234567890, 'bruno@email.com')");
-            statement.execute("INSERT INTO "+ TABLE_CONTACTS +
-                                    " (" + COLUMN_NAME + ", " +
-                                     COLUMN_PHONE + ", " +
-                                     COLUMN_EMAIL + ") " +
-                                    " VALUES ('Joe', 0987654321, 'joe@email.com')");
-            statement.execute("INSERT INTO "+ TABLE_CONTACTS +
-                                    " (" + COLUMN_NAME + ", " +
-                                    COLUMN_PHONE + ", " +
-                                    COLUMN_EMAIL + ") " +
-                                    " VALUES ('Mojo', 1234567899, 'mojo@email.com')");
+            // More efficient way of inserting data using created method: insertContact below
+            insertContact(statement, "Bruno",1234567890, "bruno@email.com" );
+            insertContact(statement, "Joe", 54321, "joe@email.com");
+            insertContact(statement, "Mojo", 1234567899, "mojo@email.com" );
 
-            statement.execute("UPDATE " + TABLE_CONTACTS + " SET " + COLUMN_PHONE +
-                                    "=5566798 WHERE " + COLUMN_NAME + "='Joe'");
+//           Ensure to comment out Inserts to avoid adding duplicate data
             statement.execute("DELETE FROM  " + TABLE_CONTACTS +
                                     " WHERE  " + COLUMN_NAME + "='Bruno'");
-//            statement.execute("SELECT * FROM contacts");
 
             // Recall to use different statement instances for each query when using or checking data
             // Above is okay because we are only preforming CRUD and not using or checking data
@@ -112,6 +91,17 @@ public class Main {
 
         } catch (SQLException e){
             System.out.println("Something went wrong: " + e.getMessage());
+            e.printStackTrace(); // to figure out where errors are coming from
         }
+    }
+
+    // not the best way to do general statement but good for now
+    private static void insertContact(Statement statement, String name, int phone, String email)
+            throws SQLException {
+        statement.execute("INSERT INTO "+ TABLE_CONTACTS +
+                " (" + COLUMN_NAME + ", " +
+                COLUMN_PHONE + ", " +
+                COLUMN_EMAIL + ") " +
+                " VALUES ('" + name + "', " + phone + ", '" + email + "')");
     }
 }
