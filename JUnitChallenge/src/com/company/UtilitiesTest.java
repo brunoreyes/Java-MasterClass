@@ -7,7 +7,7 @@ import static junit.framework.TestCase.fail;
 import static junit.framework.TestCase.assertNull;
 
 class UtilitiesTest {
-    private  Utilities util;
+    private Utilities util;
 
     @org.junit.jupiter.api.BeforeEach
     public void setup(){
