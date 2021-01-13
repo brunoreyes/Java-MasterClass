@@ -39,14 +39,26 @@ public class Main {
     // All JDBC drivers use a connection string to connect to a DB, using JDBC:
 
     public static void main(String[] args) {
-        // utilized absolute path and changed it so it doesn't go into src but: TestDataBase
-        try (Connection connection = DriverManager.getConnection(
+        // Utilized absolute path and changed it so it doesn't go into src but: TestDataBase
+        // Using try & catch with resources to automatically close the resource when try & catch block exits
+//        try (Connection connection = DriverManager.getConnection(
+//                "jdbc:sqlite:/Users/brunoreyes/Desktop/Code/Java/" +
+//                        "Java-MasterClass/TestDataBase/testjava.db");
+//             Statement statement = connection.createStatement()){
+
+        try {
+            Connection connection = DriverManager.getConnection(
                 "jdbc:sqlite:/Users/brunoreyes/Desktop/Code/Java/" +
                         "Java-MasterClass/TestDataBase/testjava.db");
-             Statement statement = connection.createStatement();){
+
+            Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE contacts (name TEXT, phone INTEGER, email TEXT)");
             // when calling execute() the driver understands I'm passing a complete query so no ";"
-            // semicolon is need at the end of the statement
+            // semicolon is need at the end of the statement.
+
+            // Remember: Always Close statements before closing connections
+            statement.close();
+            connection.close();
 
         } catch (SQLException e){
             System.out.println("Something went wrong: " + e.getMessage());
