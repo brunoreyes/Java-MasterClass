@@ -3,6 +3,8 @@ package com.company;
 import static org.junit.jupiter.api.Assertions.*;
 import static junit.framework.TestCase.fail;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+
 //import org.junit.Test;
 
 public class BankAccountTest {
@@ -10,14 +12,13 @@ public class BankAccountTest {
     // to get rid of errors, press on the error junit with option + enter. and add to classPath.
     // the same with jupiter for jUnit5
     @org.junit.jupiter.api.Test
-    public void deposit() {
-        BankAccount account = new BankAccount("Bruno", "Reyes", 1000.00);
+    public void deposit() { // test method names should give some indication of the actual condition they are testing.
+        BankAccount account = new BankAccount("Bruno", "Reyes", 1000.00, BankAccount.CHECKING);
         double balance = account.deposit(200.00, true);
         // the assertEquals method uses the equals method
-        assertEquals(1200, balance, 0);// third param is delta, allows le-way in comparison
+        assertEquals(1200.00, balance, 0);// third param is delta, allows le-way in comparison
         // as long as the difference between the expected and actual values is within the delta specified,
         // then the assertion will pass
-        assertEquals(1200, account.getBalance(), 0);
         // Every test method should start fresh, running independently of other test methods
 
         // When writing a test the test should run and pass on it's own
@@ -40,9 +41,32 @@ public class BankAccountTest {
     }
 
     @org.junit.jupiter.api.Test
-    public void getBalance() {
-        fail("This test has yet to be implemented");
+    public void getBalance_deposit() {
+        BankAccount account = new BankAccount("Bruno", "Reyes", 1000.00, BankAccount.CHECKING);
+        account.deposit(200.00, true);
+        assertEquals(1200.00, account.getBalance(), 0);
     }
+
+    @org.junit.jupiter.api.Test
+    public void getBalance_withdraw() {
+        BankAccount account = new BankAccount("Bruno", "Reyes", 1000.00, BankAccount.CHECKING);
+        account.withdraw(200.00, true);
+        assertEquals(800.00, account.getBalance(), 0);
+    }
+
+    @org.junit.jupiter.api.Test
+    public void isChecking_true(){
+        BankAccount account = new BankAccount("Bruno", "Reyes", 1000.00, BankAccount.CHECKING);
+        assertTrue("This test has yet to be implemented", account.isChecking());
+        // assertTrue("failure message", is a boolean returning true if the parameter is true, else false)
+        // if assert true's 2nd param is false than the failure message will occur
+    }
+
+
+
+
+    // The Check box shown on the right within the specialized bottom left side of the terminal is a
+    // toggles between showing all test or just the failed test
 
     // To create a separate run configuration for all the test above, to test class of the application
     //  and not actually run the test itself, right click anywhere outside of the testing methods
