@@ -31,6 +31,10 @@ public class BankAccount {
     }
 
     public double withdraw(double amount, boolean branch){
+        if ((amount > 500.00) & !branch){ // Here, the customer is trying to take out more than $500 from an ATM
+            throw new IllegalArgumentException(); // throwing this exception will terminate notify user and finish method
+        }
+        // this code below only runs if above's if block isn't satisfied
         balance -= amount;
         return balance;
     }

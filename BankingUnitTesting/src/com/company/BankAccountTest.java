@@ -1,6 +1,7 @@
 package com.company;
 
 import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static junit.framework.TestCase.fail;
@@ -51,8 +52,21 @@ public class BankAccountTest {
     }
 
     @org.junit.jupiter.api.Test
-    public void withdraw() {
-        fail("This test has yet to be implemented");
+    public void withdraw_branch() {
+        double balance = account.withdraw(600.00, true);
+        assertEquals(400.00, balance, 0);
+    }
+
+    @org.junit.jupiter.api.Test
+    public void withdraw_ATM() {
+        // when expecting an exception to be thrown, use   Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            double balance = account.withdraw(600.00, false);
+            assertEquals(400.00, account.getBalance(), 0);
+
+        });
+
+
     }
 
     @org.junit.jupiter.api.Test
@@ -76,7 +90,12 @@ public class BankAccountTest {
 
     @org.junit.jupiter.api.AfterAll // runs after all methods run
     public static void afterClass(){
-        System.out.println("This executes after any test cases");
+        System.out.println("This executes after any test cases. Count = " + count++);
+    }
+
+    @org.junit.jupiter.api.AfterEach // runs after each methods run
+    public void tearDown(){
+        System.out.println("Count = " + count++);
     }
 
 
