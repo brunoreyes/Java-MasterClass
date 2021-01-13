@@ -2,6 +2,7 @@ package com.company;
 
 public class Utilities {
 
+
     // Returns a char array containing every nth char.
     // When sourceArray.length < n, return sourceArray
     public char[] everyNthChar(char[] sourceArray, int n){
@@ -27,11 +28,16 @@ public class Utilities {
         }
         StringBuilder sb = new StringBuilder();
         char[] string = source.toCharArray();
-        for (int i = 0; i < string.length; i++) {
-            if (string[i] != string[i++]){
+
+        for (int i = 0; i < string.length - 1; i++) {
+//            System.out.println(string[i]); // for testing purposes
+            if (string[i] != string[i+1]){
                 sb.append(string[i]);
             }
         }
+        // add the final character, always safe
+//        System.out.println(string[string.length - 1]); // for testing purposes
+        sb.append(string[string.length - 1]);
         return sb.toString();
     }
     // perform a conversion based on some internal business rule

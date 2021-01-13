@@ -1,6 +1,7 @@
 package com.company;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static junit.framework.TestCase.fail;
 
 class UtilitiesTest {
 
@@ -11,7 +12,10 @@ class UtilitiesTest {
 
     @org.junit.jupiter.api.Test
     void removePairs() {
-        fail("This test has not been implemented");
+        Utilities util = new Utilities();
+        assertEquals("ABCDEF", util.removePairs("AABCDDEFF"));
+        assertEquals("ABCABDEF", util.removePairs("ABCCABDEEF"));
+
     }
 
     @org.junit.jupiter.api.Test
