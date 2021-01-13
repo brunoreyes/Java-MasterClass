@@ -61,9 +61,18 @@ public class BankAccountTest {
     public void withdraw_ATM() {
         // when expecting an exception to be thrown, use   Assertions.assertThrows(IllegalArgumentException.class, () -> {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            double balance = account.withdraw(600.00, false);
-            assertEquals(400.00, account.getBalance(), 0);
+//        double balance = account.withdraw(600.00, true); // removed local var instance to solely test exception
+        account.withdraw(600.00, false);
+        fail("Should have thrown an IllegalArgumentException");
+//            assertEquals(400.00, account.getBalance(), 0); // removed to just see if exception is thrown
 
+            // old way to preform test on JUnit3
+//            try {
+//                account.withdraw(600.00, false);
+//                fail("Should have thrown an illegal argument exception");
+//            } catch (IllegalArgumentException e){
+//
+//            }
         });
 
 
