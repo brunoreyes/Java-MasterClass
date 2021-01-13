@@ -1,10 +1,18 @@
 package com.company;
 
+import org.junit.jupiter.api.Assertions;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static junit.framework.TestCase.fail;
 import static junit.framework.TestCase.assertNull;
 
 class UtilitiesTest {
+    private  Utilities util;
+
+    @org.junit.jupiter.api.BeforeEach
+    public void setup(){
+        util = new Utilities();
+    }
 
     @org.junit.jupiter.api.Test
     void everyNthChar() {
@@ -18,7 +26,6 @@ class UtilitiesTest {
 
     @org.junit.jupiter.api.Test
     void removePairs() {
-        Utilities util = new Utilities();
         assertEquals("ABCDEF", util.removePairs("AABCDDEFF"));
         assertEquals("ABCABDEF", util.removePairs("ABCCABDEEF"));
         assertNull("Did not get null returned when argument passed was null", util.removePairs(null));
@@ -28,13 +35,18 @@ class UtilitiesTest {
 
     @org.junit.jupiter.api.Test
     void converter() {
-        Utilities util = new Utilities();
         assertEquals(300, util.converter(10, 5));
     }
 
     @org.junit.jupiter.api.Test
+    public void converter_arithmeticException(){
+    Assertions.assertThrows(ArithmeticException.class, () -> {
+        util.converter(10,0);
+    });
+    }
+
+    @org.junit.jupiter.api.Test
     void nullIfOddLength() {
-        Utilities util = new Utilities();
         assertNull(util.nullIfOddLength("odd"));
         assertNotNull(util.nullIfOddLength("even"));
     }
