@@ -46,12 +46,16 @@ public class Datasource {
         }
     }
     public List<Artist> queryArtist(){
-        Statement statement = null;
-        ResultSet results = null;
+//        Statement statement = null;
+//        ResultSet results = null;
 
-        try {
-            statement = connection.createStatement();
-            results = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS);
+        // utilizing the try with resources allows to get rid of finally clause because both
+        // the Statement and ResultSet will now automatically be closed
+        // and initialized Statement and ResultSet above are no longer necessary
+        try ( Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS)) {
+//            statement = connection.createStatement();
+//            results = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS);
 
             // Creating a list called artists, comprised of Artist objects
             List<Artist> artists = new ArrayList<>();
@@ -63,24 +67,25 @@ public class Datasource {
             }
             return artists;
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Query failed: " + e.getMessage());
             return null;
-        } finally {
-            try {
-                if (results != null){
-                    results.close();
-                }
-            } catch (SQLException e){
-                System.out.println("Error closing ResultSet " + e.getMessage());
-            }
-            try {
-                if (statement != null){
-                    statement.close();
-                }
-            } catch (SQLException e){
-                System.out.println("Error closing Statement "  + e.getMessage());
-            }
         }
+//        } finally {
+//            try {
+//                if (results != null){
+//                    results.close();
+//                }
+//            } catch (SQLException e){
+//                System.out.println("Error closing ResultSet " + e.getMessage());
+//            }
+//            try {
+//                if (statement != null){
+//                    statement.close();
+//                }
+//            } catch (SQLException e){
+//                System.out.println("Error closing Statement "  + e.getMessage());
+//            }
+//        }
     }
 }
