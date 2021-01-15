@@ -61,16 +61,16 @@ public class Datasource {
         }
     }
     public List<Artist> queryArtist(int sortOrder){
-        StringBuilder sb = new StringBuilder("SELECT * FROM");
+        StringBuilder sb = new StringBuilder("SELECT * FROM ");
         sb.append(TABLE_ARTISTS);
         if (sortOrder != ORDER_BY_NONE){
-            sb.append(" ORDER BY");
+            sb.append(" ORDER BY ");
             sb.append(COLUMN_ARTIST_NAME);
-            sb.append(" COLLATE NOCASE");
+            sb.append(" COLLATE NOCASE "); // case-insensitive order
             if(sortOrder == ORDER_BY_DESC){
-                sb.append("DESC");
+                sb.append("DESC ");
             } else {
-                sb.append("ASC");
+                sb.append("ASC "); // The default option
             }
 
         }
@@ -81,7 +81,8 @@ public class Datasource {
         // the Statement and ResultSet will now automatically be closed
         // and initialized Statement and ResultSet above are no longer necessary
         try ( Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS)) {
+              ResultSet results = statement.executeQuery(sb.toString())) {
+//            ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS)) {
 //            statement = connection.createStatement();
 //            results = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS);
 
