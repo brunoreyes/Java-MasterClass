@@ -38,6 +38,18 @@ public class Datasource {
     public static final int ORDER_BY_ASC = 2;
     public static final int ORDER_BY_DESC = 3;
 
+    // adding sort order query as constants making it easier for querying
+    public static final String QUERY_ALBUMS_BY_ARTIST_START =
+            "SELECT " + TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " FROM " + TABLE_ALBUMS +
+                    " INNER JOIN " + TABLE_ARTISTS + " ON " + TABLE_ALBUMS + "." +
+                    COLUMN_ALBUM_ARTIST + " = " + TABLE_ARTISTS + "." + COLUMN_ARTIST_ID +
+                    " WHERE " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + " = \"";
+    // since the concatenations only take place once when a datasource instance is created, we stick with
+    //    concatenations
+    public static final String QUERY_ALBUMS_BY_ARTIST_SORT =
+            " ORDER BY " + TABLE_ALBUMS + "." + COLUMN_ARTIST_NAME + " COLLATE NOCASE ";
+
+
     private Connection connection;
 
     public boolean open(){
@@ -122,34 +134,41 @@ public class Datasource {
     // = artist._id where artist.name = "Carole King
     // order by albums.name collate nocase asc
     public List<String> queryAlbumsForArtist(String artistName, int sortOrder){
-        StringBuilder sb = new StringBuilder("SELECT ");
-        sb.append(TABLE_ALBUMS);
-        sb.append(".");
-        sb.append(COLUMN_ALBUM_NAME);
-        sb.append(" INNER JOIN ");
-        sb.append(" ON ");
-        sb.append(TABLE_ALBUMS);
-        sb.append(".");
-        sb.append(COLUMN_ALBUM_ARTIST);
-        sb.append(" = ");
-        sb.append(TABLE_ARTISTS);
-        sb.append(".");
-        sb.append(" ON ");
-        sb.append(COLUMN_ARTIST_ID);
-        sb.append(" WHERE ");
-        sb.append(TABLE_ARTISTS);
-        sb.append(".");
-        sb.append(COLUMN_ARTIST_NAME);
-        sb.append(" = \"");
-        sb.append(artistName); // putting the artist's name within double quotes
+        StringBuilder sb = new StringBuilder(QUERY_ALBUMS_BY_ARTIST_START);
+        sb.append(artistName);
         sb.append("\"");
+        // the commented out code beneath has been converted to a constant above
+//        sb.append(TABLE_ALBUMS);
+//        sb.append(".");
+//        sb.append(COLUMN_ALBUM_NAME);
+//        sb.append(" FROM ");
+//        sb.append(TABLE_ALBUMS);
+//        sb.append(" INNER JOIN ");
+//        sb.append(TABLE_ARTISTS);
+//        sb.append(" ON ");
+//        sb.append(TABLE_ALBUMS);
+//        sb.append(".");
+//        sb.append(COLUMN_ALBUM_ARTIST);
+//        sb.append(" = ");
+//        sb.append(TABLE_ARTISTS);
+//        sb.append("."); // the period is for accessing rows within the tables. For Ex: artists.id
+//        sb.append(COLUMN_ARTIST_ID);
+//        sb.append(" WHERE ");
+//        sb.append(TABLE_ARTISTS);
+//        sb.append(".");
+//        sb.append(COLUMN_ARTIST_NAME);
+//        sb.append(" = \"");
+//        sb.append(artistName); // putting the artist's name within double quotes
+//        sb.append("\"");
 
         if (sortOrder != ORDER_BY_NONE){
-            sb.append(" ORDER BY ");
-            sb.append(TABLE_ALBUMS);
-            sb.append(".");
-            sb.append(COLUMN_ALBUM_NAME);
-            sb.append(" COLLATE NOCASE ");
+            sb.append(QUERY_ALBUMS_BY_ARTIST_SORT);
+            // the commented out code beneath has been converted to a constant above
+//            sb.append(" ORDER BY ");
+//            sb.append(TABLE_ALBUMS);
+//            sb.append(".");
+//            sb.append(COLUMN_ALBUM_NAME);
+//            sb.append(" COLLATE NOCASE ");
             if (sortOrder == ORDER_BY_DESC){
                 sb.append("DESC"); // no need to add extra space since this is the end of the query
             } else {
