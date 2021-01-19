@@ -1,5 +1,6 @@
 package com.company.model;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class Datasource {
             "jdbc:sqlite:/Users/brunoreyes/Desktop/Code/Java/Java-MasterClass/Music/" + DB_NAME;
 
     public static final String TABLE_ALBUMS = "albums";
-    public static final String COLUMN_ALBUMS_ID = "albums";
+    public static final String COLUMN_ALBUM_ID = "_id";
     public static final String COLUMN_ALBUM_NAME = "name";
     public static final String COLUMN_ALBUM_ARTIST = "artist";
     // unlike indexes, indices are based on start on point position 1
@@ -50,16 +51,18 @@ public class Datasource {
             " ORDER BY " + TABLE_ALBUMS + "." + COLUMN_ARTIST_NAME + " COLLATE NOCASE ";
 
     public static final String QUERY_ARTIST_FOR_SONG_START =
-            "SELECT " + TABLE_ARTISTS + COLUMN_ARTIST_NAME + ", " +
+            "SELECT " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
                     TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + ", " +
                     TABLE_SONGS + "." + COLUMN_SONG_TRACK + " FROM " + TABLE_SONGS +
                     " INNER JOIN " + TABLE_ALBUMS + " ON " +
-                    TABLE_SONGS + "." + COLUMN_SONG_ALBUM + " = " + TABLE_ARTISTS + "." + COLUMN_ARTIST_ID +
+                    TABLE_SONGS + "." + COLUMN_SONG_ALBUM + " = " + TABLE_ALBUMS + "." + COLUMN_ALBUM_ID +
+                    " INNER JOIN " + TABLE_ARTISTS + " ON " +
+                    TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST + " = " + TABLE_ARTISTS + "." + COLUMN_ARTIST_ID +
                     " WHERE " + TABLE_SONGS + "." + COLUMN_SONG_TITLE + " = \"";
 
     public static final String QUERY_ARTIST_FOR_SONG_SORT =
             " ORDER BY " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
-                    TABLE_ALBUMS + "." + COLUMN_ARTIST_NAME + " COLLATE NOCASE ";
+                    TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " COLLATE NOCASE ";
 
 
     private Connection connection;
@@ -200,7 +203,41 @@ public class Datasource {
             System.out.println("Query failed " + e.getMessage());
             return null;
         }
+    }
 
+    public List<SongArtist> queryArtistsForSong(String songName, int sortOrder){
+        StringBuilder sb = new StringBuilder(QUERY_ARTIST_FOR_SONG_START);
+        sb.append(songName);
+        sb.append("\"");
+
+        if (sortOrder != ORDER_BY_NONE){
+            sb.append(QUERY_ARTIST_FOR_SONG_SORT);
+            if (sortOrder == ORDER_BY_DESC){
+                sb.append("DESC");
+            } else {
+                sb.append("ASC");
+            }
+        }
+        System.out.println("SQL Statement: " + sb.toString());
+
+        try(Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(sb.toString())) {
+
+            List<SongArtist> songArtists = new ArrayList<>();
+
+            while (results.next()){
+                SongArtist songArtist = new SongArtist();
+                songArtist.setArtistName(results.getString(1));
+                songArtist.setAlbumName(results.getString(2));
+                songArtist.setTrack(results.getInt(3));
+                songArtists.add(songArtist);
+            }
+            return songArtists;
+
+        } catch (SQLException e){
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
     }
 }
 // test 
