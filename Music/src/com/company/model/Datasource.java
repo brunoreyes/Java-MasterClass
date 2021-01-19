@@ -92,12 +92,32 @@ public class Datasource {
     // can't use placeholders for table or column names
 
     // INSERT INTO artists(name) VALUES(?)
-    // INSERT INTO albums(name, artist) VALUES(?,?)
-    // INSERT INTO songs(track, title, album) VALUES(?,?,?)
+    public static final String INSERT_ARTIST = "INSERT INTO " + TABLE_ARTISTS +
+            '(' + COLUMN_ARTIST_NAME + ") VALUES(?)";
 
+
+    // INSERT INTO albums(name, artist) VALUES(?,?)
+    public static final String INSERT_ALBUMS = "INSERT INTO " + TABLE_ARTISTS +
+            '(' + COLUMN_ALBUM_NAME + ", " + COLUMN_ALBUM_ARTIST + ") VALUES(?, ?)";
+
+    // INSERT INTO songs(track, title, album) VALUES(?,?,?)
+    public static final String INSERT_SONGS = "INSERT INTO " + TABLE_ARTISTS +
+            '(' + COLUMN_SONG_TRACK + ", " + COLUMN_SONG_TITLE + ", " + COLUMN_SONG_ALBUM + ") VALUES(?, ?, ?)";
+
+    public static final String QUERY_ARTIST = "SELECT " + COLUMN_ARTIST_ID + " FROM " +
+            TABLE_ARTISTS + " WHERE " + COLUMN_ARTIST_NAME + " = ?";
+
+    public static final String QUERY_ALBUM = "SELECT " + COLUMN_ALBUM_ID + " FROM " +
+            TABLE_ALBUMS + " WHERE " + COLUMN_ALBUM_NAME + " = ?";
+
+
+    private Connection connection;
 
     private PreparedStatement querySongInfoView;
-    private Connection connection;
+
+    private PreparedStatement insertIntoArtists;
+    private PreparedStatement insertIntoAlbums;
+    private PreparedStatement insertIntoSongs;
 
     public boolean open() {
         try {
@@ -108,7 +128,12 @@ public class Datasource {
             // that will be replaced everytime we use the statement to make a query
             querySongInfoView = connection.prepareStatement(QUERY_VIEW_SONG_INFO_PREP);
 
-
+            // "_id" is the key and the DB generates the value whenever it insets the record into the table
+            // 2nd parameter is the constant, key aka "_id", allowing to access the keys from the prepared statement object.
+            insertIntoArtists = connection.prepareStatement(INSERT_ARTIST, Statement.RETURN_GENERATED_KEYS);
+            insertIntoAlbums = connection.prepareStatement(INSERT_ALBUMS, Statement.RETURN_GENERATED_KEYS);
+            // insertIntoSongs doesn't need the id's returned, so there's no need to grab the keys bc they don't need to pass to anything else.
+            insertIntoSongs = connection.prepareStatement(INSERT_SONGS);
             return true;
         } catch (SQLException e) {
             System.out.println("Couldn't connect to a database: " + e.getMessage());
@@ -124,6 +149,18 @@ public class Datasource {
             if (querySongInfoView != null){
                 querySongInfoView.close();
             }
+
+            // Checking to see if the Artists or Album or Song exist, if so, I return the _id
+            if (insertIntoArtists != null){
+                insertIntoArtists.close();
+            }
+            if (insertIntoAlbums != null){
+                insertIntoAlbums.close();
+            }
+            if (insertIntoSongs != null){
+                insertIntoSongs.close();
+            }
+
             if (connection != null) {
                 connection.close();
             }
