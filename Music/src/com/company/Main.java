@@ -45,7 +45,11 @@ public class Main {
                     ", Track: " + artist.getTrack());
         }
 
+        // getting the column names of song table
         datasource.querySongsMetaData();
+
+        int count = datasource.getCount(Datasource.TABLE_SONGS);
+        System.out.println("Number of songs is: " + count);
         
         datasource.close();
     }

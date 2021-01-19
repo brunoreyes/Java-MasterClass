@@ -232,6 +232,7 @@ public class Datasource {
                 songArtist.setTrack(results.getInt(3));
                 songArtists.add(songArtist);
             }
+
             return songArtists;
 
         } catch (SQLException e){
@@ -254,6 +255,27 @@ public class Datasource {
             }
         } catch (SQLException e){
             System.out.println("Query failed: " + e.getMessage());
+        }
+    }
+
+    // SELECT COUNT (*) FROM songs, how to get the count of songs?
+    public int getCount(String table){
+        // Using As allows me to not have to change getter calls if I modify query String
+        String sql = "SELECT COUNT(*) AS count, MIN(_id) AS min_id FROM " + table;
+//        String sql = "SELECT COUNT(*) AS count FROM " + table;
+
+        try(Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(sql)){
+
+            int count = results.getInt("count");
+//            int min = results.getInt("min_id");
+
+            System.out.format("Count: %d\n", count);
+//            System.out.format("Count = %d, Min = %d\n", count, min);
+            return count; // treating the function result as a column
+        } catch (SQLException e){
+            System.out.println("Query failed: " + e.getMessage());
+            return -1;
         }
     }
 }
