@@ -97,11 +97,11 @@ public class Datasource {
 
 
     // INSERT INTO albums(name, artist) VALUES(?,?)
-    public static final String INSERT_ALBUMS = "INSERT INTO " + TABLE_ARTISTS +
+    public static final String INSERT_ALBUMS = "INSERT INTO " + TABLE_ALBUMS +
             '(' + COLUMN_ALBUM_NAME + ", " + COLUMN_ALBUM_ARTIST + ") VALUES(?, ?)";
 
     // INSERT INTO songs(track, title, album) VALUES(?,?,?)
-    public static final String INSERT_SONGS = "INSERT INTO " + TABLE_ARTISTS +
+    public static final String INSERT_SONGS = "INSERT INTO " + TABLE_SONGS +
             '(' + COLUMN_SONG_TRACK + ", " + COLUMN_SONG_TITLE + ", " + COLUMN_SONG_ALBUM + ") VALUES(?, ?, ?)";
 
     // Select will return the id, the where clause will do a search by name, getting back the id we can use for the insertion,
@@ -395,9 +395,14 @@ public class Datasource {
     public List<SongArtist> querySongInfoView(String title) { // title is the song name that's passed to this method
 
         try {
-            querySongInfoView.setString(1, title); // 1 is referring to the first occurrence of an equal
-            ResultSet results = querySongInfoView.executeQuery(); // prepared statement is a subclass of statement
+            // 1 is referring to the first occurrence of an equal
+            querySongInfoView.setString(1, title);
+
+            // Prepared statement is a subclass of statement
             // therefore inheriting all statement built-in methods like execute
+            ResultSet results = querySongInfoView.executeQuery();
+
+
 
             List<SongArtist> songArtists = new ArrayList<>();
             while (results.next()) {
@@ -419,14 +424,17 @@ public class Datasource {
     private int insertArtist(String name) throws SQLException {
         queryArtist.setString(1, name);
         ResultSet resultSet = queryArtist.executeQuery();
-        // if we get a number back from our 1st query, we know the artist is on file, returning the id, and exiting the method
+        // if we get a number back from our 1st query, we know the artist is on file,
+        // returning the id, and exiting the method
         // not inserting the artist because they are already on file
         if (resultSet.next()){
             return resultSet.getInt(1);
         } else {
             // Insert the artist
             insertIntoArtists.setString(1, name);
-            int affectedRows = insertIntoArtists.executeUpdate(); // executeUpdate() returns the # of rows affected by the SQL code ran
+
+            // executeUpdate() returns the # of rows affected by the SQL code ran
+            int affectedRows = insertIntoArtists.executeUpdate();
 
             // Here if more than 1 row was affected something went wrong
             if (affectedRows != 1){
@@ -446,7 +454,8 @@ public class Datasource {
     private int insertAlbum(String name, int artistId) throws SQLException {
         queryAlbum.setString(1, name);
         ResultSet resultSet = queryAlbum.executeQuery();
-        // if we get a number back from our 1st query, we know the artist is on file, returning the id, and exiting the method
+        // if we get a number back from our 1st query, we know the artist is on file,
+        // returning the id, and exiting the method
         // not inserting the artist because they are already on file
         if (resultSet.next()){
             return resultSet.getInt(1);
@@ -454,7 +463,9 @@ public class Datasource {
             // Insert the album, by updating 2 fields, album name & artist id
             insertIntoAlbums.setString(1, name);
             insertIntoAlbums.setInt(2, artistId);
-            int affectedRows = insertIntoAlbums.executeUpdate(); // executeUpdate() returns the # of rows affected by the SQL code ran
+
+            // executeUpdate() returns the # of rows affected by the SQL code ran
+            int affectedRows = insertIntoAlbums.executeUpdate();
 
             // Here if more than 1 row was affected something went wrong
             if (affectedRows != 1){
@@ -471,23 +482,29 @@ public class Datasource {
         }
     }
 
-    private int insertSong(String title, String artist, String album, int track) {
+    // public while insertAlbum() and insertArtist() are private
+    public void insertSong(String title, String artist, String album, int track) {
+
+        // Recall I turned off the default auto-commit behavior to run a series of SQL statements as a transaction
+        // rather than committing every change by running every update, delete, and insert statement as a transaction
         try {
-            connection.setAutoCommit(true);
+            connection.setAutoCommit(false);
 
             // returning the id of the existing artist or the newly inserted record
             int artistId = insertArtist(artist);
+
+            // inserting the song and making sure only one row was affected by SQL
             int albumId = insertAlbum(album, artistId);
             insertIntoSongs.setInt(1, track);
             insertIntoSongs.setString(2, title);
             insertIntoSongs.setInt(3, albumId);
-
             int affectedRows = insertIntoSongs.executeUpdate();
             if (affectedRows == 1){
                 connection.commit();
             } else {
                 throw new SQLException("The song insert failed");
             }
+            // If something goes wrong we rollback
         } catch (SQLException e){
             System.out.println("Insert song exception: " + e.getMessage());
             try {
@@ -497,14 +514,15 @@ public class Datasource {
                 System.out.println("Oh boy, things are really bad " + e2.getMessage());
             }
         } finally {
+            // turning back on the auto commit after the transaction,
+            // ensuring it will turn on if the transaction succeeds or fails
             try {
-                System.out.println("Resetting defualt commit behavior");
+                System.out.println("Resetting default commit behavior");
                 connection.setAutoCommit(true);
             } catch (SQLException e){
                 System.out.println("Could not reset auto-commit " + e.getMessage());
             }
         }
-
     }
 
 }

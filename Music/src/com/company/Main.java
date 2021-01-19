@@ -55,10 +55,6 @@ public class Main {
         //
         datasource.createViewForSongArtists();
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter a song title: ");
-        String title = scanner.nextLine();
-        songArtists = datasource.querySongInfoView(title);
         // "Go Your Own Way" or 1=1 or " // this is a sequel injection attack,
         // is when a user injects sequel into the statement that's not intended to run
         // gathering data from all tables
@@ -132,19 +128,26 @@ public class Main {
         // If I wanted to check for a specific song from a specific album and artist, I'd have to query all three tables
 
 
+
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Enter a song title: ");
+//        String title = scanner.nextLine();
+//        songArtists = datasource.querySongInfoView(title);
 //        songArtists = datasource.querySongInfoView("Heartless");
 
-        if(songArtists.isEmpty()) {
-            System.out.println("Couldn't find the artist for the song");
-            return;
-        }
+//        if(songArtists.isEmpty()) {
+//            System.out.println("Couldn't find the artist for the song");
+//            return;
+//        }
+//
+//        for(SongArtist artist : songArtists) {
+//            System.out.println("FROM VIEW - Artist name = " + artist.getArtistName() +
+//                    " Album name = " + artist.getAlbumName() +
+//                    " Track number = " + artist.getTrack());
+//        }
 
-        for(SongArtist artist : songArtists) {
-            System.out.println("FROM VIEW - Artist name = " + artist.getArtistName() +
-                    " Album name = " + artist.getAlbumName() +
-                    " Track number = " + artist.getTrack());
-        }
-        
+//        datasource.insertSong("Touch of Grey", "Grateful Dead", "In The Dark",1);
+        datasource.insertSong("Like A Rolling Stone", "Bob Dylan's Greatest Hits", "In The Dark",5);
         datasource.close();
     }
 }
