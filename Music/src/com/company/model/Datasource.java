@@ -111,6 +111,11 @@ public class Datasource {
 
     public void close() {
         try {
+            // We cannot close the connection first, because we need an open connection to close statements,
+            // always closing resources in the reverse order in which they were opened
+            if (querySongInfoView != null){
+                querySongInfoView.close();
+            }
             if (connection != null) {
                 connection.close();
             }
@@ -325,15 +330,12 @@ public class Datasource {
         }
     }
 
-    public List<SongArtist> querySongInfoView(String title) {
-        StringBuilder sb = new StringBuilder(QUERY_VIEW_SONG_INFO);
-        sb.append(title);
-        sb.append("\"");
+    public List<SongArtist> querySongInfoView(String title) { // title is the song name that's passed to this method
 
-        System.out.println(sb.toString());
-
-        try (Statement statement = connection.createStatement();
-             ResultSet results = statement.executeQuery(sb.toString())) {
+        try {
+            querySongInfoView.setString(1, title); // 1 is referring to the first occurrence of an equal
+            ResultSet results = querySongInfoView.executeQuery(); // prepared statement is a subclass of statement
+            // therefore inheriting all statement built-in methods like execute
 
             List<SongArtist> songArtists = new ArrayList<>();
             while (results.next()) {
@@ -349,7 +351,7 @@ public class Datasource {
         } catch (SQLException e) {
             System.out.println("Query failed: " + e.getMessage());
             return null;
-
         }
     }
+
 }

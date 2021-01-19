@@ -59,13 +59,18 @@ public class Main {
         System.out.println("Enter a song title: ");
         String title = scanner.nextLine();
         songArtists = datasource.querySongInfoView(title);
-        // "Go Your Own Way or 1=1 or " // this is a sequel injection attack,
+        // "Go Your Own Way" or 1=1 or " // this is a sequel injection attack,
         // is when a user injects sequel into the statement that's not intended to run
         // gathering data from all tables
         // since 1=1 for every record, all the artist_ list view are returned
+        // 1st Scenario: SELECT name, album, track FROM artist_list WHERE title =  "Go Your Own Way" or 1=1 or ""
 
         // Prepared statements class can protect against sequel injection attacks bc when used,
         // we don't concatenate a user statement that would be running
+        // nothing in the string value is treated as equal
+        // 2ns Scenario: SELECT name, album, track FROM artist_list WHERE title =  "Go Your Own Way or 1=1 or ""
+        // 2nd scenario uses a placeholder, and now anything substituted for the placeholder is treated as a single
+        // literal value that will not being interpreted by SQL.
 
 //        songArtists = datasource.querySongInfoView("Heartless");
 
