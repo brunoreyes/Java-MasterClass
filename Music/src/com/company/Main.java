@@ -81,8 +81,32 @@ public class Main {
         // 5. We process the results the same way we do using a regular old Statement
 
         // Transactions
+
         // JDBC Connection automatically commits changes like executing insert, update, or deleting records. These
         // changes are saved to the database as soon as the SQL statement completes which isn't ideal.
+
+        // For that reason if we wanted to accomplish something that required multiple SQL statements, we could run all
+        // the statements as a single unit. Enabling either all the SQL statements to successfully complete or none complete.
+
+        // A Transaction is a sequence of SQL statements that are treated as a single logical unit.
+        // If any of the statements fail, the results of any previous statements in the transaction can be rolled back
+        // or just not saved, making them appear as if they never happened.
+
+        // In a banking scenario, if step two fails, then the balance in the source account would be rolled back to it's
+        // original value. If step 1 and 2 are successful but step 3 fails then step 1 & 2 are rolled back, as if nothing happened.
+
+        // When speaking about databases, we usually use the term commit, rather than save, when referring to making changes permanent.
+
+        // Database transactions must be ACID-compliant, meeting the following characteristics:
+        // 1. Atomicity - If a series of SQL statements change the database, then either all the changes are committed or none of them are.
+        // 2. Consistency - Before a transaction begins, the database is in a valid state, when it completes, it' still in a valid state.
+        // 3. Isolation - Until the changes committed by a transaction are completed, they won't be visible to other connections.
+        //    Transactions cannot depend on each other.
+        // 4. Durability - Once th changes performed by a transaction are committed to the database, they're permanent.
+        //    If an app crashes or the DB server goes down, the changes made by the transaction are still there when the
+        //    app runs again or the DB comes back up.
+
+        // Essentially, transactions ensure the integrity of data within a database.
 
 
 //        songArtists = datasource.querySongInfoView("Heartless");
