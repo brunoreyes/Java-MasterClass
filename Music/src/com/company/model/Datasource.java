@@ -104,9 +104,10 @@ public class Datasource {
     public static final String INSERT_SONGS = "INSERT INTO " + TABLE_ARTISTS +
             '(' + COLUMN_SONG_TRACK + ", " + COLUMN_SONG_TITLE + ", " + COLUMN_SONG_ALBUM + ") VALUES(?, ?, ?)";
 
+    // Select will return the id, the where clause will do a search by name, getting back the id we can use for the insertion,
+    // if the id doesn't exist we will return the id after the insert.
     public static final String QUERY_ARTIST = "SELECT " + COLUMN_ARTIST_ID + " FROM " +
             TABLE_ARTISTS + " WHERE " + COLUMN_ARTIST_NAME + " = ?";
-
     public static final String QUERY_ALBUM = "SELECT " + COLUMN_ALBUM_ID + " FROM " +
             TABLE_ALBUMS + " WHERE " + COLUMN_ALBUM_NAME + " = ?";
 
@@ -118,6 +119,9 @@ public class Datasource {
     private PreparedStatement insertIntoArtists;
     private PreparedStatement insertIntoAlbums;
     private PreparedStatement insertIntoSongs;
+
+    private PreparedStatement queryArtist;
+    private PreparedStatement queryAlbum;
 
     public boolean open() {
         try {
@@ -134,6 +138,10 @@ public class Datasource {
             insertIntoAlbums = connection.prepareStatement(INSERT_ALBUMS, Statement.RETURN_GENERATED_KEYS);
             // insertIntoSongs doesn't need the id's returned, so there's no need to grab the keys bc they don't need to pass to anything else.
             insertIntoSongs = connection.prepareStatement(INSERT_SONGS);
+
+            queryArtist = connection.prepareStatement(QUERY_ARTIST);
+            queryAlbum = connection.prepareStatement(QUERY_ALBUM);
+
             return true;
         } catch (SQLException e) {
             System.out.println("Couldn't connect to a database: " + e.getMessage());
@@ -160,6 +168,15 @@ public class Datasource {
             if (insertIntoSongs != null){
                 insertIntoSongs.close();
             }
+
+            if (queryArtist != null){
+                queryArtist.close();
+            }
+
+            if (queryAlbum != null){
+                queryAlbum.close();
+            }
+
 
             if (connection != null) {
                 connection.close();
