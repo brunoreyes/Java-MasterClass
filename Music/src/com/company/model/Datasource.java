@@ -470,4 +470,41 @@ public class Datasource {
             }
         }
     }
+
+    private int insertSong(String title, String artist, String album, int track) {
+        try {
+            connection.setAutoCommit(true);
+
+            // returning the id of the existing artist or the newly inserted record
+            int artistId = insertArtist(artist);
+            int albumId = insertAlbum(album, artistId);
+            insertIntoSongs.setInt(1, track);
+            insertIntoSongs.setString(2, title);
+            insertIntoSongs.setInt(3, albumId);
+
+            int affectedRows = insertIntoSongs.executeUpdate();
+            if (affectedRows == 1){
+                connection.commit();
+            } else {
+                throw new SQLException("The song insert failed");
+            }
+        } catch (SQLException e){
+            System.out.println("Insert song exception: " + e.getMessage());
+            try {
+                System.out.println("Performing Rollback");
+                connection.rollback();
+            } catch (SQLException e2){
+                System.out.println("Oh boy, things are really bad " + e2.getMessage());
+            }
+        } finally {
+            try {
+                System.out.println("Resetting defualt commit behavior");
+                connection.setAutoCommit(true);
+            } catch (SQLException e){
+                System.out.println("Could not reset auto-commit " + e.getMessage());
+            }
+        }
+
+    }
+
 }
