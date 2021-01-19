@@ -416,4 +416,58 @@ public class Datasource {
         }
     }
 
+    private int insertArtist(String name) throws SQLException {
+        queryArtist.setString(1, name);
+        ResultSet resultSet = queryArtist.executeQuery();
+        // if we get a number back from our 1st query, we know the artist is on file, returning the id, and exiting the method
+        // not inserting the artist because they are already on file
+        if (resultSet.next()){
+            return resultSet.getInt(1);
+        } else {
+            // Insert the artist
+            insertIntoArtists.setString(1, name);
+            int affectedRows = insertIntoArtists.executeUpdate(); // executeUpdate() returns the # of rows affected by the SQL code ran
+
+            // Here if more than 1 row was affected something went wrong
+            if (affectedRows != 1){
+                throw new SQLException("Could not insert artist!");
+            }
+
+            // Using getGeneratedKeys() to get a resultSet that contains the generated key
+            ResultSet generatedKeys = insertIntoArtists.getGeneratedKeys();
+            if (generatedKeys.next()){
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Could not get artist' id ");
+            }
+        }
+    }
+
+    private int insertAlbum(String name, int artistId) throws SQLException {
+        queryAlbum.setString(1, name);
+        ResultSet resultSet = queryAlbum.executeQuery();
+        // if we get a number back from our 1st query, we know the artist is on file, returning the id, and exiting the method
+        // not inserting the artist because they are already on file
+        if (resultSet.next()){
+            return resultSet.getInt(1);
+        } else {
+            // Insert the album, by updating 2 fields, album name & artist id
+            insertIntoAlbums.setString(1, name);
+            insertIntoAlbums.setInt(2, artistId);
+            int affectedRows = insertIntoAlbums.executeUpdate(); // executeUpdate() returns the # of rows affected by the SQL code ran
+
+            // Here if more than 1 row was affected something went wrong
+            if (affectedRows != 1){
+                throw new SQLException("Could not insert album!");
+            }
+
+            // Using getGeneratedKeys() to get a resultSet that contains the generated key
+            ResultSet generatedKeys = insertIntoAlbums.getGeneratedKeys();
+            if (generatedKeys.next()){
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Could not get album' id ");
+            }
+        }
+    }
 }
