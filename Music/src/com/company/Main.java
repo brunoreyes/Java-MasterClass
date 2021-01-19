@@ -5,6 +5,7 @@ import com.company.model.Datasource;
 import com.company.model.SongArtist;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     // Ensure to import JDBC driver via project structure >> library
@@ -54,7 +55,19 @@ public class Main {
         //
         datasource.createViewForSongArtists();
 
-        songArtists = datasource.querySongInfoView("Heartless");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a song title: ");
+        String title = scanner.nextLine();
+        songArtists = datasource.querySongInfoView(title);
+        // "Go Your Own Way or 1=1 or " // this is a sequel injection attack,
+        // is when a user injects sequel into the statement that's not intended to run
+        // gathering data from all tables
+        // since 1=1 for every record, all the artist_ list view are returned
+
+        // Prepared statements class can protect against sequel injection attacks bc when used,
+        // we don't concatenate a user statement that would be running
+
+//        songArtists = datasource.querySongInfoView("Heartless");
 
         if(songArtists.isEmpty()) {
             System.out.println("Couldn't find the artist for the song");

@@ -83,11 +83,24 @@ public class Datasource {
             COLUMN_SONG_ALBUM + ", " + COLUMN_SONG_TRACK + " FROM " + TABLE_ARTIST_SONG_VIEW +
             " WHERE " + COLUMN_SONG_TITLE + " = \"";
 
+    // SELECT name, album, track FROM artist_list WHERE title = ?
+    public static final String QUERY_VIEW_SONG_INFO_PREP = "SELECT " + COLUMN_ARTIST_NAME + ", " +
+            COLUMN_SONG_ALBUM + ", " + COLUMN_SONG_TRACK + " FROM " + TABLE_ARTIST_SONG_VIEW +
+            " WHERE " + COLUMN_SONG_TITLE + " = ?"; // ? is the placeholder character
+
+    private PreparedStatement querySongInfoView;
     private Connection connection;
 
     public boolean open() {
         try {
             connection = DriverManager.getConnection(CONNECTION_STRING);
+
+            // Calling the connection.prepare statement method to create that instance of prepared statement,
+            // passing it to sequel, where we'll execute. Recall that sequel contains the placeholders,
+            // that will be replaced everytime we use the statement to make a query
+            querySongInfoView = connection.prepareStatement(QUERY_VIEW_SONG_INFO_PREP);
+
+
             return true;
         } catch (SQLException e) {
             System.out.println("Couldn't connect to a database: " + e.getMessage());
