@@ -54,7 +54,8 @@ public class Main {
         //
         datasource.createViewForSongArtists();
 
-        songArtists = datasource.querySongInfoView("She's On Fire");
+        songArtists = datasource.querySongInfoView("Heartless");
+
         if(songArtists.isEmpty()) {
             System.out.println("Couldn't find the artist for the song");
             return;

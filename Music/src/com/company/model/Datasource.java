@@ -1,6 +1,5 @@
 package com.company.model;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,14 +79,14 @@ public class Datasource {
             TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + ", " +
             TABLE_SONGS + "." + COLUMN_SONG_TRACK;
 
-    public static final String QUERY_VIEW_SONG_INFO =  "SELECT " + COLUMN_ARTIST_NAME + ", " +
+    public static final String QUERY_VIEW_SONG_INFO = "SELECT " + COLUMN_ARTIST_NAME + ", " +
             COLUMN_SONG_ALBUM + ", " + COLUMN_SONG_TRACK + " FROM " + TABLE_ARTIST_SONG_VIEW +
             " WHERE " + COLUMN_SONG_TITLE + " = \"";
 
     private Connection connection;
 
-    public boolean open(){
-        try{
+    public boolean open() {
+        try {
             connection = DriverManager.getConnection(CONNECTION_STRING);
             return true;
         } catch (SQLException e) {
@@ -97,23 +96,24 @@ public class Datasource {
         }
     }
 
-    public void close(){
+    public void close() {
         try {
-            if (connection != null){
+            if (connection != null) {
                 connection.close();
             }
-        } catch (SQLException e){
-            System.out.println("Couldn't close connection " +  e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Couldn't close connection " + e.getMessage());
         }
     }
-    public List<Artist> queryArtist(int sortOrder){
+
+    public List<Artist> queryArtist(int sortOrder) {
         StringBuilder sb = new StringBuilder("SELECT * FROM ");
         sb.append(TABLE_ARTISTS);
-        if (sortOrder != ORDER_BY_NONE){
+        if (sortOrder != ORDER_BY_NONE) {
             sb.append(" ORDER BY ");
             sb.append(COLUMN_ARTIST_NAME);
             sb.append(" COLLATE NOCASE "); // case-insensitive order
-            if(sortOrder == ORDER_BY_DESC){
+            if (sortOrder == ORDER_BY_DESC) {
                 sb.append("DESC ");
             } else {
                 sb.append("ASC "); // The default option
@@ -126,15 +126,15 @@ public class Datasource {
         // utilizing the try with resources allows to get rid of finally clause because both
         // the Statement and ResultSet will now automatically be closed
         // and initialized Statement and ResultSet above are no longer necessary
-        try ( Statement statement = connection.createStatement();
-              ResultSet results = statement.executeQuery(sb.toString())) {
+        try (Statement statement = connection.createStatement();
+             ResultSet results = statement.executeQuery(sb.toString())) {
 //            ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS)) {
 //            statement = connection.createStatement();
 //            results = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS);
 
             // Creating a list called artists, comprised of Artist objects
             List<Artist> artists = new ArrayList<>();
-            while (results.next()){ // while there is a next artist
+            while (results.next()) { // while there is a next artist
                 Artist artist = new Artist();
                 artist.setId(results.getInt(INDEX_ARTIST_ID));
                 artist.setName(results.getString(INDEX_ARTIST_NAME));
@@ -164,10 +164,11 @@ public class Datasource {
 //            }
 //        }
     }
+
     // select albums.name from albums inner join artists on albums.artist
     // = artist._id where artist.name = "Carole King
     // order by albums.name collate nocase asc
-    public List<String> queryAlbumsForArtist(String artistName, int sortOrder){
+    public List<String> queryAlbumsForArtist(String artistName, int sortOrder) {
         StringBuilder sb = new StringBuilder(QUERY_ALBUMS_BY_ARTIST_START);
         sb.append(artistName);
         sb.append("\"");
@@ -195,7 +196,7 @@ public class Datasource {
 //        sb.append(artistName); // putting the artist's name within double quotes
 //        sb.append("\"");
 
-        if (sortOrder != ORDER_BY_NONE){
+        if (sortOrder != ORDER_BY_NONE) {
             sb.append(QUERY_ALBUMS_BY_ARTIST_SORT);
             // the commented out code beneath has been converted to a constant above
 //            sb.append(" ORDER BY ");
@@ -203,35 +204,35 @@ public class Datasource {
 //            sb.append(".");
 //            sb.append(COLUMN_ALBUM_NAME);
 //            sb.append(" COLLATE NOCASE ");
-            if (sortOrder == ORDER_BY_DESC){
+            if (sortOrder == ORDER_BY_DESC) {
                 sb.append("DESC"); // no need to add extra space since this is the end of the query
             } else {
                 sb.append("ASC");
             }
         }
-        System.out.println("SQL statement = "+ sb.toString());
-        try(Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(sb.toString())) {
+        System.out.println("SQL statement = " + sb.toString());
+        try (Statement statement = connection.createStatement();
+             ResultSet results = statement.executeQuery(sb.toString())) {
             List<String> albums = new ArrayList<>();
-            while (results.next()){
+            while (results.next()) {
                 albums.add(results.getString(1));
             }
             return albums;
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Query failed " + e.getMessage());
             return null;
         }
     }
 
-    public List<SongArtist> queryArtistsForSong(String songName, int sortOrder){
+    public List<SongArtist> queryArtistsForSong(String songName, int sortOrder) {
         StringBuilder sb = new StringBuilder(QUERY_ARTIST_FOR_SONG_START);
         sb.append(songName);
         sb.append("\"");
 
-        if (sortOrder != ORDER_BY_NONE){
+        if (sortOrder != ORDER_BY_NONE) {
             sb.append(QUERY_ARTIST_FOR_SONG_SORT);
-            if (sortOrder == ORDER_BY_DESC){
+            if (sortOrder == ORDER_BY_DESC) {
                 sb.append("DESC");
             } else {
                 sb.append("ASC");
@@ -239,12 +240,12 @@ public class Datasource {
         }
         System.out.println("SQL Statement: " + sb.toString());
 
-        try(Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(sb.toString())) {
+        try (Statement statement = connection.createStatement();
+             ResultSet results = statement.executeQuery(sb.toString())) {
 
             List<SongArtist> songArtists = new ArrayList<>();
 
-            while (results.next()){
+            while (results.next()) {
                 SongArtist songArtist = new SongArtist();
                 songArtist.setArtistName(results.getString(1));
                 songArtist.setAlbumName(results.getString(2));
@@ -254,17 +255,17 @@ public class Datasource {
 
             return songArtists;
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Query failed: " + e.getMessage());
             return null;
         }
     }
 
-    public void querySongsMetaData(){
+    public void querySongsMetaData() {
         String sql = "SELECT * FROM " + TABLE_SONGS;
 
-        try ( Statement statement = connection.createStatement();
-              ResultSet results = statement.executeQuery(sql)) {
+        try (Statement statement = connection.createStatement();
+             ResultSet results = statement.executeQuery(sql)) {
 
             ResultSetMetaData meta = results.getMetaData();
             int numColumns = meta.getColumnCount();
@@ -272,19 +273,19 @@ public class Datasource {
                 System.out.format("Column %d in the songs table is names %s\n",
                         i, meta.getColumnName(i));
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Query failed: " + e.getMessage());
         }
     }
 
     // SELECT COUNT (*) FROM songs, how to get the count of songs?
-    public int getCount(String table){
+    public int getCount(String table) {
         // Using As allows me to not have to change getter calls if I modify query String
         String sql = "SELECT COUNT(*) AS count, MIN(_id) AS min_id FROM " + table;
 //        String sql = "SELECT COUNT(*) AS count FROM " + table;
 
-        try(Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(sql)){
+        try (Statement statement = connection.createStatement();
+             ResultSet results = statement.executeQuery(sql)) {
 
             int count = results.getInt("count");
 //            int min = results.getInt("min_id");
@@ -292,7 +293,7 @@ public class Datasource {
             System.out.format("Count: %d\n", count);
 //            System.out.format("Count = %d, Min = %d\n", count, min);
             return count; // treating the function result as a column
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Query failed: " + e.getMessage());
             return -1;
         }
@@ -300,18 +301,17 @@ public class Datasource {
 
     public boolean createViewForSongArtists() {
 
-        try(Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
 
             statement.execute(CREATE_ARTIST_FOR_SONG_VIEW);
             return true;
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Create View failed: " + e.getMessage());
             return false;
         }
     }
 
-    // SELECT name, album, track FROM artist_list WHERE title = "title"
     public List<SongArtist> querySongInfoView(String title) {
         StringBuilder sb = new StringBuilder(QUERY_VIEW_SONG_INFO);
         sb.append(title);
@@ -323,7 +323,7 @@ public class Datasource {
              ResultSet results = statement.executeQuery(sb.toString())) {
 
             List<SongArtist> songArtists = new ArrayList<>();
-            while(results.next()) {
+            while (results.next()) {
                 SongArtist songArtist = new SongArtist();
                 songArtist.setArtistName(results.getString(1));
                 songArtist.setAlbumName(results.getString(2));
@@ -333,9 +333,10 @@ public class Datasource {
 
             return songArtists;
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Query failed: " + e.getMessage());
             return null;
+
         }
     }
 }
