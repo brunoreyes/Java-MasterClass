@@ -147,6 +147,8 @@ public class Main {
 //        }
 
 //        datasource.insertSong("Touch of Grey", "Grateful Dead", "In The Dark",1);
+        // Haven't taken into account duplicates
+//        datasource.insertSong("Touch of Grey", "Grateful Dead", "In The Dark",1);
         datasource.insertSong("Like A Rolling Stone", "Bob Dylan's Greatest Hits", "In The Dark",5);
         datasource.close();
     }

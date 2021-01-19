@@ -329,6 +329,8 @@ public class Datasource {
                 SongArtist songArtist = new SongArtist();
                 songArtist.setArtistName(results.getString(1));
                 songArtist.setAlbumName(results.getString(2));
+
+                // must be 3, any other # would be the wrong indices JDBC uses 0 based indices
                 songArtist.setTrack(results.getInt(3));
                 songArtists.add(songArtist);
             }
@@ -504,12 +506,13 @@ public class Datasource {
             } else {
                 throw new SQLException("The song insert failed");
             }
-            // If something goes wrong we rollback
-        } catch (SQLException e){
+            // If something goes wrong we rollback if any errors occur
+        } catch (Exception e){
             System.out.println("Insert song exception: " + e.getMessage());
             try {
                 System.out.println("Performing Rollback");
                 connection.rollback();
+                // connection.setSavePoint() allows us to rollback a transaction to a specific point, returning a save point object
             } catch (SQLException e2){
                 System.out.println("Oh boy, things are really bad " + e2.getMessage());
             }
