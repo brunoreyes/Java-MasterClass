@@ -91,7 +91,9 @@ public class Datasource {
     // SELECT name, album, track FROM artist_list WHERE title = ? OR artist = ?
     // can't use placeholders for table or column names
 
-
+    // INSERT INTO artists(name) VALUES(?)
+    // INSERT INTO albums(name, artist) VALUES(?,?)
+    // INSERT INTO songs(track, title, album) VALUES(?,?,?)
 
 
     private PreparedStatement querySongInfoView;

@@ -107,6 +107,29 @@ public class Main {
         //    app runs again or the DB comes back up.
 
         // Essentially, transactions ensure the integrity of data within a database.
+        // Transactions should only be used when changing the data in a DB, not necessary if only querying
+        // Everytime we used CRUD, SQL created a transaction, ran the statement, and committed the changes
+
+        // When working with SQLite, the following commands are used for transactions:
+        // 1. BEGIN TRANSACTION - used to manually start a transaction
+        // 2. END TRANSACTION - used to manually end a transaction, Also, committing changes automatically ends a transaction.
+        //    Ending a transaction also commits any changes.
+        //    I.e. END TRANSACTION & COMMIT are aliases, only having to use one when wanting to end a transaction and commit changes.
+        // 3. COMMIT - used to commit changes made by a transaction. As mentioned, it also ends a transaction ( no need for END TRANSACTION)
+        // 4. ROLLBACK - used to roll back any uncommitted changes and ends the transaction.
+        //    Only rolling back changes that have occurred since the last COMMIT or ROLLBACK.
+
+        // To use transactions with JDBC, we don't code the transaction-related SQL statements and use Statement objects to execute them.
+        // Instead we call methods in the Connection class to execute transaction-related commands, preforming the following steps:
+        // 1. Turning off the default auto-commit behavior by calling Connection.setAutoCommit(false)
+        // 2. Perform the SQL operations that form the transaction
+        // 3. If there's no errors, call Connection.commit() to commit the changes.
+        //    If errors, call Connection.rollback() to rollback any changes made since the transaction began.
+        // 4. Turn the default auto-commit behavior back on by calling Connection.setAutoCommit(true)
+
+        // I want to keep all insertions to take place within a single transaction to avoid disassociation's of tables and columns
+
+        // If I wanted to check for a specific song from a specific album and artist, I'd have to query all three tables
 
 
 //        songArtists = datasource.querySongInfoView("Heartless");
