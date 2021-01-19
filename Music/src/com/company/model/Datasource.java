@@ -88,6 +88,12 @@ public class Datasource {
             COLUMN_SONG_ALBUM + ", " + COLUMN_SONG_TRACK + " FROM " + TABLE_ARTIST_SONG_VIEW +
             " WHERE " + COLUMN_SONG_TITLE + " = ?"; // ? is the placeholder character
 
+    // SELECT name, album, track FROM artist_list WHERE title = ? OR artist = ?
+    // can't use placeholders for table or column names
+
+
+
+
     private PreparedStatement querySongInfoView;
     private Connection connection;
 

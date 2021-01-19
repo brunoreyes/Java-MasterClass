@@ -72,6 +72,19 @@ public class Main {
         // 2nd scenario uses a placeholder, and now anything substituted for the placeholder is treated as a single
         // literal value that will not being interpreted by SQL.
 
+        // Do the following to use a PreparedStatement to protect against certain SQL Injection attacks:
+        // 1. Declare a constant for the SQL statement that contains the placeholders
+        // 2. Create a PreparedStatement instance using: Connection.prepareStatement(sqlStmtString)
+        // 3. When ready to preform the query ( aka search ), (or insert, update, delete), we call the appropriate
+        //    setter methods to set the placeholders to the values we want to use in the statement
+        // 4. We run the statement using: PreparedStatement.execute() or PreparedStatement.executeQuery()
+        // 5. We process the results the same way we do using a regular old Statement
+
+        // Transactions
+        // JDBC Connection automatically commits changes like executing insert, update, or deleting records. These
+        // changes are saved to the database as soon as the SQL statement completes which isn't ideal.
+
+
 //        songArtists = datasource.querySongInfoView("Heartless");
 
         if(songArtists.isEmpty()) {
