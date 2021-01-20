@@ -115,6 +115,9 @@ public class Datasource {
     public static final String QUERY_ALBUMS_BY_ARTIST_ID = "SELECT * FROM " + TABLE_ALBUMS +
             " WHERE " + COLUMN_ALBUM_ARTIST + " = ? ORDER BY " + COLUMN_ARTIST_NAME + " COLLATE NOCASE";
 
+    public static final String UPDATE_ARTIST_NAME = "UPDATE " + TABLE_ARTISTS + " SET " +
+            COLUMN_ARTIST_NAME + " = ? WHERE " + COLUMN_ARTIST_ID + " = ?";
+
     private Connection connection;
 
     private PreparedStatement querySongInfoView;
@@ -126,6 +129,7 @@ public class Datasource {
     private PreparedStatement queryArtist;
     private PreparedStatement queryAlbum;
     private PreparedStatement queryAlbumsByArtistId;
+    private PreparedStatement updateArtistName;
 
     // This is lazy initiation because the instance won't be created until the 1st time the class is loaded,
     // which is the 1st time another instance references the class by calling the getInstance().
@@ -163,6 +167,7 @@ public class Datasource {
             queryArtist = connection.prepareStatement(QUERY_ARTIST);
             queryAlbum = connection.prepareStatement(QUERY_ALBUM);
             queryAlbumsByArtistId = connection.prepareStatement(QUERY_ALBUMS_BY_ARTIST_ID);
+            updateArtistName = connection.prepareStatement(UPDATE_ARTIST_NAME);
 
             return true;
         } catch (SQLException e) {
@@ -203,6 +208,10 @@ public class Datasource {
                 queryAlbumsByArtistId.close();
             }
 
+            if (updateArtistName != null){
+                updateArtistName.close();
+            }
+
             if (connection != null) {
                 connection.close();
             }
@@ -240,9 +249,9 @@ public class Datasource {
             // Creating a list called artists, comprised of Artist objects
             List<Artist> artists = new ArrayList<>();
             while (results.next()) { // while there is a next artist
+
                 try {
                     Thread.sleep(20);
-
                 }catch (InterruptedException e){
                     System.out.println("Interrupted: " + e.getMessage());
                 }
@@ -471,6 +480,18 @@ public class Datasource {
             } else {
                 throw new SQLException("Could not get album' id ");
             }
+        }
+    }
+
+    public boolean updateArtistName(int id, String newName ){
+        try {
+            updateArtistName.setString(1, newName);
+            updateArtistName.setInt(2, id);
+            int affectedRecords = updateArtistName.executeUpdate();
+            return affectedRecords == 1;
+        }catch (SQLException e){
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
         }
     }
 
