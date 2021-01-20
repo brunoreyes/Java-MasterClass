@@ -41,5 +41,25 @@ public class Main {
         // client and server. This is where the TCP (Transmission Control Protocol) comes in. The TCP establishes a
         // two-way connection between hosts. Here reliability refers to the two host being able to talk to each other.
         // When used with Internet addresses, you get TCP/IP which uses the client/server model
+
+        // When communicating using TCP/IP, the sequence of events is as follows:
+        //  1. The client opens a connection to the server
+        //  2. The client sends a request to the server
+        //  3. The client sends a response to the client
+        //  4. The client closes the connection to the server
+        // Steps 2 & 3 may be repeated multiple times before the connection is closed.
+
+        // When using the low-level networking API, sockets will be used to establish connections, send request,
+        // and receive responses. A socket is 1 endpoint of the 2-way connection. Client & server will both have a socket.
+
+        // When you have multiple clients connecting to the same server, they'll use the same port number, but each
+        // client will have its own socket.
+
+        // Socket class for the client socket
+        // ServerSocket class for the server's socket
+
+        // With Java essentially all that has to be provided is the IP address and port # when creating a socket.
+        // Underneath the covers, specific messages are sent to establish a connection between client & server,
+        // the process is called handshaking. Data is sent as packets that have to be a specific format.
     }
 }
