@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import sample.model.Datasource;
 
 public class Main extends Application {
-
+    // ensure to add JDBC driver and JavaFx libraries within libraries from module settings
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
@@ -36,4 +36,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
