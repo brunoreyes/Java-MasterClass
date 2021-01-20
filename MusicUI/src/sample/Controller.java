@@ -12,7 +12,7 @@ import sample.model.Datasource;
 public class Controller {
 
     @FXML
-    private TableView<Artist> artistTable;
+    private TableView artistTable;
 
     public void listArtists(){
 
