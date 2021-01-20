@@ -270,6 +270,27 @@ public class Datasource {
 //        }
     }
 
+    // setting the artist id in the prepared statement, running it, and setting the results
+    public List<Album> queryAlbumForArtistId(int id){
+        try {
+            queryAlbumsByArtistId.setInt(1, id);
+            ResultSet results = queryAlbumsByArtistId.executeQuery();
+
+            List<Album> albums = new ArrayList<>();
+            while (results.next()){
+                Album album = new Album();
+                album.setId(results.getInt(1));
+                album.setName(results.getString(2));
+                album.setArtistId(id); // know it's the same, no need to do extra retrieval from database
+                albums.add(album);
+            }
+            return albums;
+        } catch (SQLException e){
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
     // select albums.name from albums inner join artists on albums.artist
     // = artist._id where artist.name = "Carole King
     // order by albums.name collate nocase asc
