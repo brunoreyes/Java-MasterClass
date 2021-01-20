@@ -14,6 +14,7 @@ public class Controller {
     @FXML
     private TableView artistTable;
 
+    @FXML // allowing us to use listArtist as an event handler for a button
     public void listArtists(){
 
         // Creating a new task object and binding the result of the task (artist Observable List)
