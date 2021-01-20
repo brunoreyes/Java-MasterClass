@@ -56,9 +56,27 @@ public class Controller {
             }
         };
         artistTable.itemsProperty().bind(task.valueProperty());
-
         new Thread(task).start();
+    }
 
+    // Getting the actual record we want to update and passing the new name with a slash in it
+    @FXML
+    public void updateArtist(){
+        final Artist artist = (Artist) artistTable.getItems().get(2);
+        Task<Boolean> task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                return Datasource.getInstance().updateArtistName(artist.getId(),"AC/DC");
+            }
+        };
+        task.setOnSucceeded(event -> {
+            if (task.valueProperty().get()){
+                artist.setName("AC/DC");
+                artistTable.refresh(); // underlying dataSources change in a way not observed by the tableView itself
+                // so I'm adding the refresh() to force the update
+            }
+        });
+        new Thread(task).start();
     }
 }
 
