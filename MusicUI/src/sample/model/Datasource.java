@@ -111,6 +111,9 @@ public class Datasource {
     public static final String QUERY_ALBUM = "SELECT " + COLUMN_ALBUM_ID + " FROM " +
             TABLE_ALBUMS + " WHERE " + COLUMN_ALBUM_NAME + " = ?";
 
+    // SELECT * FROM ALBUMS WHERE artist = ? ORDER BY name COLLATE NOCASE
+    public static final String QUERY_ALBUMS_BY_ARTIST_ID = "SELECT * FROM " + TABLE_ALBUMS +
+            " WHERE " + COLUMN_ALBUM_ARTIST + " = ? ORDER BY " + COLUMN_ARTIST_NAME + " COLLATE NOCASE";
 
     private Connection connection;
 
@@ -122,6 +125,7 @@ public class Datasource {
 
     private PreparedStatement queryArtist;
     private PreparedStatement queryAlbum;
+    private PreparedStatement queryAlbumsByArtistId;
 
     // This is lazy initiation because the instance won't be created until the 1st time the class is loaded,
     // which is the 1st time another instance references the class by calling the getInstance().
@@ -158,6 +162,7 @@ public class Datasource {
 
             queryArtist = connection.prepareStatement(QUERY_ARTIST);
             queryAlbum = connection.prepareStatement(QUERY_ALBUM);
+            queryAlbumsByArtistId = connection.prepareStatement(QUERY_ALBUMS_BY_ARTIST_ID);
 
             return true;
         } catch (SQLException e) {
@@ -194,6 +199,9 @@ public class Datasource {
                 queryAlbum.close();
             }
 
+            if (queryAlbumsByArtistId != null){
+                queryAlbumsByArtistId.close();
+            }
 
             if (connection != null) {
                 connection.close();
@@ -266,6 +274,7 @@ public class Datasource {
     // = artist._id where artist.name = "Carole King
     // order by albums.name collate nocase asc
     public List<String> queryAlbumsForArtist(String artistName, int sortOrder) {
+
         StringBuilder sb = new StringBuilder(QUERY_ALBUMS_BY_ARTIST_START);
         sb.append(artistName);
         sb.append("\"");
@@ -322,7 +331,7 @@ public class Datasource {
         }
     }
 
-   
+
 
     public void querySongsMetaData() {
         String sql = "SELECT * FROM " + TABLE_SONGS;
