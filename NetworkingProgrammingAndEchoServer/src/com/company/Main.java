@@ -11,21 +11,30 @@ public class Main {
 
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(5000)) {
-            Socket socket = serverSocket.accept();
-            System.out.println("Client Connected");
-            // Common practice: wrapping the input string with a buffered reader
-            // and the output stream with a buffered writer
-            BufferedReader input = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
-            // the 2nd parameter specifies whether I want to automatically flush the output stream
-            // the print writer is using.
-            PrintWriter output = new PrintWriter(socket.getOutputStream(),true);
 
             // Only time I'm running an infinite loop, calling buffer.readLine(),
             // when the server receives the string: 'exit' the loop will terminate
             // else, the string will be echoed back to the client, writing it to the socket
+
+            // The server can loop back and accept more client connections
             while (true){
+                Socket socket = serverSocket.accept();
+                System.out.println("Client Connected");
+                // Common practice: wrapping the input string with a buffered reader
+                // and the output stream with a buffered writer
+                BufferedReader input = new BufferedReader(
+                        new InputStreamReader(socket.getInputStream()));
+                // the 2nd parameter specifies whether I want to automatically flush the output stream
+                // the print writer is using.
+                PrintWriter output = new PrintWriter(socket.getOutputStream(),true);
+
                 String echoString = input.readLine();
+                try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException e){
+                    System.out.println("Thread interrupted");
+                }
+
                 if (echoString.equals("exit")){
                     break;
                 }
@@ -36,6 +45,8 @@ public class Main {
         }
     }
 }
+
+        // Networking Overview:
 
 	    // A Network is a system of computers connected together so they can share resources and communicate
         // with each other. Networking refers to how the connected computers communicate.
