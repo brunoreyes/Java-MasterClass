@@ -21,6 +21,7 @@ public class Main {
 
                                         // the port number should be within the documentation or server
             socket.setSoTimeout(5000);
+            // the socket timed out, preventing a client from blocking forever
             BufferedReader echoes = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
             PrintWriter stringToEcho = new PrintWriter(socket.getOutputStream(), true);
