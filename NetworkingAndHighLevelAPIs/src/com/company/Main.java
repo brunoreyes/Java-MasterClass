@@ -28,10 +28,7 @@ package com.company;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 
 public class Main {
 
@@ -40,16 +37,26 @@ public class Main {
 // Since all URLs are URIs, you can convert URLs to URIs, and call the methods that return the components of a URI
             URL url = new URL("http://example.org");
 
-            BufferedReader inputStream = new BufferedReader(
-                    new InputStreamReader(url.openStream())); // opening a connection to the URL, creating socket
-                    // wrapping the inputStream (url.openStream()) in a InputStreamReader and wrapping that
-            // in a bufferedReader as well.
-            String line = "";
-            while (line != null){
-                line = inputStream.readLine();
-                System.out.println(line);
-            }
-            inputStream.close();
+
+
+//            // 2nd way to read webpage, only able to read from a connection
+//            URLConnection urlConnection = url.openConnection();
+//            urlConnection.setDoOutput(true); // make sure to do any configuration after opening the connection
+//            urlConnection.connect(); // but before calling connect()
+
+
+            // 1st way to read a webpage
+//            BufferedReader inputStream = new BufferedReader(
+//                    new InputStreamReader(url.openStream())); // opening a connection to the URL, creating socket
+//                    // wrapping the inputStream (url.openStream()) in a InputStreamReader and wrapping that
+//            // in a bufferedReader as well.
+//            String line = "";
+//            while (line != null){
+//                line = inputStream.readLine();
+//                System.out.println(line);
+//            }
+//            inputStream.close();
+
 
 //            URI uri = url.toURI();
 
@@ -93,13 +100,13 @@ public class Main {
 //            System.out.println("Fragment = " + uri.getFragment());
 
         }
-
+        catch (MalformedURLException e){
+            System.out.println("URL Malformed: " + e.getMessage());
+        }
         catch (IOException e){
             System.out.println("IOException: " + e.getMessage());
         }
-//        catch (MalformedURLException e){
-//            System.out.println("URL Malformed: " + e.getMessage());
-//        }
+
 
     }
 }
