@@ -10,6 +10,10 @@ import java.net.Socket;
 public class Echoer extends Thread{
     private Socket socket;
 
+    public Echoer(Socket socket){
+        this.socket = socket;
+    }
+
     @Override
     public void run() {
         try {
@@ -19,9 +23,16 @@ public class Echoer extends Thread{
 
             while (true){
                 String echoString = input.readLine();
+                System.out.println("Received client input " + echoString);
                 if (echoString.equals("exit")){
                     break;
                 }
+//                try {
+//                    Thread.sleep(15000);
+//                } catch (InterruptedException e){
+//                    System.out.println("Thread interrupted");
+//                }
+
                 output.println(echoString);
             }
 
@@ -29,6 +40,8 @@ public class Echoer extends Thread{
             System.out.println("Oops: " +  e.getMessage());
         } finally {
             try {
+                // the break point has been hit, confirming the code is being executed on
+                // the server side to close the socket when the client has issued.
                 socket.close();
             } catch (IOException e){
                 System.out.println("Oops: " +  e.getMessage());
@@ -36,7 +49,5 @@ public class Echoer extends Thread{
         }
     }
 
-    public Echoer(Socket socket){
-        this.socket = socket;
-    }
+
 }
