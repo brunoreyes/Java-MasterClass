@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(5000)) {
             Socket socket = serverSocket.accept();
-            System.out.println("Client Accepted");
+            System.out.println("Client Connected");
             // Common practice: wrapping the input string with a buffered reader
             // and the output stream with a buffered writer
             BufferedReader input = new BufferedReader(
@@ -25,11 +25,11 @@ public class Main {
             // when the server receives the string: 'exit' the loop will terminate
             // else, the string will be echoed back to the client, writing it to the socket
             while (true){
-                String echString = input.readLine();
-                if (echString.equals("exit")){
+                String echoString = input.readLine();
+                if (echoString.equals("exit")){
                     break;
                 }
-                output.println("Echo from server: " + echString);
+                output.println("Echo from server: " + echoString);
             }
         } catch (IOException e){
             e.printStackTrace();
