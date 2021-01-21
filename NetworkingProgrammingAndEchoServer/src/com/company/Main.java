@@ -18,27 +18,32 @@ public class Main {
 
             // The server can loop back and accept more client connections
             while (true){
-                Socket socket = serverSocket.accept();
-                System.out.println("Client Connected");
-                // Common practice: wrapping the input string with a buffered reader
-                // and the output stream with a buffered writer
-                BufferedReader input = new BufferedReader(
-                        new InputStreamReader(socket.getInputStream()));
-                // the 2nd parameter specifies whether I want to automatically flush the output stream
-                // the print writer is using.
-                PrintWriter output = new PrintWriter(socket.getOutputStream(),true);
+                new Echoer(serverSocket.accept()).start();
+//                Socket socket = serverSocket.accept();
+//                Echoer echoer = new Echoer(socket);
+//                echoer.start();
 
-                String echoString = input.readLine();
-                try {
-                    Thread.sleep(15000);
-                } catch (InterruptedException e){
-                    System.out.println("Thread interrupted");
-                }
-
-                if (echoString.equals("exit")){
-                    break;
-                }
-                output.println("Echo from server: " + echoString);
+//                Socket socket = serverSocket.accept();
+//                System.out.println("Client Connected");
+//                // Common practice: wrapping the input string with a buffered reader
+//                // and the output stream with a buffered writer
+//                BufferedReader input = new BufferedReader(
+//                        new InputStreamReader(socket.getInputStream()));
+//                // the 2nd parameter specifies whether I want to automatically flush the output stream
+//                // the print writer is using.
+//                PrintWriter output = new PrintWriter(socket.getOutputStream(),true);
+//
+//                String echoString = input.readLine();
+//                try {
+//                    Thread.sleep(15000);
+//                } catch (InterruptedException e){
+//                    System.out.println("Thread interrupted");
+//                }
+//
+//                if (echoString.equals("exit")){
+//                    break;
+//                }
+//                output.println("Echo from server: " + echoString);
             }
         } catch (IOException e){
             e.printStackTrace();
