@@ -1,8 +1,42 @@
 package com.company;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 public class Main {
 
     public static void main(String[] args) {
+        try(ServerSocket serverSocket = new ServerSocket(5000)) {
+            Socket socket = serverSocket.accept();
+            System.out.println("Client Accepted");
+            // Common practice: wrapping the input string with a buffered reader
+            // and the output stream with a buffered writer
+            BufferedReader input = new BufferedReader(
+                    new InputStreamReader(socket.getInputStream()));
+            // the 2nd parameter specifies whether I want to automatically flush the output stream
+            // the print writer is using.
+            PrintWriter output = new PrintWriter(socket.getOutputStream(),true);
+
+            // Only time I'm running an infinite loop, calling buffer.readLine(),
+            // when the server receives the string: 'exit' the loop will terminate
+            // else, the string will be echoed back to the client, writing it to the socket
+            while (true){
+                String echString = input.readLine();
+                if (echString.equals("exit")){
+                    break;
+                }
+                output.println("Echo from server: " + echString);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+}
+
 	    // A Network is a system of computers connected together so they can share resources and communicate
         // with each other. Networking refers to how the connected computers communicate.
 
@@ -61,5 +95,4 @@ public class Main {
         // With Java essentially all that has to be provided is the IP address and port # when creating a socket.
         // Underneath the covers, specific messages are sent to establish a connection between client & server,
         // the process is called handshaking. Data is sent as packets that have to be a specific format.
-    }
-}
+
