@@ -37,17 +37,51 @@ public class Main {
 // Since all URLs are URIs, you can convert URLs to URIs, and call the methods that return the components of a URI
             URL url = new URL("http://example.org");
 
-
-
 //            // 2nd way to read webpage, only able to read from a connection
-//            URLConnection urlConnection = url.openConnection();
-//            urlConnection.setDoOutput(true); // make sure to do any configuration after opening the connection
-//            urlConnection.connect(); // but before calling connect()
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.setDoOutput(true); // make sure to do any configuration after opening the connection
+            urlConnection.connect(); // but before calling connect()
 
 
             // 1st way to read a webpage
-//            BufferedReader inputStream = new BufferedReader(
-//                    new InputStreamReader(url.openStream())); // opening a connection to the URL, creating socket
+            BufferedReader inputStream = new BufferedReader(
+                    new InputStreamReader(url.openStream())); // opening a connection to the URL, creating socket
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("User-Agent", "Chrome");
+            connection.setReadTimeout(30000);
+
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response code: " + responseCode);
+
+            if(responseCode != 200) {
+                System.out.println("Error reading web page");
+                return;
+            }
+
+            BufferedReader inputReader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+
+            String line;
+
+            while((line = inputReader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            inputReader.close();
+
+            //            Map<String, List<String>> headerFields = urlConnection.getHeaderFields();
+//            for(Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
+//                String key = entry.getKey();
+//                List<String> value = entry.getValue();
+//                System.out.println("-----key = " + key);
+//                for(String string: value) {
+//                    System.out.println("value = " + value);
+//                }
+//            }
+
+
 //                    // wrapping the inputStream (url.openStream()) in a InputStreamReader and wrapping that
 //            // in a bufferedReader as well.
 //            String line = "";
